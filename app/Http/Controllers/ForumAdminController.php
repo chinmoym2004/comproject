@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Forum;
 
 use Illuminate\Http\Request;
 
@@ -45,7 +46,9 @@ class ForumAdminController extends Controller
      */
     public function show($id)
     {
-        //
+        $id = decrypt($id);
+        $forum = Forum::find($id);
+        return view('admin.forums.show',['forum'=>$forum]);
     }
 
     /**

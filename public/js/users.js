@@ -63,5 +63,32 @@ window.livewire.on("deleteForumTriggered", function (id, name) {
 Livewire.on("forumDataFetched", function (forum) {
   $("#editForumModal").modal("show");
 });
+/***  Topic ****/
+
+Livewire.on("topicCreate", function () {
+  console.log("OK");
+  $("#createTopicsModal").modal("show");
+});
+window.addEventListener("topic-saved", function (event) {
+  $("#createTopicsModal").modal("hide");
+  alert("Topic ".concat(event.detail.title, " was ").concat(event.detail.action, "!"));
+});
+Livewire.on("deleteTopicTriggered", function (id, name) {
+  var proceed = confirm("Are you sure you want to delete ".concat(name));
+
+  if (proceed) {
+    Livewire.emit("destroyTopic", id);
+  }
+});
+window.addEventListener("topic-deleted", function (event) {
+  alert("".concat(event.detail.title, " was deleted!"));
+});
+Livewire.on("topicDataFetched", function (forum) {
+  $("#editTopicModal").modal("show");
+});
+window.addEventListener("topic-updated", function (event) {
+  $("#editTopicModal").modal("hide");
+  alert("Topic ".concat(event.detail.title, " was ").concat(event.detail.action, "!"));
+});
 /******/ })()
 ;

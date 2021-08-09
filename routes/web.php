@@ -27,6 +27,8 @@ Route::middleware('auth')->group(function(){
     // Route::resource('forums', QbankController::class);
 
     Route::get('/forum-admins','\App\Http\Controllers\ForumAdminController@index');
+    Route::get('/forums/{id}','\App\Http\Controllers\ForumAdminController@show');
+    
 });
 
 

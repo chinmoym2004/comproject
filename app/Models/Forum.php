@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Topic;
 
 class Forum extends Model
 {
@@ -21,5 +22,10 @@ class Forum extends Model
         return empty($query) ? static::query() : static::where(function($q) use ($query) {
             $q->where('name', 'LIKE', '%'. $query . '%');
         });
+    }
+
+    public function topics()
+    {
+        return $this->hasMany(Topic::class);
     }
 }
