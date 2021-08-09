@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Chat;
 use App\Models\Messages;
 use Auth;
+use App\Events\ChatBroadcast;
 
 class ChatRoom extends Component
 {
@@ -42,6 +43,17 @@ class ChatRoom extends Component
         $message->body = $this->chat_text;
         $message->user_id = $user->id;
         $message->save();
+
+
+        $data=[
+            'chat_id'=>$message->chat_id,
+            'message'=>$message->body,
+            'user_name'=>$message->user->name,
+            'profile_image'=>asset('img/user-placeholder.png'),
+            'time'=>$message->created_at
+        ];
+
+        event(new ChatBroadcast($data));
 
         $this->chat_text='';
         $this->dispatchBrowserEvent('chatSaved', ['action' => 'created']);

@@ -2,6 +2,8 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
+
 	<title></title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
@@ -22,7 +24,7 @@
 		}
 
 		#chatbox,#chatlist{
-			height:500px;
+			min-height:500px;
 			overflow:hidden;
 		}
 		.mt-20{
@@ -64,24 +66,27 @@
 							</li>
 						@endif
 					@else
-					<div class="dropdown pull-right">
-						<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-							{{ Auth::user()->name }}
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-						  <li>
-							<a class="dropdown-item" href="{{ route('logout') }}"
-								onclick="event.preventDefault();
-											document.getElementById('logout-form').submit();">
-								{{ __('Logout') }}
-							</a>
+						<a class="nav-link" href="{{ url('/chat-admins') }}">Chat</a>
+						<a class="nav-link" href="{{ url('/forum-admins') }}">Forum</a>
+						
+						<div class="dropdown pull-right">
+							<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+								{{ Auth::user()->name }}
+							</button>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+							<li>
+								<a class="dropdown-item" href="{{ route('logout') }}"
+									onclick="event.preventDefault();
+												document.getElementById('logout-form').submit();">
+									{{ __('Logout') }}
+								</a>
 
-							<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-								@csrf
-							</form>
-						  </li>
-						</ul>
-					</div>
+								<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+									@csrf
+								</form>
+							</li>
+							</ul>
+						</div>
 					@endguest
 				</ul>
 			</div>
@@ -93,6 +98,9 @@
 	
 	<script src="{{ asset('js/app.js') }}"></script>
 	<script src="{{ asset('js/users.js') }}"></script>
+
+	@stack('custom-scripts')
+
 </body>
 
 </html>

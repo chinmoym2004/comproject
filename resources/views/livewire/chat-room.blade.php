@@ -61,4 +61,15 @@
       </div>
   
     </div>
-  </section> 
+</section> 
+@push('custom-scripts')
+<script>
+  var chatid = "{{$chat->id ?? ''}}";
+  window.Echo.private(`chat-${chatid}-messages`)
+    .listen('.newchat', (e) => {
+        //console.log(e.data.is_on_going)
+        cosole.log(e.data);
+        //console.log(e);
+    });
+</script>
+@endpush
