@@ -146,7 +146,7 @@ class AdminChatComponent extends Component
         $this->member_ids = $record->members?$record->members()->pluck('user_id')->toArray():[];
         $this->updateMode = true;
         $this->members = User::take(50)->get();
-        $this->emit('dataFetched', $record);
+        $this->emit('forumDataFetched', $record);
     }
 
     public function destroy($id)

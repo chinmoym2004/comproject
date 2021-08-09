@@ -25,6 +25,8 @@ Route::middleware('auth')->group(function(){
     Route::get('chat-rooms/{id}','\App\Http\Controllers\ChatAdminController@show');
     // Route::resource('chats', QbankController::class);
     // Route::resource('forums', QbankController::class);
+
+    Route::get('/forum-admins','\App\Http\Controllers\ForumAdminController@index');
 });
 
 

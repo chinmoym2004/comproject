@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class NewTableCategory extends Migration
+class CreateNewForums extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class NewTableCategory extends Migration
      */
     public function up()
     {
-        Schema::create('category', function (Blueprint $table) {
+        Schema::create('forums', function (Blueprint $table) {
             $table->id();
+            $table->string("name")->nullable();
+            $table->integer("topic_count")->default(0);
+            $table->integer("post_count")->default(0);
+            $table->unsignedBigInteger("user_id");
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ class NewTableCategory extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category');
+        Schema::dropIfExists('forums');
     }
 }

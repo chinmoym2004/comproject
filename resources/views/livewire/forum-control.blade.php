@@ -1,52 +1,47 @@
-@if(session()->has('success'))
-    <div class="alert alert-success" role="alert">
-        {{ session()->get('success') }}
-    </div>
-@endif
-
-@if(session()->has('error'))
-    <div class="alert alert-danger" role="alert">
-        {{ session()->get('error') }}
-    </div>
-@endif
-
-
 <div>
     @if($updateMode)
-        @include('livewire.chats.update')
+        @include('livewire.forums_update')
     @else
-        @include('livewire.chats.create')
+        @include('livewire.forums_create')
     @endif
-    
+
     <div class="row mb-4">
         <div class="row">
             <div class="col-4 mt-5">
-                <button class="btn btn-success" wire:click="$emit('triggerCreate')">Create New User</button>
+                <button class="btn btn-success" wire:click="$emit('forumCreate')">Create Forum</button>
             </div>
             <div class="col-8 mt-5">
-                <input wire:model="search" class="form-control" type="text" placeholder="Search Users...">
+                <input wire:model="search" class="form-control" type="text" placeholder="Search Forum...">
             </div>
         </div>
     </div>
 
     <div class="row">
-        @if ($chats->count())
+        @if ($forums->count())
         <table class="table">
             <thead>
                 <tr>
                     <th>
                         <a wire:click.prevent="sortBy('name')" role="button" href="#">
-                            Name
+                            Forum
                             @include('livewire.sort-icon', ['field' => 'name'])
                         </a>
                     </th>
                     
                     <th>
                         <a wire:click.prevent="sortBy('age')" role="button" href="#">
-                            Number Of members
+                            Topics
                             @include('livewire.sort-icon', ['field' => 'age'])
                         </a>
                     </th>
+
+                    <th>
+                        <a wire:click.prevent="sortBy('age')" role="button" href="#">
+                            Posts
+                            @include('livewire.sort-icon', ['field' => 'age'])
+                        </a>
+                    </th>
+
                     <th>
                         <a wire:click.prevent="sortBy('created_at')" role="button" href="#">
                         Created at
@@ -63,26 +58,25 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($chats as $chat)
+                @foreach ($forums as $forum)
                     <tr>
-                        <td>{{ $chat->title }}</td>
-                        {{-- <td>{{ $user->email }}</td>
-                        <td>{{ $user->address }}</td> --}}
-                        <td>{{ $chat->members->count() }}</td>
-                        <td>{{ $chat->created_at->format('m-d-Y') }}</td>
+                        <td>{{ $forum->name }}</td>
+                        <td>{{ $forum->topic_count }}</td>
+                        <td>{{ $forum->post_count }}</td>
+                        <td>{{ $forum->created_at->diffForHumans() }}</td>
                         <td>
-                            <button class="btn btn-sm btn-danger" wire:click="$emit('deleteTriggered', {{ $chat->id }}, '{{ $chat->title }}')">
+                            <button class="btn btn-sm btn-danger" wire:click="$emit('deleteForumTriggered', {{ $forum->id }}, '{{ $forum->name }}')">
                                 Delete
                             </button>
                         </td>
                         <td>
-                            <button class="btn btn-sm btn-dark" wire:click="$emit('triggerEdit',{{ $chat->id }})">
+                            <button class="btn btn-sm btn-dark" wire:click="$emit('triggerForumEdit',{{ $forum->id }})">
                             Edit
                             </button>
                         </td>
                         <td>
-                            <a class="btn btn-sm btn-dark" target="_blank" href="{{ url('chat-rooms/'.encrypt($chat->id)) }}">
-                            Join
+                            <a class="btn btn-sm btn-dark" target="_blank" href="{{ url('forums/'.encrypt($forum->id)) }}">
+                            View
                             </a>
                         </td>
                     </tr>
@@ -98,7 +92,7 @@
 
     <div class="row">
         <div class="col">
-            {{ $chats->links() }}
+            {{ $forums->links() }}
         </div>
     </div>
 </div>

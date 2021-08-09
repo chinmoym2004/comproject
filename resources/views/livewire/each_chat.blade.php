@@ -16,7 +16,6 @@
 </li>
 @else
 <li class="d-flex justify-content-between mb-4">
-    
     <div class="card" style="width: 100%">
       <div class="card-header d-flex justify-content-between p-3">
         <p class="fw-bold mb-0">{{ $message->user->name }}</p>

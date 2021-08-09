@@ -15,14 +15,12 @@ class NewTableTopics extends Migration
     {
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
-
+            $table->unsignedBigInteger('forum_id');
             $table->string('title')->nullable(); 
             $table->longText('body')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->string('status')->nullable()->comment("0=> unpublished, 1 => published");
-            $table->boolean('is_spam')->default(0);
-            $table->boolean('category_id')->default(0);
-            
+            $table->boolean('is_spam')->default(0);            
             $table->timestamps();
         });
     }
