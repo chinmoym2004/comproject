@@ -13,7 +13,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // $user = \App\Models\User::find(1);
+        // \Auth::login($user);
+        view()->composer('*', function ($view) {
+            $me = \Auth::user();
+            $view->with('me',$me);
+        });
     }
 
     /**

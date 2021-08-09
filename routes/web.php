@@ -13,6 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Auth::routes();
+
+Route::middleware('auth')->group(function(){
+    Route::get('/','\App\Http\Controllers\ChatAdminController@index');
+
+
+    //\Auth::loginUsingId(1);
+
+    Route::get('chat-admins','\App\Http\Controllers\ChatAdminController@index');
+    Route::get('chat-rooms/{id}','\App\Http\Controllers\ChatAdminController@show');
+    // Route::resource('chats', QbankController::class);
+    // Route::resource('forums', QbankController::class);
 });
+
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

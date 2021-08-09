@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+
+Route::resource('chats', App\Http\Controllers\Api\ChatController::class);
+Route::resource('messages', App\Http\Controllers\Api\ChatController::class);
+Route::resource('comments', App\Http\Controllers\Api\CommentController::class);
