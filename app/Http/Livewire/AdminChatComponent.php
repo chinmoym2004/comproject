@@ -146,7 +146,7 @@ class AdminChatComponent extends Component
         $this->member_ids = $record->members?$record->members()->pluck('user_id')->toArray():[];
         $this->updateMode = true;
         $this->members = User::take(50)->get();
-        $this->emit('forumDataFetched', $record);
+        $this->emit('dataFetched', $record);
     }
 
     public function destroy($id)
@@ -157,6 +157,26 @@ class AdminChatComponent extends Component
             $record = Chat::where('id', $id);
             $record->delete();
             $this->dispatchBrowserEvent('chat-grpup-deleted', ['title' => $chat->title]); // add this
+        }
+    }
+
+    public function start1to1chat($user_id)
+    {
+        if ($user_id) {
+            $user_id = decrypt($user_id);
+            $chat_with = User::where('id', $id);
+            $me = Auth::user();
+
+            $record = Chat::create([
+                'title' => $chat_with->name.",",$me->name,
+                'user_id' => $me->id
+            ]);
+
+            $selecetd_members = [$chat_with->id,$me->id];
+
+            $record->members()->sync($selecetd_members);
+            
+            $this->dispatchBrowserEvent('chat-box-open', ['title' => $record->title]); // add this
         }
     }
 }

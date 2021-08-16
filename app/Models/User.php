@@ -39,4 +39,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function scopeImage()
+    {
+        $path = asset('img/user-placeholder.png');
+        return $path;
+    }
 }

@@ -7,15 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-    use HasFactory;
+    use HasFactory;                                                                                                             
 
     protected $fillable = [
-		'comment_text',
-		'comment_by',
-		'parent_id'
+      'comment_text',
+      'user_id',
+      'parent_id'
     ];
 
     public function commentable(){
         return $this->morphTo();
+    }
+    
+    public function user(){
+    	return $this->belongsTo('App\Models\User');
+    }
+
+    public function subcomment(){
+    	return $this->hasMany('App\Models\Comment','parent_id','id');
     }
 }

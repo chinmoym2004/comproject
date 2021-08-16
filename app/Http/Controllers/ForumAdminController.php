@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Forum;
-
+use App\Models\Topic;
 use Illuminate\Http\Request;
 
 class ForumAdminController extends Controller
@@ -83,5 +83,12 @@ class ForumAdminController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function topics($id)
+    {
+        $id = decrypt($id);
+        $topic = Topic::find($id);
+        return view('admin.forums.topic_details',['topic'=>$topic]);
     }
 }

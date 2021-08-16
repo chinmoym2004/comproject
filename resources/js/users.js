@@ -103,3 +103,5 @@ window.addEventListener("topic-updated", (event) => {
     $("#editTopicModal").modal("hide");
     alert(`Topic ${event.detail.title} was ${event.detail.action}!`);
 });
+
+//chat-box-open

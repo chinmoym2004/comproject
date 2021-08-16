@@ -28,6 +28,15 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/forum-admins','\App\Http\Controllers\ForumAdminController@index');
     Route::get('/forums/{id}','\App\Http\Controllers\ForumAdminController@show');
+    Route::get('/topics/{id}','\App\Http\Controllers\ForumAdminController@topics');
+
+    Route::get('/inbox','\App\Http\Controllers\InboxController@index');
+
+    Route::get('comments/pull-reference/{id}', 'App\Http\Controllers\CommentController@pullReferenceComment');
+    Route::resource('/comments','App\Http\Controllers\CommentController');
+
+    Route::get('circulars-admins','\App\Http\Controllers\CircularController@index');
+    Route::get('circulars/{id}','\App\Http\Controllers\CircularController@show');
     
 });
 

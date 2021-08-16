@@ -36,18 +36,16 @@
                     @foreach ($chat->members as $member)
                     <li class="p-2 border-bottom" style="background-color: #eee;">
                         <a href="#!" class="d-flex justify-content-between">
-                        <div class="d-flex flex-row">
-                            <img src="{{ asset('img/user-placeholder.png') }}" alt="avatar"
-                            class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
-                            <div class="pt-1">
-                            <p class="fw-bold mb-0">{{ $member->name }}</p>
-                            {{-- <p class="small text-muted">Hello, Are you there?</p> --}}
-                            </div>
-                        </div>
-                        {{-- <div class="pt-1">
-                            <p class="small text-muted mb-1">Just now</p>
-                            <span class="badge bg-danger float-end">1</span>
-                        </div> --}}
+                          <div class="d-flex flex-row">
+                              <img src="{{ asset('img/user-placeholder.png') }}" alt="avatar"
+                              class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
+                              <div class="pt-1">
+                              <p class="fw-bold mb-0">{{ $member->name }}</p>
+                              </div>
+                          </div>
+                          <div class="pt-1">
+                              <p class="small text-muted mb-1" wire:click="start1to1chat("{{ encrypt($member->user_id) }}")">Chat Now</p>
+                          </div>
                         </a>
                     </li>
                     @endforeach
