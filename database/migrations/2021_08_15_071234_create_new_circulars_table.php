@@ -18,6 +18,19 @@ class CreateNewCircularsTable extends Migration
             $table->string("title")->nullable();
             $table->longText("details")->nullable();
             $table->boolean('need_confirmation')->default(1);
+            $table->unsignedBigInteger('user_id');
+
+            $table->boolean('need_approval')->default(1);
+            $table->unsignedBigInteger('approved_by')->nullable();
+            $table->timestamp('approved_at')->nullable();
+        
+            $table->boolean('published')->default(0);
+            $table->timestamp('published_at')->nullable();
+
+            $table->boolean('to_all')->default(0);
+            $table->string('group_ids')->nullable();
+            
+            
             $table->timestamps();
         });
     }

@@ -97,4 +97,9 @@ class ChatAdminController extends Controller
     {
         //
     }
+
+    public function chatRoom()
+    {
+        return view('chat-room');
+    }
 }

@@ -23,6 +23,7 @@ class AdminChatComponent extends Component
     public $selected_id;
     public $members;
     public $updateMode = false;
+    public $perpage = 10;
 
     protected $rules = [
         'title'=>'required',
@@ -46,7 +47,9 @@ class AdminChatComponent extends Component
     {
         if ($this->sortField === $field) {
             $this->sortAsc = !$this->sortAsc;
-        } else {
+        } 
+        else 
+        {
             $this->sortAsc = true;
         }
 
@@ -57,7 +60,7 @@ class AdminChatComponent extends Component
     {
         $chats = Chat::search($this->search)
         ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-        ->simplePaginate(20);
+        ->paginate($this->perpage);
 
         return view('livewire.chats.component',['chats'=>$chats]);
     }
@@ -162,21 +165,22 @@ class AdminChatComponent extends Component
 
     public function start1to1chat($user_id)
     {
-        if ($user_id) {
+        if ($user_id) 
+        {
             $user_id = decrypt($user_id);
-            $chat_with = User::where('id', $id);
+            $chatwith = User::find($user_id);
             $me = Auth::user();
 
             $record = Chat::create([
-                'title' => $chat_with->name.",",$me->name,
+                'title' => $chatwith->name.",".$me->name,
                 'user_id' => $me->id
             ]);
 
-            $selecetd_members = [$chat_with->id,$me->id];
+            $selecetd_members = [$chatwith->id,$me->id];
 
             $record->members()->sync($selecetd_members);
             
-            $this->dispatchBrowserEvent('chat-box-open', ['title' => $record->title]); // add this
+            $this->dispatchBrowserEvent('chat-box-open', ['title' => $record->title,'redirect_to'=>url('/chat-rooms/'.encrypt($record->id))]); // add this
         }
     }
 }

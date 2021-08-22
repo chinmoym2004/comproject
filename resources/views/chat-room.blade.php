@@ -1,5 +1,4 @@
 @extends('mainlayout')
-
 @section('container')
-@livewire('forum-control')
+@livewire('chat-control')
 @endsection

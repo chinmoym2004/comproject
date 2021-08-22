@@ -18,7 +18,7 @@ class ChatBroadcast implements ShouldBroadcast
     
     public function broadcastAs()
     {
-        return 'newchat';
+        return 'newchat.newmessage';
     }
 
     public $broadcastQueue = 'user-chat-messages';

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Circular;
 
 class CircularController extends Controller
 {
@@ -13,7 +14,7 @@ class CircularController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.circular.index');
     }
 
     /**
@@ -45,7 +46,8 @@ class CircularController extends Controller
      */
     public function show($id)
     {
-        //
+        $circular = Circular::find(decrypt($id));
+        return view('admin.circular.show',compact('circular'));
     }
 
     /**

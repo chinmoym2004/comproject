@@ -29,7 +29,7 @@
             <a href="{{ url('chat-admins') }}" class="nav-link">
               <i class="nav-icon fas fa-comment"></i>
               <p>
-                Chat
+                Admin Chat
                 {{-- <span class="right badge badge-danger">New</span> --}}
               </p>
             </a>
@@ -49,6 +49,16 @@
               <i class="nav-icon fas fa-bullhorn"></i>
               <p>
                 Circular
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{ url('chat-room') }}" class="nav-link">
+              <i class="nav-icon fas fa-comment"></i>
+              <p>
+                Chat Room
+                {{-- <span class="right badge badge-danger">New</span> --}}
               </p>
             </a>
           </li>

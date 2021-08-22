@@ -1,5 +1,5 @@
 {
-    "authHost": "http://localhost:8000",
+    "authHost": "http://localhost:8085",
     "authEndpoint": "/broadcasting/auth",
     "clients": [{
         "appId": "APP_ID",

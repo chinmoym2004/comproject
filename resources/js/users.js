@@ -46,7 +46,12 @@ window.addEventListener("forum-updated", (event) => {
 
 
 window.addEventListener("chatSaved", (event) => {
+    //console.log(event.detail);
+    chatid = event.detail.data.chat_id;
 
+    $('.chat-history').animate({
+        scrollTop: $('.chat-history ul')[0].scrollHeight
+    }, "slow");
 });
 
 $(document).on("click", "#selectallmember", function(event) {
@@ -105,3 +110,102 @@ window.addEventListener("topic-updated", (event) => {
 });
 
 //chat-box-open
+
+/***  Circular ****/
+
+Livewire.on("circularCreate", () => {
+    console.log("OK");
+    $("#createcircularModal").modal("show");
+});
+
+window.addEventListener("circular-saved", (event) => {
+    $("#createcircularModal").modal("hide");
+    alert(`circular ${event.detail.title} was ${event.detail.action}!`);
+});
+
+Livewire.on("deletecircularTriggered", (id, name) => {
+    const proceed = confirm(`Are you sure you want to delete ${name}`);
+    if (proceed) {
+        Livewire.emit("destroycircular", id);
+    }
+});
+
+window.addEventListener("circular-deleted", (event) => {
+    alert(`${event.detail.title} was deleted!`);
+});
+
+Livewire.on("circularDataFetched", (forum) => {
+    $("#editcircularModal").modal("show");
+});
+
+window.addEventListener("circular-updated", (event) => {
+    $("#editcircularModal").modal("hide");
+    //$('.modal-backdrop').remove();
+    alert(`circular ${event.detail.title} was ${event.detail.action}!`);
+});
+
+/****1-1 chat** */
+
+window.addEventListener("chat-box-open", (event) => {
+    window.location.href = `${event.detail.redirect_to}`;
+});
+
+window.addEventListener("openSearch", (event) => {
+    $("#usersearchModal").modal("show");
+});
+
+window.addEventListener("chatloaded", (event) => {
+    $('.chat-history').animate({
+        scrollTop: $('.chat-history ul')[0].scrollHeight
+    }, "slow");
+});
+
+window.addEventListener("chatMembersloaded", (event) => {
+    console.log(event);
+    $("#viewchatMembersModal").modal("show");
+});
+
+window.addEventListener("upoadFile", (event) => {
+    $("#viewUploadFileModal").modal("show");
+});
+
+
+/****** LOCAL TIME *****/
+
+class LocalTimeElement extends HTMLElement {
+    static get observedAttributes() {
+        return ['datetime'];
+    }
+
+    connectedCallback() {
+        var date = new Date(this.attributes.getNamedItem('datetime').value);
+        var language = document.querySelector('html').getAttribute('lang');
+
+        var format = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+
+        this.innerText = date.toLocaleString(language, format);
+    }
+
+    attributeChangedCallback() {
+        this.connectedCallback();
+    }
+}
+customElements.define('local-time', LocalTimeElement);
+
+window.livewire.hook('element.initialized', el => {
+    if (!el.tagName.includes("-")) {
+        return;
+    }
+
+    el.__livewire_ignore = true;
+})
+
+window.livewire.hook('element.updating', (fromEl, toEl, component) => {
+    if (!fromEl.tagName.includes("-")) {
+        return;
+    }
+
+    for (var i = 0, atts = toEl.attributes, n = atts.length, arr = []; i < n; i++) {
+        fromEl.setAttribute(atts[i].nodeName, atts[i].nodeValue);
+    }
+})

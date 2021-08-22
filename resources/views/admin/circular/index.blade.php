@@ -1,5 +1,5 @@
 @extends('mainlayout')
 
 @section('container')
-@livewire('forum-control')
+@livewire('circular-control')
 @endsection

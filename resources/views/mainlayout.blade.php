@@ -120,10 +120,21 @@
 			</div>
 		</div>
 	</nav> --}}
-
-	<div class="container">
-		@yield('container')
+	<div class="content-wrapper">
+		<section class="content">
+			<div class="container-fluid pt-2">
+				@yield('container')
+			</div>
+		</section>
 	</div>
+
+	{{-- <div class="content-wrapper">
+		<section class="content">
+			<div class="container-fluid">
+			@yield('container')
+			</div>
+		</section>
+	</div> --}}
 
 	<!-- jQuery -->
 	<script src="{{ asset('/theme/plugins/jquery/jquery.min.js') }}"></script>
@@ -165,6 +176,11 @@
 	
 	<script src="{{ asset('js/app.js') }}"></script>
 	<script src="{{ asset('js/users.js') }}"></script>
+	<script>
+		var chatid = "";
+	</script>
+
+	@stack('custom-scripts')
 
 </body>
 

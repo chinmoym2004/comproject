@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Chat;
+use App\Models\User;
+use App\Models\ChatUser;
 use App\Models\Messages;
 use Auth;
 use App\Events\ChatBroadcast;
@@ -13,9 +15,10 @@ class ChatRoom extends Component
     public Chat $chat;
     public $chat_text='';
     public $cmessages;
+    public $allow_search = 0;
 
 
-    //protected $listeners = ['delete', 'sendChatMesage'];
+    protected $listeners = [''];
 
     protected $rules = [
         'chat_text'=>'required',
@@ -52,10 +55,46 @@ class ChatRoom extends Component
             'profile_image'=>asset('img/user-placeholder.png'),
             'time'=>$message->created_at
         ];
+        
+        $this->dispatchBrowserEvent('chatSaved', ['action' => 'created','data'=>$data]);
 
         event(new ChatBroadcast($data));
 
+        $this->allow_search = 0;
+
         $this->chat_text='';
-        $this->dispatchBrowserEvent('chatSaved', ['action' => 'created']);
+        
+    }
+
+    public function start1to1chat($user_id)
+    {
+        if ($user_id) 
+        {
+            $user_id = decrypt($user_id);
+            $chatwith = User::find($user_id);
+            $me = Auth::user();
+
+            // check if already exist then start that only
+            $record = Chat::whereRaw("(title='".$chatwith->name."' AND user_id='".$me->id."') OR (title='".$me->name."' AND user_id='".$chatwith->id."')")->first();
+            if(!$record)
+            {
+                $record = Chat::create([
+                    'title' => $chatwith->name, //.",".$me->name
+                    'user_id' => $me->id
+                ]);
+    
+                $selecetd_members = [$chatwith->id,$me->id];
+    
+                $record->members()->sync($selecetd_members);
+            }
+            
+            $this->dispatchBrowserEvent('chat-box-open', ['title' => $record->title,'redirect_to'=>url('/chat-rooms/'.encrypt($record->id))]); // add this
+        }
+    }
+
+    public function addMembers()
+    {
+        $this->allow_search=1;
+        $this->dispatchBrowserEvent('openSearch', ['action' => 'search']);
     }
 }

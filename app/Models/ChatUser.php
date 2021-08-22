@@ -5,12 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Messages extends Model
+class ChatUser extends Model
 {
+    protected $table='chat_user';
     use HasFactory;
-
-    public function user()
-    {
-        return $this->belongsTo(\App\Models\User::class);
-    }
 }

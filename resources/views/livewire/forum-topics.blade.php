@@ -69,7 +69,7 @@
                             </button>
                         </td>
                         <td>
-                            <a class="btn btn-sm btn-dark" target="_blank" href="{{ url('topics/'.encrypt($topic->id)) }}">
+                            <a class="btn btn-sm btn-dark"  href="{{ url('topics/'.encrypt($topic->id)) }}">
                             View
                             </a>
                         </td>
