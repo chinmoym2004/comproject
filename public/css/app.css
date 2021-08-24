@@ -269,3 +269,68 @@ body {
         overflow-x: auto
     }
 }
+
+.select2-container {
+    width: 100% !important;
+}
+
+.modal {
+    z-index: 1050 !important;
+}
+
+#chatbox,
+#chatlist {
+    min-height: 500px;
+    overflow: hidden;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.searchusers ul {
+    max-height: 300px;
+    overflow: auto;
+    position: absolute;
+    width: 94%;
+    padding: 0px;
+    margin: 0px;
+    background: #ffffff;
+}
+
+.searchusers ul li {
+    border-bottom: 1px solid #e6dede;
+    padding: 10px 5px 7px 10px;
+    background: #f1f1f1;
+}
+
+.modaluserlist h6 {
+    font-weight: bold;
+    background-color: #f1f1f1;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.modaluserlist ul {
+    max-height: 300px;
+    overflow: auto;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    background: #ffffff;
+    border: 1px solid #cebcbc;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.modaluserlist ul li {
+    border-bottom: 1px solid #ffffff;
+    padding: 10px 5px 7px 10px;
+    background: #f1f1f1;
+    margin-bottom: 5px;
+}
+
+.modaluserlist ul li a {
+    cursor: pointer;
+    margin-top: -5px;
+}

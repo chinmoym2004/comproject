@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::middleware('auth')->group(function(){
-    Route::get('/','\App\Http\Controllers\ChatAdminController@index');
+    Route::get('/','\App\Http\Controllers\InboxController@index');
+    Route::get('/home','\App\Http\Controllers\InboxController@index');
 
 
     //\Auth::loginUsingId(1);
@@ -39,8 +40,11 @@ Route::middleware('auth')->group(function(){
 
     Route::get('circular-admin','\App\Http\Controllers\CircularController@index');
     Route::get('circulars/{id}','\App\Http\Controllers\CircularController@show');
+
+    Route::get('/users','\App\Http\Controllers\UsersController@index');
+    Route::get('/groups','\App\Http\Controllers\UsersController@groups');
     
 });
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

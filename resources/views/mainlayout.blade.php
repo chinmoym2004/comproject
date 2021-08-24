@@ -28,24 +28,9 @@
 	<!-- summernote -->
 	<link rel="stylesheet" href="{{ asset('/theme/plugins/summernote/summernote-bs4.min.css') }}">
 
+	<link rel="stylesheet" href="{{ asset('/css/app.css') }}">
+
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-	<style>
-		.select2-container{
-			width:100% !important;
-		}
-		.modal{
-			z-index:1050 !important;
-		}
-
-		#chatbox,#chatlist{
-			min-height:500px;
-			overflow:hidden;
-		}
-		.mt-20{
-			margin-top:20px;
-		}
-	</style>
 
 	@livewireStyles
 	@livewireScripts

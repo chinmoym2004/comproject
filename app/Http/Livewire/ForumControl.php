@@ -54,7 +54,7 @@ class ForumControl extends Component
     {
         $forums = Forum::search($this->search)
         ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-        ->simplePaginate(20);
+        ->paginate(20);
 
         return view('livewire.forum-control',['forums'=>$forums]);
     }

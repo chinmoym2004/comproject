@@ -169,6 +169,57 @@ window.addEventListener("upoadFile", (event) => {
     $("#viewUploadFileModal").modal("show");
 });
 
+/**** Group *****/
+
+Livewire.on("groupCreate", () => {
+    $("#creategroupModal").modal("show");
+});
+
+window.addEventListener("group-saved", (event) => {
+    $("#creategroupModal").modal("hide");
+    alert(`group ${event.detail.title} was ${event.detail.action}!`);
+});
+
+Livewire.on("deletegroupTriggered", (id, name) => {
+    const proceed = confirm(`Are you sure you want to delete ${name}`);
+    if (proceed) {
+        Livewire.emit("destroygroup", id);
+    }
+});
+
+window.addEventListener("group-deleted", (event) => {
+    alert(`${event.detail.title} was deleted!`);
+});
+
+Livewire.on("groupDataFetched", (forum) => {
+    $("#editgroupModal").modal("show");
+});
+
+Livewire.on("groupMemberDataFetched", (forum) => {
+    $("#groupMemberUpdateModal").modal("show");
+});
+
+window.addEventListener("group-updated", (event) => {
+    $("#editgroupModal").modal("hide");
+    alert(`group ${event.detail.title} was ${event.detail.action}!`);
+});
+
+window.addEventListener('memberUpdated', (event) => {
+    $("#groupMemberUpdateModal").modal("hide");
+    $('.modal-backdrop').remove();
+});
+
+window.addEventListener('memberRemoved', (event) => {
+    $("#member_" + event.detail.id).remove();
+});
+
+
+// window.addEventListener("memberSelectedFromSearch", (event) => {
+//     console.log(event.detail.id);
+//     console.log(event.detail.text);
+//     Livewire.emit("selectedFromSearch", event.detail.id, event.detail.text);
+// });
+
 
 /****** LOCAL TIME *****/
 

@@ -45,4 +45,14 @@ class User extends Authenticatable
         $path = asset('img/user-placeholder.png');
         return $path;
     }
+
+    public static function search($query)
+    {
+        //echo $query;
+        return empty($query) ? static::query() : static::where(function($q) use ($query) {
+            $q->orWhere('name', 'LIKE', $query . '%');
+            $q->orWhere('email', 'LIKE', $query . '%');
+           // $q->orWhere('title', 'LIKE', '%'. $query . '%');
+        });
+    }
 }
