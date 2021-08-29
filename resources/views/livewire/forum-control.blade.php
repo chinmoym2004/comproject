@@ -19,7 +19,7 @@
                 </h3>
                 <div class="card-tools d-flex">
                     <input wire:model="search" class="form-control mr-2 border-dark" type="text" placeholder="Search...">
-                    <button class="btn btn-dark" wire:click="$emit('forumCreate')">
+                    <button class="btn btn-dark" wire:click="$emit('fetchCategory')">
                         <i class="fa fa-plus"></i>  
                     </button>
                 </div>
@@ -65,11 +65,17 @@
                         <tbody>
                             @foreach ($forums as $forum)
                                 <tr>
-                                    <td>{{ $forum->name }}</td>
+                                    <td><i class="text-muted fa fa-{{ $forum->is_public?'globe':'lock'}}" title="{{ $forum->is_public?'Public':'Private'}}"></i>&nbsp;&nbsp;{{ $forum->name }}</td>
                                     <td>{{ $forum->topic_count }}</td>
                                     <td>{{ $forum->post_count }}</td>
                                     <td>{{ $forum->created_at->diffForHumans() }}</td>
+
                                     <td>
+
+                                        @if(!$forum->pubished)
+                                        <button class="btn btn-sm btn-info"  wire:click="approveForum({{ $forum->id }})">Approve Now</button>
+                                        @endif 
+                                    
                                         <button class="btn btn-sm btn-danger" wire:click="$emit('deleteForumTriggered', {{ $forum->id }}, '{{ $forum->name }}')">
                                             Delete
                                         </button>
@@ -100,7 +106,9 @@
     </div>
     @if($updateMode)
         @include('livewire.forums_update')
-    @else
+    @endif 
+    
+    @if($createMode)
         @include('livewire.forums_create')
     @endif
 <div>

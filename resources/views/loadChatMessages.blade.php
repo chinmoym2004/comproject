@@ -32,7 +32,7 @@
 
 <div class="chat-history">
     <ul class="m-b-0">
-        @if(count($this->chat_messages))
+        @if($this->chat_messages)
             @foreach($this->chat_messages as $eachmessge)
                 @if($eachmessge['is_me']==1)
                 <li class="clearfix">

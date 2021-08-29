@@ -52,9 +52,12 @@ Livewire.on("dataFetched", function (chat) {
   console.log(chat);
   $("#editChatGroupModal").modal("show");
   $(".select2").select2();
-});
-Livewire.on("forumCreate", function () {
-  console.log("OK");
+}); // Livewire.on("forumCreate", () => {
+//     console.log("OK");
+//     $("#createForumModal").modal("show");
+// });
+
+Livewire.on("categoryFetched", function () {
   $("#createForumModal").modal("show");
 });
 window.addEventListener("group-saved", function (event) {
@@ -214,6 +217,25 @@ window.addEventListener('memberRemoved', function (event) {
 //     Livewire.emit("selectedFromSearch", event.detail.id, event.detail.text);
 // });
 
+Livewire.on("categoryCreate", function () {
+  $("#categoryModel").modal("show");
+});
+window.addEventListener("category-saved", function (event) {
+  $("#categoryModel").modal("hide");
+});
+Livewire.on("deleteCategoryTriggered", function (id, name) {
+  var proceed = confirm("Are you sure you want to delete ".concat(name));
+
+  if (proceed) {
+    Livewire.emit("destroyCategory", id);
+  }
+});
+Livewire.on("catDataFetched", function (forum) {
+  $("#updatecategoryModel").modal("show");
+});
+window.addEventListener("category-updated", function (event) {
+  $("#updatecategoryModel").modal("hide");
+});
 /****** LOCAL TIME *****/
 
 var LocalTimeElement = /*#__PURE__*/function (_HTMLElement) {

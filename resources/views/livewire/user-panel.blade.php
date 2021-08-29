@@ -57,9 +57,9 @@
                                     @include('livewire.sort-icon', ['field' => 'created_at'])
                                     </a>
                                 </th>
-                                <th>
+                                {{-- <th>
                                     Actions
-                                </th>
+                                </th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -69,7 +69,7 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->title }}</td>
                                     <td>{{ $user->created_at->diffForHumans() }}</td>
-                                    <td>
+                                    {{-- <td>
                                         <button class="btn btn-sm btn-danger" wire:click="$emit('deleteForumTriggered', {{ $user->id }}, '{{ $user->name }}')">
                                             Delete
                                         </button>
@@ -80,7 +80,7 @@
                                     
                                         <a class="btn btn-sm btn-warning" href="{{ url('users/'.encrypt($user->id)) }}">
                                         Topics
-                                        </a>
+                                        </a> --}}
                                     </td>
                                 </tr>
                             @endforeach

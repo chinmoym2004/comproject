@@ -299,9 +299,10 @@ body {
 }
 
 .searchusers ul li {
-    border-bottom: 1px solid #e6dede;
+    border-bottom: 1px solid #928a8a;
     padding: 10px 5px 7px 10px;
-    background: #f1f1f1;
+    background: #3e3c3c;
+    color: #fff;
 }
 
 .modaluserlist h6 {

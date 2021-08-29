@@ -14,7 +14,14 @@ class Forum extends Model
         'name',
         'post_count',
         'topic_count',
-        'user_id'
+        'user_id',
+        'campus',
+        'school',
+        'program',
+        'details',
+        'category_id',
+        'group_id',
+        'is_public'
     ];
 
     public static function search($query)

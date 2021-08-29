@@ -5,6 +5,8 @@ use Livewire\WithPagination;
 use Livewire\Component;
 use App\Models\Forum;
 use Auth;
+use App\Models\Category;
+use App\Models\Group;
 
 class ForumControl extends Component
 {
@@ -14,13 +16,18 @@ class ForumControl extends Component
     public $sortAsc = true; // default sort direction
     public $search = '';
 
-    protected $listeners = ['forum-delete', 'triggerRefresh' => '$refresh','triggerForumEdit','destroyForum'];
+    protected $listeners = ['forum-delete', 'triggerRefresh' => '$refresh','triggerForumEdit','destroyForum','fetchCategory'];
 
-    public $name;
+    public $name,$campus,$school,$program,$details,$category_id,$group_id,$is_public;
     public $member_ids=[];
     public $selected_id;
     public $members;
     public $updateMode = false;
+
+    public $createMode = false;
+
+    public $categories=null;
+    public $groups=null;
 
     protected $rules = [
         'name'=>'required',
@@ -30,8 +37,23 @@ class ForumControl extends Component
     {
         $this->forum_id = null;
         $this->name = null;
-        $this->member_ids = [];
-        $this->members = null;
+        $this->categories = null;
+        $this->groups = null;
+        $this->campus=null;
+        $this->school=null;
+        $this->program=null;
+        $this->details=null;
+        $this->category_id=null;
+        $this->group_id=null;
+        $this->is_public=0;
+    }
+
+    public function fetchCategory()
+    {
+        $this->createMode = true;
+        $this->categories = Category::all();
+        $this->groups = Group::all();
+        $this->emit('categoryFetched');
     }
 
     public function chatMembersSelected($chatMembers)
@@ -69,6 +91,13 @@ class ForumControl extends Component
         {
             Forum::create([
                 'name' => $this->name,
+                'campus'=>$this->campus,
+                'school'=>$this->school,
+                'program'=>$this->program,
+                'details'=>$this->details,
+                'group_id'=>$this->group_id,
+                'is_public'=>$this->is_public,
+                'category_id'=>$this->category_id,
                 'post_count'=>0,
                 'topic_count'=>0,
                 'user_id' => $user->id
@@ -77,7 +106,10 @@ class ForumControl extends Component
             //session()->flash('success','Forum Created Successfully!!');
             $this->dispatchBrowserEvent('forum-saved', ['action' => 'created', 'title' => $this->name]);
             $this->emit('triggerRefresh');
+            $this->createMode=false;
+
         }catch(\Exception $e){
+            report($e);
             // Set Flash Message
             session()->flash('error','Something goes wrong while creating forum!!');
             // Reset Form Fields After Creating Category
@@ -98,11 +130,19 @@ class ForumControl extends Component
         try
         {
             $record = Forum::find($this->selected_id);
+
             $record->update([
-                'name' => $this->name
+                'name' => $this->name,
+                'campus'=>$this->campus,
+                'school'=>$this->school,
+                'program'=>$this->program,
+                'details'=>$this->details,
+                'group_id'=>$this->group_id,
+                'is_public'=>$this->is_public,
+                'category_id'=>$this->category_id
             ]);
+
             //session()->flash('success','Category Updated Successfully!!');
-            
             $this->dispatchBrowserEvent('forum-updated', ['action' => 'updated', 'title' => $this->name]);
             $this->resetInput();
             $this->emit('triggerRefresh');
@@ -123,7 +163,19 @@ class ForumControl extends Component
 
         $this->selected_id = $record->id;
         $this->name = $record->name;
+
+        $this->campus=$record->campus;
+        $this->school=$record->school;
+        $this->program=$record->program;
+        $this->details=$record->details;
+
+        $this->group_id=$record->group_id;
+        $this->is_public=$record->is_public;
+        $this->category_id=$record->category_id;
+
         $this->updateMode = true;
+        $this->categories = Category::all();
+        $this->groups = Group::all();
         $this->emit('forumDataFetched', $record);
     }
 
@@ -135,6 +187,20 @@ class ForumControl extends Component
 
             $record->delete();
             $this->dispatchBrowserEvent('forum-deleted', ['title' => $name]); // add this
+        }
+    }
+
+    public function approveForum($id)
+    {
+        if ($id) 
+        {
+            $user = Auth::user();
+
+            $record = Forum::find($id);
+            $record->pubished = 1;
+            $record->pubished_by = $user->id;
+            $record->published_at = date('Y-m-d H:i:s');
+            $record->save();
         }
     }
 }

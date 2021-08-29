@@ -68,9 +68,9 @@
                 </td>
                 <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
                 <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this problem...
+                <td class="mailbox-subject"><b>Test Inbox Messages</b> - Trying to find a solution to this problem...
                 </td>
-                <td class="mailbox-attachment"></td>
+                
                 <td class="mailbox-date">5 mins ago</td>
               </tr>
               <tr>
@@ -82,9 +82,9 @@
                 </td>
                 <td class="mailbox-star"><a href="#"><i class="fas fa-star-o text-warning"></i></a></td>
                 <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this problem...
+                <td class="mailbox-subject"><b>Test Inbox Messages</b> - Trying to find a solution to this problem...
                 </td>
-                <td class="mailbox-attachment"><i class="fas fa-paperclip"></i></td>
+                
                 <td class="mailbox-date">28 mins ago</td>
               </tr>
               <tr>
@@ -96,9 +96,9 @@
                 </td>
                 <td class="mailbox-star"><a href="#"><i class="fas fa-star-o text-warning"></i></a></td>
                 <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this problem...
+                <td class="mailbox-subject"><b>Test Inbox Messages</b> - Trying to find a solution to this problem...
                 </td>
-                <td class="mailbox-attachment"><i class="fas fa-paperclip"></i></td>
+                
                 <td class="mailbox-date">11 hours ago</td>
               </tr>
               <tr>
@@ -110,9 +110,9 @@
                 </td>
                 <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
                 <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this problem...
+                <td class="mailbox-subject"><b>Test Inbox Messages</b> - Trying to find a solution to this problem...
                 </td>
-                <td class="mailbox-attachment"></td>
+                
                 <td class="mailbox-date">15 hours ago</td>
               </tr>
               <tr>
@@ -124,9 +124,9 @@
                 </td>
                 <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
                 <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this problem...
+                <td class="mailbox-subject"><b>Test Inbox Messages</b> - Trying to find a solution to this problem...
                 </td>
-                <td class="mailbox-attachment"><i class="fas fa-paperclip"></i></td>
+                
                 <td class="mailbox-date">Yesterday</td>
               </tr>
               <tr>
@@ -138,9 +138,9 @@
                 </td>
                 <td class="mailbox-star"><a href="#"><i class="fas fa-star-o text-warning"></i></a></td>
                 <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this problem...
+                <td class="mailbox-subject"><b>Test Inbox Messages</b> - Trying to find a solution to this problem...
                 </td>
-                <td class="mailbox-attachment"><i class="fas fa-paperclip"></i></td>
+                
                 <td class="mailbox-date">2 days ago</td>
               </tr>
               <tr>
@@ -152,9 +152,9 @@
                 </td>
                 <td class="mailbox-star"><a href="#"><i class="fas fa-star-o text-warning"></i></a></td>
                 <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this problem...
+                <td class="mailbox-subject"><b>Test Inbox Messages</b> - Trying to find a solution to this problem...
                 </td>
-                <td class="mailbox-attachment"><i class="fas fa-paperclip"></i></td>
+                
                 <td class="mailbox-date">2 days ago</td>
               </tr>
               <tr>
@@ -166,9 +166,9 @@
                 </td>
                 <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
                 <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this problem...
+                <td class="mailbox-subject"><b>Test Inbox Messages</b> - Trying to find a solution to this problem...
                 </td>
-                <td class="mailbox-attachment"></td>
+                
                 <td class="mailbox-date">2 days ago</td>
               </tr>
               <tr>
@@ -180,9 +180,9 @@
                 </td>
                 <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
                 <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this problem...
+                <td class="mailbox-subject"><b>Test Inbox Messages</b> - Trying to find a solution to this problem...
                 </td>
-                <td class="mailbox-attachment"></td>
+                
                 <td class="mailbox-date">2 days ago</td>
               </tr>
               <tr>
@@ -194,9 +194,9 @@
                 </td>
                 <td class="mailbox-star"><a href="#"><i class="fas fa-star-o text-warning"></i></a></td>
                 <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this problem...
+                <td class="mailbox-subject"><b>Test Inbox Messages</b> - Trying to find a solution to this problem...
                 </td>
-                <td class="mailbox-attachment"></td>
+                
                 <td class="mailbox-date">2 days ago</td>
               </tr>
               <tr>
@@ -208,9 +208,9 @@
                 </td>
                 <td class="mailbox-star"><a href="#"><i class="fas fa-star-o text-warning"></i></a></td>
                 <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this problem...
+                <td class="mailbox-subject"><b>Test Inbox Messages</b> - Trying to find a solution to this problem...
                 </td>
-                <td class="mailbox-attachment"><i class="fas fa-paperclip"></i></td>
+                
                 <td class="mailbox-date">4 days ago</td>
               </tr>
               <tr>
@@ -222,9 +222,9 @@
                 </td>
                 <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
                 <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this problem...
+                <td class="mailbox-subject"><b>Test Inbox Messages</b> - Trying to find a solution to this problem...
                 </td>
-                <td class="mailbox-attachment"></td>
+                
                 <td class="mailbox-date">12 days ago</td>
               </tr>
               <tr>
@@ -236,9 +236,9 @@
                 </td>
                 <td class="mailbox-star"><a href="#"><i class="fas fa-star-o text-warning"></i></a></td>
                 <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this problem...
+                <td class="mailbox-subject"><b>Test Inbox Messages</b> - Trying to find a solution to this problem...
                 </td>
-                <td class="mailbox-attachment"><i class="fas fa-paperclip"></i></td>
+                
                 <td class="mailbox-date">12 days ago</td>
               </tr>
               <tr>
@@ -250,9 +250,9 @@
                 </td>
                 <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
                 <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this problem...
+                <td class="mailbox-subject"><b>Test Inbox Messages</b> - Trying to find a solution to this problem...
                 </td>
-                <td class="mailbox-attachment"><i class="fas fa-paperclip"></i></td>
+                
                 <td class="mailbox-date">14 days ago</td>
               </tr>
               <tr>
@@ -264,9 +264,9 @@
                 </td>
                 <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
                 <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this problem...
+                <td class="mailbox-subject"><b>Test Inbox Messages</b> - Trying to find a solution to this problem...
                 </td>
-                <td class="mailbox-attachment"><i class="fas fa-paperclip"></i></td>
+                
                 <td class="mailbox-date">15 days ago</td>
               </tr>
               </tbody>

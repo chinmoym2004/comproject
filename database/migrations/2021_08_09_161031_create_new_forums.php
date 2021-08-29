@@ -25,10 +25,13 @@ class CreateNewForums extends Migration
 
             $table->integer("topic_count")->default(0);
             $table->integer("post_count")->default(0);
+            
             $table->unsignedBigInteger("user_id");
 
             $table->boolean('is_public')->default(0); // Forum type 
-            $table->string('group_ids')->nullable(); 
+
+            $table->unsignedBigInteger('group_id')->nullable();
+            $table->unsignedBigInteger('category_id');
 
             $table->boolean('pubished')->default(0);
             $table->unsignedBigInteger('pubished_by')->nullable();

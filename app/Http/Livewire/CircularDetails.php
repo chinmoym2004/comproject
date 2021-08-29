@@ -12,8 +12,6 @@ class CircularDetails extends Component
     public $ack;
     protected $listeners = ['triggerRefresh' => '$refresh'];
 
-
-
     public function mount($circular)
     {
         $me = Auth::user();

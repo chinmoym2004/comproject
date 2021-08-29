@@ -20,4 +20,9 @@ class UsersController extends Controller
     {
         return view('user.groups');
     }
+
+    public function categoryPanel()
+    {
+        return view('category');
+    }
 }
