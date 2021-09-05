@@ -1,4 +1,4 @@
 @extends('mainlayout')
 @section('container')
-@livewire('user-forum')
+@livewire('user-circular')
 @endsection

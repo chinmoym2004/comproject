@@ -17386,6 +17386,9 @@ window.addEventListener("subcommented", function (event) {
 window.addEventListener("topic-saved", function (event) {
   $("#createTopicsModal").modal("hide"); //alert(`Topic ${event.detail.title} was ${event.detail.action}!`);
 });
+window.addEventListener("circularDataFetched", function (event) {
+  $("#viewCircularModal").modal("show");
+});
 Livewire.on("deleteTopicTriggered", function (id, name) {
   var proceed = confirm("Are you sure you want to delete ".concat(name));
 

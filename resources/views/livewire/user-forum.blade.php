@@ -1,3 +1,12 @@
+<section class="content-header forum-content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-10">
+            <p>FORUM</p>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+</section>
 <div class="col-sm-8">
     @foreach ($forums as $forum)
         <div class="card">

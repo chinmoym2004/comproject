@@ -45,6 +45,10 @@ Route::middleware('auth')->group(function(){
 
     Route::resource('circular-admin','\App\Http\Controllers\CircularController');
 
+    Route::get('circulars','\App\Http\Controllers\CircularController@UserCircular');
+
+    
+
     Route::get('/users','\App\Http\Controllers\UsersController@index');
     Route::get('/groups','\App\Http\Controllers\UsersController@groups');
 

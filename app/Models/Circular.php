@@ -25,7 +25,7 @@ class Circular extends Model
 
     public function members()
     {
-        return $this->belongsToMany(User::class,'circular_user')->withPivot('has_confirmed');
+        return $this->belongsToMany(User::class,'circular_user')->withPivot('has_confirmed')->withTimestamps();
     }
 
     public static function search($query)
@@ -44,8 +44,9 @@ class Circular extends Model
         });
     }
 
-    public function scopeMyack($query,$me)
+    public function scopeMyack($query)
     {
-        return $this->members()->where('user_id','=',$me->id)->where('has_confirmed','=',1)->first() ?? null;
+        $me = \Auth::user()->id;
+        return $this->members()->where('user_id','=',$me)->where('has_confirmed','=',1)->first() ?? false;
     }
 }

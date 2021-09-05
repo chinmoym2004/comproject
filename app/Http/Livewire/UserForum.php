@@ -27,7 +27,7 @@ class UserForum extends Component
             $q->whereIn('group_id',$group_ids);
             $q->orWhere('is_public',1);
 
-        })->paginate($this->perPage);
+        })->where('published',1)->paginate($this->perPage);
 
         return view('livewire.user-forum',['forums'=>$forums]);
     }

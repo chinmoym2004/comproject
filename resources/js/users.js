@@ -110,6 +110,10 @@ window.addEventListener("topic-saved", (event) => {
     //alert(`Topic ${event.detail.title} was ${event.detail.action}!`);
 });
 
+window.addEventListener("circularDataFetched", (event) => {
+    $("#viewCircularModal").modal("show");
+});
+
 Livewire.on("deleteTopicTriggered", (id, name) => {
     const proceed = confirm(`Are you sure you want to delete ${name}`);
     if (proceed) {

@@ -83,4 +83,9 @@ class CircularController extends Controller
     {
         //
     }
+
+    public function UserCircular()
+    {
+        return view('user-circular');
+    }
 }
