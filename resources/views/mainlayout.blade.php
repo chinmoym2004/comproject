@@ -106,6 +106,7 @@
 		</div>
 	</nav> --}}
 	<div class="content-wrapper">
+		@yield('page_header')
 		<section class="content">
 			<div class="container-fluid pt-2">
 				@yield('container')
@@ -158,6 +159,9 @@
 
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+	<link rel="stylesheet" href="{{ asset('theme/plugins/summernote/summernote-bs4.min.css') }}">
+	<script src="{{ asset('theme/plugins/summernote/summernote-bs4.min.js') }}"></script>
 	
 	<script src="{{ asset('js/app.js') }}"></script>
 	<script src="{{ asset('js/users.js') }}"></script>

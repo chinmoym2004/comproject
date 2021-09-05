@@ -7,7 +7,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('forum-admins') }}">Forums</a></li>
         <li class="breadcrumb-item"><a href="{{ url('forums/'.encrypt($forum->id)) }}">{{ $forum->name }}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Topics</li>
+        <li class="breadcrumb-item active" aria-current="page">Threads</li>
     </ol>
 </nav>
 @livewire('forum-topics',['forum'=>$forum])

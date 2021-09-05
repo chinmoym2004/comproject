@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Livewire;
-use Livewire\WithPagination;
-use App\Models\Topic;
+
 use Livewire\Component;
+use App\Models\Topic;
 use Auth;
-class ForumTopics extends Component
+
+class UserForumTopics extends Component
 {
-    use WithPagination;
+    public $forum;
 
     public $sortField = 'title'; // default sorting field
     public $sortAsc = true; // default sort direction
@@ -16,8 +17,6 @@ class ForumTopics extends Component
     protected $listeners = ['destroyTopic', 'triggerRefresh' => '$refresh','triggerTopicEdit','chatMembersSelected'];
 
     public $title,$body;
-    public $forum;
-
     public $member_ids=[];
     public $selected_id;
     public $members;
@@ -26,6 +25,39 @@ class ForumTopics extends Component
     protected $rules = [
         'title'=>'required'
     ];
+
+    public function mount($forum)
+    {
+        $this->forum = $forum;
+    }
+
+    public function render()
+    {
+        $threads = $this->forum->topics;
+        return view('livewire.user-forum-topics',['threads'=>$threads]);
+    }
+
+    public function upvote($id)
+    {
+        $user = Auth::user();
+        $thread = Topic::find($id);
+        $voted = $thread->useractions($user->id)->where('action_type','=',1)->first();
+        if($voted)
+        {
+            $voted->delete();
+            $this->dispatchBrowserEvent('upvoted', ['action' => 'undoupvote']);
+        }
+        else
+        {
+            $thread->action()->create([
+                'user_id'=>$user->id,
+                'action_type'=>'upvote'
+            ]);
+
+            $this->dispatchBrowserEvent('upvoted', ['action' => 'upvote']);
+        }
+        
+    }
 
     private function resetInput()
     {
@@ -42,21 +74,6 @@ class ForumTopics extends Component
         }
 
         $this->sortField = $field;
-    }
-
-    public function mount($forum)
-    {
-        $this->forum = $forum;
-    }
-
-    public function render()
-    {
-        $topics = Topic::search($this->search)
-        ->where('forum_id',$this->forum->id)
-        ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-        ->simplePaginate(20);
-
-        return view('livewire.forum-topics',['topics'=>$topics]);
     }
 
     public function cancel()
@@ -86,14 +103,11 @@ class ForumTopics extends Component
             else
                 $this->forum->topic_count=1;
             $this->forum->save();
-            
-            //session()->flash('success','Forum Created Successfully!!');
             $this->dispatchBrowserEvent('topic-saved', ['action' => 'created', 'title' => $this->title]);
             $this->emit('triggerRefresh');
         }catch(\Exception $e){
             // Set Flash Message
             session()->flash('error','Something goes wrong while creating forum!!');
-            // Reset Form Fields After Creating Category
             $this->resetInput();
         }
     }

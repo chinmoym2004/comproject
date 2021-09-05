@@ -36,18 +36,26 @@
                                         @include('livewire.sort-icon', ['field' => 'name'])
                                     </a>
                                 </th>
+
+                                <th>
+                                    Category
+                                </th>
+
+                                <th>
+                                    Group
+                                </th>
                                 
                                 <th>
-                                    <a wire:click.prevent="sortBy('age')" role="button" href="#">
-                                        Topics
-                                        @include('livewire.sort-icon', ['field' => 'age'])
+                                    <a wire:click.prevent="sortBy('topic_count')" role="button" href="#">
+                                        Threads
+                                        @include('livewire.sort-icon', ['field' => 'topic_count'])
                                     </a>
                                 </th>
 
                                 <th>
-                                    <a wire:click.prevent="sortBy('age')" role="button" href="#">
+                                    <a wire:click.prevent="sortBy('post_count')" role="button" href="#">
                                         Posts
-                                        @include('livewire.sort-icon', ['field' => 'age'])
+                                        @include('livewire.sort-icon', ['field' => 'post_count'])
                                     </a>
                                 </th>
 
@@ -57,6 +65,7 @@
                                     @include('livewire.sort-icon', ['field' => 'created_at'])
                                     </a>
                                 </th>
+                                <td>Status</td>
                                 <th>
                                     Actions
                                 </th>
@@ -66,14 +75,18 @@
                             @foreach ($forums as $forum)
                                 <tr>
                                     <td><i class="text-muted fa fa-{{ $forum->is_public?'globe':'lock'}}" title="{{ $forum->is_public?'Public':'Private'}}"></i>&nbsp;&nbsp;{{ $forum->name }}</td>
+                                    <td>{{ $forum->category->name }}</td>
+                                    <td>{{ $forum->group->title ?? '' }}</td>
                                     <td>{{ $forum->topic_count }}</td>
                                     <td>{{ $forum->post_count }}</td>
                                     <td>{{ $forum->created_at->diffForHumans() }}</td>
-
+                                    <td><span class="badge badge-{{ $forum->published ? 'success':'danger'}}">{{ $forum->published ? 'Published':'Not Published'}}</span></td>
                                     <td>
 
-                                        @if(!$forum->pubished)
-                                        <button class="btn btn-sm btn-info"  wire:click="approveForum({{ $forum->id }})">Approve Now</button>
+                                        @if(!$forum->published)
+                                        <button class="btn btn-sm btn-info"  wire:click="approveForum({{ $forum->id }})">Publish Now</button>
+                                        @else 
+                                        <button class="btn btn-sm btn-danger"  wire:click="UndoapproveForum({{ $forum->id }})">Un-Publish Now</button>
                                         @endif 
                                     
                                         <button class="btn btn-sm btn-danger" wire:click="$emit('deleteForumTriggered', {{ $forum->id }}, '{{ $forum->name }}')">
@@ -84,7 +97,7 @@
                                         Edit
                                         </button>
                                     
-                                        <a class="btn btn-sm btn-warning" href="{{ url('forums/'.encrypt($forum->id)) }}">
+                                        <a class="btn btn-sm btn-warning" href="{{ url('forum-admins/'.encrypt($forum->id)) }}">
                                         Topics
                                         </a>
                                     </td>

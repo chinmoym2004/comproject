@@ -29,17 +29,21 @@ Route::middleware('auth')->group(function(){
     // Route::resource('chats', QbankController::class);
     // Route::resource('forums', QbankController::class);
 
-    Route::get('/forum-admins','\App\Http\Controllers\ForumAdminController@index');
-    Route::get('/forums/{id}','\App\Http\Controllers\ForumAdminController@show');
-    Route::get('/topics/{id}','\App\Http\Controllers\ForumAdminController@topics');
+    Route::resource('/forum-admins','\App\Http\Controllers\ForumAdminController');
+
+    //Route::get('/forums/{slug}','\App\Http\Controllers\ForumController@getThreads');
+    Route::resource('/forums','\App\Http\Controllers\ForumController');
+
+    Route::get('/forums/{slug}/t/{slug2}','\App\Http\Controllers\ForumController@topics');
+
+    //Route::get('/topics/{id}','\App\Http\Controllers\ForumAdminController@topics');
 
     Route::get('/inbox','\App\Http\Controllers\InboxController@index');
 
     Route::get('comments/pull-reference/{id}', 'App\Http\Controllers\CommentController@pullReferenceComment');
     Route::resource('/comments','App\Http\Controllers\CommentController');
 
-    Route::get('circular-admin','\App\Http\Controllers\CircularController@index');
-    Route::get('circulars/{id}','\App\Http\Controllers\CircularController@show');
+    Route::resource('circular-admin','\App\Http\Controllers\CircularController');
 
     Route::get('/users','\App\Http\Controllers\UsersController@index');
     Route::get('/groups','\App\Http\Controllers\UsersController@groups');

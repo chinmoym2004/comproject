@@ -14,8 +14,14 @@ class Topic extends Model
         'title',
         'body',
         'user_id',
-        'status'
+        'status',
+        'slug'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
 
     public static function search($query)
     {
@@ -32,5 +38,27 @@ class Topic extends Model
     public function forum()
     {
         return $this->belongsTo(Forum::class);
+    }
+
+    public function action()
+    {
+        return $this->hasMany(\App\Models\TopicAction::class);
+    }
+
+    public function scopeUseractions($q,$user_id)
+    {
+        return $this->hasMany(\App\Models\TopicAction::class)->where('user_id',$user_id);
+    }
+    
+
+    public function scopeUpvote($q,$action_type=1)
+    {
+        return $this->action()->where('action_type',$action_type);
+    }
+
+    public function scopeUservoted($q)
+    {
+        $user_id = \Auth::user()->id;
+        return $this->useractions($user_id)->where('action_type','=',1)->count();
     }
 }

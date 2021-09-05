@@ -1,4 +1,4 @@
-<div wire:ignore.self class="modal fade" id="createForumModal" tabindex="-1" aria-labelledby="createForumModalLabel" aria-hidden="true">
+<div wire:ignore class="modal fade" id="createForumModal" tabindex="-1" aria-labelledby="createForumModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -83,4 +83,20 @@
         </form> 
       </div>
     </div>
+    <script>
+      $(document).ready(function () {
+          $("#details").summernote({
+              height: 200,
+              callbacks: {
+                  onChange: function(contents, $editable) {
+                      @this.set('details', contents);
+                  }
+              }
+          });
+
+          // $(document).on("change","#is_public",function(){
+          //     @this.set('is_public', $(this).val());
+          // });
+      });
+    </script>
   </div>

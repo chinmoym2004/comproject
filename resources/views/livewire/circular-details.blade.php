@@ -1,32 +1,43 @@
 <div>
     <section class="content">
         <div class="row">
-            <div class="col-sm-12 d-flex align-items-stretch flex-column">
+            <div class="col-sm-8 d-flex align-items-stretch flex-column">
                 <div class="card bg-light d-flex flex-fill">
-                  <div class="card-header text-muted border-bottom-0">
-                    {{ $circular->title }}
+                  <div class="card-header border-bottom-0">
+                    Title : {{ $circular->title }}
                   </div>
                   <div class="card-body pt-0">
-                    <div class="row">
+                    <p>Need Acknowldegement:&nbsp;&nbsp;<span class="badge badge-success">{{ $circular->need_confirmation?'Yes':'No' }}</span></p>
+
+                    <h5>Details:</h5>
+                    <div>
                         <?=$circular->details;?>
                     </div>
                   </div>
-                  <div class="card-footer">
-                    <div class="text-right">
-                        @if($circular->need_confirmation && !$has_ack)
-                            Need Your Acknowldegement. Click &nbsp;
-                            <a href="#" class="btn btn-sm btn-success" wire:click='acknowldge("{{ encrypt($circular->id) }}")'>
-                                <i class="fas fa-check"></i>&nbsp;&nbsp;&nbsp;I Acknowldegement
-                            </a>
-                        @elseif($circular->need_confirmation && $has_ack)
-                            You have acknowledged 
-                        @else  
-                            Acknowledged not required
-                        @endif
-                    </div>
+                  <div class="card-footer text-right">
+                      <em> Last update : {{ date('Y-m-d H:i:s',strtotime($circular->updated_at))}}</em>
                   </div>
                 </div>
-              </div>
+            </div>
+            <div class="col-sm-4 d-flex align-items-stretch flex-column">
+              <div class="card bg-light d-flex flex-fill">
+                <div class="card-header border-bottom-0">
+                  Acknowldegement Response
+                </div>
+                <div class="card-body pt-0">
+                  
+                      @if($circular->members->count())
+                      <ul>
+                        @foreach ($circular->members as $member)
+                            <li>{{ $member->name }} &nbsp; <i class="fa fa-{{ $member->pivot->has_confirmed?'check text-success':'exclamation-circle text-red' }}"></i></li>
+                        @endforeach
+                      </ul>
+                      @else 
+                        <p class="text-muted">No Result</p>
+                      @endif
+                  
+                </div>
+            </div>
         </div>
     </section>
 </div>

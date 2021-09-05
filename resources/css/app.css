@@ -338,3 +338,199 @@ body {
     cursor: pointer;
     margin-top: -5px;
 }
+
+.approved {
+    background-color: #4cec4c;
+}
+
+.notapproved {
+    background-color: #ffb9b9;
+}
+
+.forum-content-header {
+    background: #1E293B;
+    color: #ffffff;
+    border-radius: .55rem;
+    margin-bottom: 20px;
+}
+
+[class*=sidebar-dark-] {
+    background-color: #1E293B;
+}
+
+.vcenter {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.upvotediv {
+    cursor: pointer;
+}
+
+.novote {
+    color: #e2d5d5 !important;
+}
+
+.votes {
+    color: #28a745 !important
+}
+
+.threadcard {
+    cursor: pointer;
+    margin-left: 30px;
+}
+
+.topic_actions {
+    margin-top: 20px;
+}
+
+.topic_actions button {
+    margin-right: 10px;
+}
+
+.voted,
+.voted:hover,
+.voted:active {
+    background-color: #28a745 !important;
+    border: 1px solid #28a745 !important;
+    color: #fff !important;
+}
+
+.notvoted,
+.notvoted:hover,
+.notvoted:active {
+    background-color: #fff !important;
+    border: 1px solid #000 !important;
+    color: #000 !important;
+}
+
+.replybtn,
+.replybtn:hover,
+.replybtn:active {
+    background-color: #fff !important;
+    border: 1px solid #000 !important;
+    color: #000 !important;
+}
+
+.undoreplybtn,
+.undoreplybtn:hover,
+.undoreplybtn:active {
+    background-color: #fff !important;
+    border: 1px solid #000 !important;
+    color: #000 !important;
+}
+
+.comment {
+    border: 1px solid #e6d3d3;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.newreply {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.textarea {
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.replysubmitbtn {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    border-radius: 8px;
+    font-weight: 400;
+}
+
+.loadnextlevelcomments {
+    margin-left: 10%;
+    border: 1px solid #e6d3d3;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.comment .card {
+    margin-bottom: 0px;
+}
+
+.topic_by {}
+
+.topic_title {}
+
+.topic-body {}
+
+.break-words {
+    overflow-wrap: break-word;
+}
+
+.prose {
+    font-size: 1rem;
+    line-height: 1.75;
+}
+
+.prose {
+    color: #334155;
+    max-width: 65ch;
+}
+
+.card {
+    box-shadow: 0px 0px 4px #908989;
+}
+
+.text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.text-gray-500 {
+    --tw-text-opacity: 1;
+    color: rgba(100, 116, 139, var(--tw-text-opacity));
+}
+
+.forum-title {
+    font-size: 1.25rem !important;
+    line-height: 1.75rem;
+    --tw-text-opacity: 1;
+    color: rgba(100, 116, 139, var(--tw-text-opacity));
+}
+
+.latesth3 a {
+    font-size: 15px;
+    color: #000 !important;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.text-gray-300 {
+    --tw-text-opacity: 1;
+    color: rgba(203, 213, 225, var(--tw-text-opacity));
+}
+
+.threadtitle {
+    font-weight: 500;
+    font-family: Manrope, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    --tw-text-opacity: 1;
+    color: rgba(30, 41, 59, var(--tw-text-opacity));
+    margin: 0px;
+}
+
+.echthread .card {
+    margin: 0px;
+    padding: 10px 20px;
+}
+
+.echthread {
+    margin-bottom: 20px;
+}

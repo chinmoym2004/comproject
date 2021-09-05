@@ -33,9 +33,11 @@ class CreateNewForums extends Migration
             $table->unsignedBigInteger('group_id')->nullable();
             $table->unsignedBigInteger('category_id');
 
-            $table->boolean('pubished')->default(0);
-            $table->unsignedBigInteger('pubished_by')->nullable();
+            $table->boolean('published')->default(0);
+            $table->unsignedBigInteger('published_by')->nullable();
             $table->timestamp('published_at')->nullable();
+
+            $table->string('slug');
 
             $table->timestamps();
         });

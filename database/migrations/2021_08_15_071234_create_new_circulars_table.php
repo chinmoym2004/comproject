@@ -23,7 +23,9 @@ class CreateNewCircularsTable extends Migration
             $table->boolean('need_approval')->default(1);
             $table->unsignedBigInteger('approved_by')->nullable();
             $table->timestamp('approved_at')->nullable();
-        
+            
+            
+            $table->unsignedBigInteger('published_by')->nullable();
             $table->boolean('published')->default(0);
             $table->timestamp('published_at')->nullable();
 

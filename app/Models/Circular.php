@@ -13,7 +13,9 @@ class Circular extends Model
         'title',
         'details',
         'need_confirmation',
-        'user_id'
+        'user_id',
+        'published',
+        'group_ids'
     ];
 
     public function user()

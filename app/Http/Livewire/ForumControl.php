@@ -100,7 +100,8 @@ class ForumControl extends Component
                 'category_id'=>$this->category_id,
                 'post_count'=>0,
                 'topic_count'=>0,
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                'slug'=>uniqid()
             ]);
             
             //session()->flash('success','Forum Created Successfully!!');
@@ -176,6 +177,7 @@ class ForumControl extends Component
         $this->updateMode = true;
         $this->categories = Category::all();
         $this->groups = Group::all();
+        
         $this->emit('forumDataFetched', $record);
     }
 
@@ -197,10 +199,26 @@ class ForumControl extends Component
             $user = Auth::user();
 
             $record = Forum::find($id);
-            $record->pubished = 1;
-            $record->pubished_by = $user->id;
+            $record->published = 1;
+            $record->published_by = $user->id;
             $record->published_at = date('Y-m-d H:i:s');
             $record->save();
         }
     }
+
+    public function UndoapproveForum($id)
+    {
+        if ($id) 
+        {
+            $user = Auth::user();
+
+            $record = Forum::find($id);
+            $record->published = 0;
+            $record->published_by = $user->id;
+            $record->published_at = date('Y-m-d H:i:s');
+            $record->save();
+        }
+    }
+
+    
 }

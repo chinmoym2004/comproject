@@ -5,17 +5,24 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Auth;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
+use App\Models\Comment;
+use App\Models\Topic;
 
 class TopicComments extends Component
 {
-    public $topic;
-    public $comments;
+    use WithFileUploads;
 
+    public $topic;    
     public $reference;
     public $reference_id;
     public $parent_id;
     public $has_file;
     public $comment_text;
+    public $enablereply;
+    public $totalcomment;
+
+    public $files;
 
     protected $listeners = ['triggerRefresh' => '$refresh'];
 
@@ -28,16 +35,29 @@ class TopicComments extends Component
     public function mount($topic)
     {
         $this->topic = $topic;
-        $this->comments = $topic->comments;
+        $this->reference_id = $topic->id;
+        //dd(Comment::where('commentable_type','App\Models\Topic')->latest()->paginate(10));
     }
 
     public function render()
     {
         $this->reference = encrypt(get_class($this->topic));
         $this->reference_id = encrypt($this->topic->id);
-        $this->parent_id=0;
+        $this->parent_id=null;
 
-        return view('livewire.topic-comments');
+        $this->totalcomment = $this->topic->comments()->count();
+
+        //$comments = Comment::where('commentable_type','App\Models\Topic')->where('comm')->whereNull('parent_id')->latest()->paginate(20);
+        $comments =  $this->topic->comments()->whereNull('parent_id')->latest()->paginate(20);
+
+        return view('livewire.topic-comments',['comments'=>$comments]);
+    }
+
+    public function updatedPhoto()
+    {
+        $this->validate([
+            'files' => 'file|max:2048',
+        ]);
     }
 
     public function submit()
@@ -90,12 +110,43 @@ class TopicComments extends Component
                 else
                     $this->topic->forum->post_count=1;
                 $this->topic->forum->save();
-            }            
+            }      
+            
+            //$this->comments = $this->topic->comments;
 
             $this->dispatchBrowserEvent('comment-saved', ['action' => 'created']);
+            $this->emit('refreshTopicPage');
             $this->emit('triggerRefresh');
             $this->resetInput();
 
         }
+    }
+
+    public function actionEnablereply()
+    {
+        $this->enablereply = !$this->enablereply;
+    }
+
+    public function saveTopicComment($parent_id=null)
+    {
+        $this->validate([
+            'comment_text'=>'required',
+        ]);
+
+        $user = Auth::user();
+
+        $this->topic->comments()->create([
+            'comment_text'=>$this->comment_text,
+            'user_id'=>$user->id,
+            'parent_id'=>$parent_id,
+        ]);
+
+        $this->totalcomment+=1;
+
+        $this->comment_text = null;
+        $this->dispatchBrowserEvent('subcommented'); // add this
+        $this->emit('triggerRefresh');
+
+        
     }
 }

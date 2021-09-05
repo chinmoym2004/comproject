@@ -19,7 +19,7 @@ class CreateNewTableComments extends Migration
             $table->string('commentable_type')->nullable();
             $table->longText('comment_text')->nullable();
             $table->unsignedBigInteger('user_id'); 
-            $table->unsignedBigInteger('parent_id');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->boolean('has_file')->default(0);
             $table->timestamps();
         });

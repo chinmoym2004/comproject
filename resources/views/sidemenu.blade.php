@@ -9,27 +9,22 @@
     <!-- Sidebar -->
     <div class="sidebar">
       
+      
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-        
-            <li class="nav-item">
-            <a href="{{ url('inbox') }}" class="nav-link {{ request()->is('inbox') || request()->is('/')?'active':'' }}">
-                <i class="nav-icon fas fa-inbox"></i>
-                <p>
-                Inbox
-                {{-- <span class="right badge badge-danger">New</span> --}}
-                </p>
-            </a>
-            </li>
+            
+          <li class="nav-header">Admin Menus</li>
+
+            
           <li class="nav-item">
             <a href="{{ url('chat-admins') }}" class="nav-link {{ request()->is('chat-admins') || request()->is('chat-admins/*')?'active':'' }}">
               <i class="nav-icon fas fa-comment"></i>
               <p>
-                Admin Chat
+                Chat Admin
                 {{-- <span class="right badge badge-danger">New</span> --}}
               </p>
             </a>
@@ -39,7 +34,7 @@
             <a href="{{ url('forum-admins') }}" class="nav-link {{ request()->is('forum-admins') || request()->is('forum-admins/*')?'active':'' }}">
               <i class="nav-icon fas fa-users"></i>
               <p>
-                Forums
+                Forum Admin
               </p>
             </a>
           </li>
@@ -48,11 +43,57 @@
             <a href="{{ url('circular-admin') }}" class="nav-link {{ request()->is('circular-admin') || request()->is('circular-admin/*')?'active':'' }}">
               <i class="nav-icon fas fa-bullhorn"></i>
               <p>
-                Circular
+                Circular Admin
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ url('categories') }}" class="nav-link {{ request()->is('categories') || request()->is('categories/*')?'active':'' }}">
+              <i class="nav-icon fas fa-stream"></i>
+              <p>
+                Category Admin
               </p>
             </a>
           </li>
 
+          <li class="nav-item">
+            <a href="{{ url('groups') }}" class="nav-link {{ request()->is('groups') || request()->is('groups/*')?'active':'' }}">
+              <i class="nav-icon fas fa-object-ungroup"></i>
+              <p>
+                Groups Admin
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{ url('users') }}" class="nav-link {{ request()->is('users') || request()->is('users/*')?'active':'' }}">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Users Admin
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-header">User Menus</li>
+
+          <li class="nav-item">
+            <a href="{{ url('inbox') }}" class="nav-link {{ request()->is('inbox') || request()->is('/')?'active':'' }}">
+                <i class="nav-icon fas fa-inbox"></i>
+                <p>
+                Inbox
+                {{-- <span class="right badge badge-danger">New</span> --}}
+                </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{ url('circulars') }}" class="nav-link {{ request()->is('circulars') || request()->is('circulars/*')?'active':'' }}">
+              <i class="nav-icon fas fa-bullhorn"></i>
+              <p>
+                Circulars
+              </p>
+            </a>
+          </li>
           <li class="nav-item">
             <a href="{{ url('chat-room') }}" class="nav-link {{ request()->is('chat-room') || request()->is('chat-room/*')?'active':'' }}">
               <i class="nav-icon fas fa-comment"></i>
@@ -63,31 +104,16 @@
           </li>
 
           <li class="nav-item">
-            <a href="{{ url('categories') }}" class="nav-link {{ request()->is('categories') || request()->is('categories/*')?'active':'' }}">
-              <i class="nav-icon fas fa-stream"></i>
-              <p>
-                Category
-              </p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href="{{ url('groups') }}" class="nav-link {{ request()->is('groups') || request()->is('groups/*')?'active':'' }}">
-              <i class="nav-icon fas fa-object-ungroup"></i>
-              <p>
-                Groups 
-              </p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href="{{ url('users') }}" class="nav-link {{ request()->is('users') || request()->is('users/*')?'active':'' }}">
+            <a href="{{ url('forums') }}" class="nav-link {{ request()->is('forums') || request()->is('forums/*')?'active':'' }}">
               <i class="nav-icon fas fa-users"></i>
               <p>
-                Users 
+                Forums
               </p>
             </a>
           </li>
+
+
+          
 
         </ul>
       </nav>

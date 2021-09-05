@@ -1,3 +1,5 @@
+const { set } = require("lodash");
+
 Livewire.on("deleteTriggered", (id, name) => {
     const proceed = confirm(`Are you sure you want to delete ${name}`);
     if (proceed) {
@@ -6,11 +8,11 @@ Livewire.on("deleteTriggered", (id, name) => {
 });
 
 window.addEventListener("chat-grpup-deleted", (event) => {
-    alert(`${event.detail.title} was deleted!`);
+    //alert(`${event.detail.title} was deleted!`);
 });
 
 window.addEventListener("forum-deleted", (event) => {
-    alert(`${event.detail.title} was deleted!`);
+    //alert(`${event.detail.title} was deleted!`);
 });
 
 Livewire.on("triggerCreate", () => {
@@ -21,7 +23,6 @@ Livewire.on("triggerCreate", () => {
 Livewire.on("dataFetched", (chat) => {
     console.log(chat);
     $("#editChatGroupModal").modal("show");
-    $(".select2").select2();
 });
 
 // Livewire.on("forumCreate", () => {
@@ -37,18 +38,18 @@ Livewire.on("categoryFetched", () => {
 
 window.addEventListener("group-saved", (event) => {
     $("#createChatGroupModal").modal("hide");
-    alert(`Chat Group ${event.detail.title} was ${event.detail.action}!`);
+    //alert(`Chat Group ${event.detail.title} was ${event.detail.action}!`);
 });
 
 window.addEventListener("forum-saved", (event) => {
     $("#createForumModal").modal("hide");
     $('.modal-backdrop').remove();
-    alert(`Forum ${event.detail.title} was ${event.detail.action}!`);
+    //alert(`Forum ${event.detail.title} was ${event.detail.action}!`);
 });
 
 window.addEventListener("forum-updated", (event) => {
     $("#editForumModal").modal("hide");
-    alert(`Forum ${event.detail.title} was ${event.detail.action}!`);
+    //alert(`Forum ${event.detail.title} was ${event.detail.action}!`);
 });
 
 
@@ -91,9 +92,22 @@ Livewire.on("topicCreate", () => {
     console.log("OK");
     $("#createTopicsModal").modal("show");
 });
+Livewire.on("userTopicCreate", () => {
+    console.log("OK");
+    $("#createTopicsModal").modal("show");
+});
+
+window.addEventListener("usercommented", (event) => {
+    console.log("OK commentCreated");
+    Livewire.emit("commentCreated");
+});
+
+window.addEventListener("subcommented", (event) => {
+    $(".comment .newreply").addClass("d-none");
+});
 window.addEventListener("topic-saved", (event) => {
     $("#createTopicsModal").modal("hide");
-    alert(`Topic ${event.detail.title} was ${event.detail.action}!`);
+    //alert(`Topic ${event.detail.title} was ${event.detail.action}!`);
 });
 
 Livewire.on("deleteTopicTriggered", (id, name) => {
@@ -104,7 +118,7 @@ Livewire.on("deleteTopicTriggered", (id, name) => {
 });
 
 window.addEventListener("topic-deleted", (event) => {
-    alert(`${event.detail.title} was deleted!`);
+    // alert(`${event.detail.title} was deleted!`);
 });
 
 Livewire.on("topicDataFetched", (forum) => {
@@ -113,21 +127,21 @@ Livewire.on("topicDataFetched", (forum) => {
 
 window.addEventListener("topic-updated", (event) => {
     $("#editTopicModal").modal("hide");
-    alert(`Topic ${event.detail.title} was ${event.detail.action}!`);
+    //alert(`Topic ${event.detail.title} was ${event.detail.action}!`);
 });
 
 //chat-box-open
 
 /***  Circular ****/
 
-Livewire.on("circularCreate", () => {
-    console.log("OK");
+Livewire.on("fetchedGroupForCircular", () => {
     $("#createcircularModal").modal("show");
+    $("#createcircularModal .select2").select2();
 });
 
 window.addEventListener("circular-saved", (event) => {
     $("#createcircularModal").modal("hide");
-    alert(`circular ${event.detail.title} was ${event.detail.action}!`);
+    //alert(`circular ${event.detail.title} was ${event.detail.action}!`);
 });
 
 Livewire.on("deletecircularTriggered", (id, name) => {
@@ -138,7 +152,7 @@ Livewire.on("deletecircularTriggered", (id, name) => {
 });
 
 window.addEventListener("circular-deleted", (event) => {
-    alert(`${event.detail.title} was deleted!`);
+    //alert(`${event.detail.title} was deleted!`);
 });
 
 Livewire.on("circularDataFetched", (forum) => {
@@ -148,7 +162,7 @@ Livewire.on("circularDataFetched", (forum) => {
 window.addEventListener("circular-updated", (event) => {
     $("#editcircularModal").modal("hide");
     //$('.modal-backdrop').remove();
-    alert(`circular ${event.detail.title} was ${event.detail.action}!`);
+    //alert(`circular ${event.detail.title} was ${event.detail.action}!`);
 });
 
 /****1-1 chat** */
@@ -184,7 +198,7 @@ Livewire.on("groupCreate", () => {
 
 window.addEventListener("group-saved", (event) => {
     $("#creategroupModal").modal("hide");
-    alert(`group ${event.detail.title} was ${event.detail.action}!`);
+    //alert(`group ${event.detail.title} was ${event.detail.action}!`);
 });
 
 Livewire.on("deletegroupTriggered", (id, name) => {
@@ -195,7 +209,7 @@ Livewire.on("deletegroupTriggered", (id, name) => {
 });
 
 window.addEventListener("group-deleted", (event) => {
-    alert(`${event.detail.title} was deleted!`);
+    //alert(`${event.detail.title} was deleted!`);
 });
 
 Livewire.on("groupDataFetched", (forum) => {
@@ -208,7 +222,7 @@ Livewire.on("groupMemberDataFetched", (forum) => {
 
 window.addEventListener("group-updated", (event) => {
     $("#editgroupModal").modal("hide");
-    alert(`group ${event.detail.title} was ${event.detail.action}!`);
+    //alert(`group ${event.detail.title} was ${event.detail.action}!`);
 });
 
 window.addEventListener('memberUpdated', (event) => {
@@ -253,6 +267,11 @@ window.addEventListener("category-updated", (event) => {
 });
 
 
+// Livewire.on("setSeelct2", () => {
+//     $(".select2").select2();
+// });
+
+
 /****** LOCAL TIME *****/
 
 class LocalTimeElement extends HTMLElement {
@@ -291,4 +310,4 @@ window.livewire.hook('element.updating', (fromEl, toEl, component) => {
     for (var i = 0, atts = toEl.attributes, n = atts.length, arr = []; i < n; i++) {
         fromEl.setAttribute(atts[i].nodeName, atts[i].nodeValue);
     }
-})
+});

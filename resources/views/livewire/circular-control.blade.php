@@ -20,7 +20,7 @@
                 </h3>
                 <div class="card-tools d-flex">
                     <input wire:model="search" class="form-control mr-2 border-dark" type="text" placeholder="Search...">
-                    <button class="btn btn-dark" wire:click="$emit('circularCreate')">
+                    <button class="btn btn-dark" wire:click="$emit('fetchGroupForCircular')">
                         <i class="fa fa-plus"></i>  
                     </button>
                 </div>
@@ -43,11 +43,16 @@
                                 Posted by
                             </th>
 
+                            
+
                             <th>
                                 <a wire:click.prevent="sortBy('created_at')" role="button" href="#">
                                 Created at
                                 @include('livewire.sort-icon', ['field' => 'created_at'])
                                 </a>
+                            </th>
+                            <th>
+                                Status
                             </th>
                             <th>
                                 Actions
@@ -61,6 +66,31 @@
                                 <td>{{ $circular->user->name }}</td>
                                 <td>{{ $circular->created_at->diffForHumans() }}</td>
                                 <td>
+                                    @if($circular->need_approval)
+                                    <span class="badge badge-danger">Not Approved</span>
+                                    @else 
+                                    <span class="badge badge-success">Approved</span>
+                                    @endif
+
+                                    @if($circular->published)
+                                    <span class="badge badge-info">Published</span>
+                                    @else 
+                                    <span class="badge badge-danger">Not Published</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($circular->need_approval)
+                                        <button class="btn btn-sm btn-info"  wire:click="approveCircle({{ $circular->id }})">Approve Now</button>
+                                    @endif 
+
+                                    @if(!$circular->need_approval && !$circular->published)
+                                        <button class="btn btn-sm btn-info"  wire:click="publishCircle({{ $circular->id }})">Publish Now</button>
+                                    @endif 
+
+                                    @if(!$circular->need_approval && $circular->published)
+                                        <button class="btn btn-sm btn-danger"  wire:click="UnpublishCircle({{ $circular->id }})">Un-Publish Now</button>
+                                    @endif 
+
                                     <button class="btn btn-sm btn-danger" wire:click="$emit('deletecircularTriggered', {{ $circular->id }}, '{{ $circular->name }}')">
                                         Delete
                                     </button>
@@ -69,7 +99,7 @@
                                     Edit
                                     </button>
                                 
-                                    <a class="btn btn-sm btn-warning" href="{{ url('circulars/'.encrypt($circular->id)) }}">
+                                    <a class="btn btn-sm btn-warning" href="{{ url('circular-admin/'.encrypt($circular->id)) }}">
                                     View
                                     </a>
                                 </td>
@@ -91,7 +121,9 @@
     </div>
     @if($updateMode)
         @include('livewire.circular_update')
-    @else
+    @endif
+
+    @if($createMode)
         @include('livewire.circular_create')
     @endif
 <div>

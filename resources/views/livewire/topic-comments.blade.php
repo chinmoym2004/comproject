@@ -1,32 +1,33 @@
 <div>
-    <form wire:ignore.self class="form-horizontal commentbox" wire:submit.prevent='submit' enctype="multipart/form-data">
-        <div class="block-box post-input-tab forum-post-input">
-            <div class="media p-0 mt-3">
-                
-                <div class="media-body">
-                        <input type="hidden" wire:model="reference"/>
-                        <input type="hidden" wire:model="reference_id"/>
-                        <input type="hidden" wire:model="parent_id"/>
-                        <input type="hidden" wire:model="has_file"/>
-                        <textarea wire:ignore.self wire:model="comment_text" id="comment_text" class="form-control textarea" placeholder="Share what are you thinking here . . ." rows="2"></textarea>
-                </div>
-            </div>
-            <div class="post-footer">
-                <div class="insert-btn">
-                    
-                </div>
-                <div class="submit-btn">
-                    <button type="submit" class="btn btn-primary btn-sm btn-block">Post in Topic</button>
-                </div>
+
+    @if($comments->count())   
+    <div class="card">
+        <div class="card-body">
+            <div id="existing_comment_section" key="{{ $totalcomment }}" class="container p-0">
+                @if(isset($comments)) 
+                    @foreach($comments as $comment)
+                        @include('livewire.comment-block',['comment'=>$comment])
+                    @endforeach
+                @endif
             </div>
         </div>
-    </form>
-
-    <div id="existing_comment_section" class="container mt-5 p-0" wire:ignore.self>
-        @if(isset($comments)) 
-            @foreach($comments as $comment)
-                @include('livewire.comment-block',['comment'=>$comment])
-            @endforeach
+        @if($comments->hasPages())
+        <div class="card-footer clearfix">
+            {{ $comments->links('vendor.pagination.bootstrap-4') }}
+        </div>
         @endif
     </div>
+    @else
+    <p class="text-muted text-center pt-3">No Comment yet, be the first one</p>
+    @endif
+
+    <script>
+        $(document).on("click", ".replybtn", function(event) {
+            event.preventDefault();
+            $(".comment .newreply").addClass("d-none");
+            @this.set('parent_id', $(this).attr('dataid'));
+            $(this).closest(".topic_actions").find(".newreply").removeClass("d-none");
+        });
+    </script>
+
 </div>

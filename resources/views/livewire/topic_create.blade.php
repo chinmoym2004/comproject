@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="form-group"> 
-                    <label for="name">Title</label> 
+                    <label for="name">Description</label> 
                     <textarea wire:ignore class="form-control" id="body" placeholder="Enter some details .." wire:model="body"></textarea> 
                     @error('body') <span class="text-danger error">{{ $message }}</span>@enderror
                 </div>

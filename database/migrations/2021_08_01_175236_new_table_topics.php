@@ -20,7 +20,10 @@ class NewTableTopics extends Migration
             $table->longText('body')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->string('status')->nullable()->comment("0=> unpublished, 1 => published");
-            $table->boolean('is_spam')->default(0);            
+            $table->boolean('is_spam')->default(0);  
+            
+            $table->string('slug');
+            
             $table->timestamps();
         });
     }

@@ -1,8 +1,8 @@
-<div wire:ignore.self class="modal fade" id="editForumModal" tabindex="-1" aria-labelledby="editForumModalLabel" aria-hidden="true">
+<div wire:ignore class="modal fade" id="editForumModal" tabindex="-1" aria-labelledby="editForumModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="editForumModalLabel">New Forum</h5>
+            <h5 class="modal-title" id="editForumModalLabel">Update Forum</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -34,7 +34,7 @@
 
               <div class="form-group"> 
                   <label for="details">Details</label> 
-                  <textarea wire:ignore class="form-control" id="details" placeholder="Enter details" wire:model="details"></textarea>
+                  <input id="details" type="hidden" wire:model='details'/>
                   @error('details') <span class="text-danger error">{{ $message }}</span>@enderror
               </div>
 
@@ -42,13 +42,13 @@
                 <label for="is_public">Is Public Forum?</label> 
                 <select wire:ignore class="form-control" id="is_public" wire:model="is_public">
                     <option value="">Select a category</option>
-                        <option value="0">No</option>
-                        <option value="1">Yes</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
                 </select>
                 @error('is_public') <span class="text-danger error">{{ $message }}</span>@enderror
             </div>
 
-            @if($this->is_public==0)
+            @if($this->is_public==1)
             <div class="form-group"> 
                 <label for="group_id">Selct Groups</label> 
                 <select wire:ignore class="form-control" id="group_id" wire:model="group_id">
@@ -63,7 +63,7 @@
             </div>
             @endif
 
-              <div class="form-group"> 
+            <div class="form-group"> 
                 <label for="category_id">Category</label> 
                 <select wire:ignore class="form-control" id="category_id" wire:model="category_id">
                     <option value="">Select a category</option>
@@ -83,4 +83,22 @@
         </form> 
       </div>
     </div>
-  </div>
+    <script>
+      $(document).ready(function () {
+          $("#details").summernote({
+              height: 200,
+              callbacks: {
+                  onChange: function(contents, $editable) {
+                      @this.set('details', contents);
+                  }
+              }
+          });
+          $('#details').summernote('code', '<?=addslashes($this->details)?>');
+          //$('#details').summernote('editor.pasteHTML', '<?=$this->details?>');
+
+          // $(document).on("change","#is_public",function(event){
+
+          // });
+      });
+    </script>
+</div>
