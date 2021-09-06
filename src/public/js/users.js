@@ -17314,7 +17314,9 @@ window.addEventListener("chat-grpup-deleted", function (event) {//alert(`${event
 window.addEventListener("forum-deleted", function (event) {//alert(`${event.detail.title} was deleted!`);
 });
 Livewire.on("triggerCreate", function () {
-  console.log("OK");
+  Livewire.emit("fetchGroupForChargroup");
+});
+window.addEventListener("groupdataFetchedForChat", function (event) {
   $("#createChatGroupModal").modal("show");
 });
 Livewire.on("dataFetched", function (chat) {

@@ -25,6 +25,8 @@ class ChatControl extends Component
 
     public $perPage = 100;
     protected $listeners = ['load-more' => 'loadMore'];
+    public $last_message = 'Never';
+
 
     protected $rules = [
         'chat_text'=>'required',
@@ -44,6 +46,7 @@ class ChatControl extends Component
         // check all where user created it or part of it 
         $chat_ids = ChatUser::where('user_id',$me->id)->pluck('chat_id')->toArray();
         $this->rooms = Chat::search($this->search)->whereIn('id',$chat_ids)->orderBy('created_at','ASC')->get();
+
         return view('livewire.chat-control');
     }
 
@@ -64,6 +67,9 @@ class ChatControl extends Component
         $chat = Chat::find(decrypt($chat_id));
         if($chat)
         {
+            $this->last_message = $chat->messages()->latest()->first()?$chat->messages()->latest()->first()->created_at->diffForHumans():'Never';
+
+
             if(isset($this->active_room) && $this->active_room!=$chat->id)
             {
                 // clear previous chat

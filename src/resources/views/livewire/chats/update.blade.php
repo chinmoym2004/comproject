@@ -1,4 +1,4 @@
-<div wire:ignore.self class="modal fade" id="editChatGroupModal" tabindex="-1" aria-labelledby="editChatGroupModalLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="editChatGroupModal" tabindex="-1" aria-labelledby="editChatGroupModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -17,21 +17,33 @@
                 </div> 
 
                 <div class="form-group"> 
-                    <label for="exampleFormControlInput2">Members</label> 
-                    <div>
-                        <a href="#" id='selectallmember' class="pull-right">Select All</a>
-                        <select id="chatMembers" class="form-control select2" wire:model="member_ids" multiple="multiple">
-                            @foreach ($members as $member)
-                            <option value="{{ $member->id }}" @if(in_array($member->id,$member_ids)) selected @endif>{{ $member->name }}</option>
+                    <label for="group_id">Select Group</label> 
+                    <select class="form-control" id="group_id" wire:model="group_id">
+                        <option value="">Select a group</option>
+                        @if($groups)
+                            @foreach ($groups as $group)
+                                <option value="{{ $group->id }}" {{ $group->id==$this->group_id?'selected':'' }}>{{ $group->title }}</option>
                             @endforeach
-                        </select>
-                    </div>
-                    @error('member_ids') <span class="text-danger error">{{ $message }}</span>@enderror 
-                </div> 
+                        @endif
+                    </select>
+                    <p class="text-muted text-sm">Members from the group will see the group in their chat room.</p>
+                    @error('group_id') <span class="text-danger error">{{ $message }}</span>@enderror
+                </div>
+  
+                <div class="form-group"> 
+                    <label for="is_public">Is Public?</label> 
+                    <select class="form-control" id="is_public" wire:model="is_public">
+                        <option value="0" {{ $this->is_public==0?'selected':'' }}>No</option>
+                        <option value="1" {{ $this->is_public==1?'selected':'' }}>Yes</option>
+                    </select>
+                    <p class="text-muted text-sm">If 'yes', everyone will see the group in their chat room.</p>
+                    @error('is_public') <span class="text-danger error">{{ $message }}</span>@enderror
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button wire:click="cancel" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Create</button> 
+                <button type="submit" class="btn btn-primary">Update</button> 
             </div>
         </form> 
       </div>

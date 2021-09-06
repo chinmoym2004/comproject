@@ -14,7 +14,13 @@
                             @if($rooms->count())
                                 @foreach ($rooms as $room)
                                 <li class="clearfix {{ $active_room==$room->id?'active':''}}" wire:click='loadChatRoom("{{ encrypt($room->id) }}")'>
+                                    
                                     <img src="{{ asset('img/user-placeholder.png') }}" alt="avatar">
+                                    {{-- <div class="flex-shrink-0 mr-4 symbol symbol-65 symbol-circle">
+                                        <span class="symbol symbol-lg-50 symbol-25 symbol-light-success">
+                                            <span class="symbol-label font-size-h5 font-weight-bold">Sp</span>
+                                        </span>
+                                    </div> --}}
                                     <div class="about">
                                         <div class="name">{{ strlen($room->title)>20?substr($room->title,0,20).'..':$room->title }}</div>
                                         @if($room->messages()->latest()->take(1)->first())

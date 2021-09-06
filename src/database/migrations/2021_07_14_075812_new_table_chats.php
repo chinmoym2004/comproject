@@ -17,6 +17,8 @@ class NewTableChats extends Migration
             $table->id();
             $table->string('title')->nullable(); 
             $table->unsignedBigInteger('user_id'); 
+            $table->unsignedBigInteger('group_id');
+            $table->boolean('is_public')->default(0);
             $table->timestamps();
         });
     }

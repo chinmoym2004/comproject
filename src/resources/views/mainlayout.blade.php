@@ -164,7 +164,7 @@
 	<script src="{{ asset('theme/plugins/summernote/summernote-bs4.min.js') }}"></script>
 	
 	<script src="{{ asset('js/app.js') }}"></script>
-	<script src="{{ asset('js/users.js') }}"></script>
+	<script src="{{ asset('js/users.js?v='.time()) }}"></script>
 	<script>
 		var chatid = "";
 	</script>

@@ -16,7 +16,10 @@ window.addEventListener("forum-deleted", (event) => {
 });
 
 Livewire.on("triggerCreate", () => {
-    console.log("OK");
+    Livewire.emit("fetchGroupForChargroup");
+});
+
+window.addEventListener("groupdataFetchedForChat", (event) => {
     $("#createChatGroupModal").modal("show");
 });
 

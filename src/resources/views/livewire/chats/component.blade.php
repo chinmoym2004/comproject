@@ -93,7 +93,9 @@
     </div>
     @if($updateMode)
         @include('livewire.chats.update')
-    @else
+    @endif
+
+    @if($createMode)
         @include('livewire.chats.create')
     @endif
 </div>

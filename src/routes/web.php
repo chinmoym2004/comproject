@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function(){
     //\Auth::loginUsingId(1);
 
     
-    Route::get('chat-room','\App\Http\Controllers\ChatAdminController@chatRoom');
+    Route::get('chat-room','\App\Http\Controllers\ChatController@index');
     Route::get('chat-admins','\App\Http\Controllers\ChatAdminController@index');
     Route::get('chat-rooms/{id}','\App\Http\Controllers\ChatAdminController@show');
     // Route::resource('chats', QbankController::class);

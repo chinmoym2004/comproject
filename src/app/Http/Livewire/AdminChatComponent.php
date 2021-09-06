@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use Auth;
 use App\Models\Chat;
 use App\Models\User;
+use App\Models\Group;
 
 class AdminChatComponent extends Component
 {
@@ -16,7 +17,7 @@ class AdminChatComponent extends Component
     public $sortAsc = true; // default sort direction
     public $search = '';
 
-    protected $listeners = ['delete', 'triggerRefresh' => '$refresh','triggerEdit','chatMembersSelected'];
+    protected $listeners = ['delete', 'triggerRefresh' => '$refresh','triggerEdit','chatMembersSelected','fetchGroupForChargroup'];
 
     public $title;
     public $member_ids=[];
@@ -24,17 +25,30 @@ class AdminChatComponent extends Component
     public $members;
     public $updateMode = false;
     public $perpage = 10;
+    public $groups=null;
+    public $is_public=false;
+    public $group_id=false;
+    public $createMode=false;
 
     protected $rules = [
         'title'=>'required',
+        'group_id'=>'required'
     ];
 
     private function resetInput()
     {
         $this->chat_id = null;
         $this->title = null;
-        $this->member_ids = [];
-        $this->members = null;
+        $this->is_public = false;
+        $this->groups = null;
+        $this->group_id = null;
+    }
+
+    public function fetchGroupForChargroup()
+    {
+        $this->groups = Group::all();
+        $this->createMode = true;
+        $this->dispatchBrowserEvent('groupdataFetchedForChat');
     }
 
     public function chatMembersSelected($chatMembers)
@@ -73,16 +87,23 @@ class AdminChatComponent extends Component
         $user = Auth::user();
         try
         {
-            Chat::create([
+            $record = Chat::create([
                 'title' => $this->title,
+                'is_public' => $this->is_public,
+                'group_id' => $this->group_id,
                 'user_id' => $user->id
             ]);
+
+            $selecetd_members = Group::find($this->group_id)->members()->pluck('user_id')->toArray();
+            $record->members()->sync($selecetd_members);
             
             session()->flash('success','Category Created Successfully!!');
 
             $this->resetInput();
             $this->dispatchBrowserEvent('group-saved', ['action' => 'created', 'group_title' => $this->title]);
             $this->emit('triggerRefresh');
+
+            $this->createMode=false;
             
         }catch(\Exception $e){
             // Set Flash Message
@@ -92,39 +113,45 @@ class AdminChatComponent extends Component
         }
     }
 
-    // public function edit($id)
-    // {
-    //     //$id = decrypt($id);
-
-    //     $record = Chat::findOrFail($id);
-    //     $this->member_ids = $record->members ?? null;
-    //     $this->title = $record->title;
-    //     $this->updateMode = true;
-    //     $this->selected_id = $id;
-    //     $this->members = User::take(50)->get();
-    // }
-
     public function cancel()
     {
         $this->updateMode = false;
         $this->resetInput();
     }
 
+    public function triggerEdit($id)
+    {
+        $record = Chat::find($id);
+
+        $this->groups = Group::all();
+
+        $this->selected_id = $record->id;
+
+        $this->title = $record->title;
+        $this->group_id = $record->group_id;
+        $this->is_public = $record->is_public;
+        $this->updateMode = true;
+
+        $this->emit('dataFetched', $record);
+    }
+
     public function update()
     {
         $this->validate();
 
-        $selecetd_members = $this->member_ids ?? [];
-
-        //dd($this);
-
         try
         {
             $record = Chat::find($this->selected_id);
+            
             $record->update([
-                'title' => $this->title
+                'title' => $this->title,
+                'is_public' => $this->is_public,
+                'group_id' => $this->group_id
             ]);
+
+            $selecetd_members = Group::find($this->group_id)->members()->pluck('user_id')->toArray();
             $record->members()->sync($selecetd_members);
+
             session()->flash('success','Category Updated Successfully!!');
             $this->cancel();
             //$this->dispatchBrowserEvent('group-saved', ['action' => 'created', 'group_title' => $this->title]);
@@ -138,18 +165,6 @@ class AdminChatComponent extends Component
             $this->cancel();
         }
 
-    }
-
-    public function triggerEdit($id)
-    {
-        $record = Chat::find($id);
-
-        $this->selected_id = $record->id;
-        $this->title = $record->title;
-        $this->member_ids = $record->members?$record->members()->pluck('user_id')->toArray():[];
-        $this->updateMode = true;
-        $this->members = User::take(50)->get();
-        $this->emit('dataFetched', $record);
     }
 
     public function destroy($id)
