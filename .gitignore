@@ -12,3 +12,4 @@
 /src/yarn-error.log
 /.idea
 /.vscode
+/mysql/*
