@@ -17441,6 +17441,7 @@ window.addEventListener("openSearch", function (event) {
   $("#usersearchModal").modal("show");
 });
 window.addEventListener("chatloaded", function (event) {
+  // $(".chat-history ul").html("");
   $('.chat-history').animate({
     scrollTop: $('.chat-history ul')[0].scrollHeight
   }, "slow");
@@ -17451,6 +17452,9 @@ window.addEventListener("chatMembersloaded", function (event) {
 });
 window.addEventListener("upoadFile", function (event) {
   $("#viewUploadFileModal").modal("show");
+});
+$(document).on("click", "#openFileupload", function (event) {
+  $("#files").trigger("click");
 });
 /**** Group *****/
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Storage;
 
 class Upload extends Model
 {
@@ -36,21 +37,25 @@ class Upload extends Model
 
     public function saveFile($file,$type)
     {
-        $fullName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);;
+        $fullName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $extension = strtolower($file->getClientOriginalExtension());
         $mime = $file->getClientMimeType();
-        $newfilename = uniqid().'-'.\Str::slug($fullName).'.'.$extension;
-        $done = Storage::disk('public')->put($type.'_'.$newfilename, file_get_contents($file));
-        $size = Storage::disk('public')->size($type.'_'.$newfilename);
 
-        $data = [
-            'file_loc'=>$type.'_'.$newfilename,
+        $newfilename = uniqid().'-'.\Str::slug($fullName).'.'.$extension;
+
+        //$done = Storage::disk('public')->put($type.'_'.$newfilename, file_get_contents($file));
+        
+
+        $file->storePubliclyAs('public', $newfilename);
+        $size = Storage::disk('public')->size($newfilename);
+
+        return [
+            'file_loc'=>$newfilename,
             'file_type'=>$mime,
-            'file_name'=>$fullName,
+            'file_name'=>$fullName.'.'.$extension,
             'file_size'=>$size,
-            'url'=>Storage::disk('public')->url($type.'_'.$newfilename)
+            'note'=>'chat file upload',
+            'url'=>Storage::disk('public')->url($newfilename)
         ];
-        //$file = $task->upload()->create($data);
-        return $data;
     }
 }

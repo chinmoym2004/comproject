@@ -183,6 +183,7 @@ window.addEventListener("openSearch", (event) => {
 });
 
 window.addEventListener("chatloaded", (event) => {
+    // $(".chat-history ul").html("");
     $('.chat-history').animate({
         scrollTop: $('.chat-history ul')[0].scrollHeight
     }, "slow");
@@ -197,6 +198,10 @@ window.addEventListener("upoadFile", (event) => {
     $("#viewUploadFileModal").modal("show");
 });
 
+
+$(document).on("click", "#openFileupload", function(event) {
+    $("#files").trigger("click");
+});
 /**** Group *****/
 
 Livewire.on("groupCreate", () => {

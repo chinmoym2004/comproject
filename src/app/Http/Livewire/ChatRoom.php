@@ -9,19 +9,24 @@ use App\Models\ChatUser;
 use App\Models\Messages;
 use Auth;
 use App\Events\ChatBroadcast;
+use Livewire\WithFileUploads;
 
 class ChatRoom extends Component
 {
+    use WithFileUploads;
+
     public Chat $chat;
     public $chat_text='';
     public $cmessages;
     public $allow_search = 0;
+    //public $uploads=[];
 
 
     protected $listeners = [''];
 
     protected $rules = [
         'chat_text'=>'required',
+        //'uploads.*' => 'file|max:2048', // 1MB Max
     ];
 
     public function mount($chat)
@@ -46,6 +51,13 @@ class ChatRoom extends Component
         $message->body = $this->chat_text;
         $message->user_id = $user->id;
         $message->save();
+
+        // if($this->uploads)
+        // {
+        //     foreach ($this->uploads as $file) {
+        //         info(print_r($file));
+        //     }
+        // }
 
 
         $data=[

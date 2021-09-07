@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Upload;
 
 class HomeController extends Controller
 {
@@ -24,5 +25,15 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function downloadFile($id){
+        $id = decrypt($id);
+        $file = Upload::find($id);
+
+        if(!$file)
+            abort(404);
+
+        return response()->download(storage_path('public/'.$file->file_loc),$file->file_name);
     }
 }

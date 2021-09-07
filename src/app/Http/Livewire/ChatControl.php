@@ -7,9 +7,13 @@ use Livewire\Component;
 use App\Models\Message;
 use Auth;
 use App\Events\ChatBroadcast;
+use Livewire\WithFileUploads;
+use App\Models\Upload;
 
 class ChatControl extends Component
 {
+    use WithFileUploads;
+
     public $rooms;
     public $active_room;
 
@@ -27,12 +31,13 @@ class ChatControl extends Component
     protected $listeners = ['load-more' => 'loadMore'];
     public $last_message = 'Never';
 
+    public $uploads=[];
+    public $chat_text;
 
     protected $rules = [
         'chat_text'=>'required',
+        'uploads.*' => 'file|max:1024', // 1MB Max
     ];
-
-    public $chat_text;
 
     public function loadMore()
     {
@@ -58,13 +63,16 @@ class ChatControl extends Component
         $this->last_chat_message = []; 
         $this->chat_text ='';
         $this->see_members=0;
+        $this->uploads=null;
     }
 
     public function loadChatRoom($chat_id)
     {
-        
+        $this->chat_messages=null;
         $me = Auth::user();
+
         $chat = Chat::find(decrypt($chat_id));
+        
         if($chat)
         {
             $this->last_message = $chat->messages()->latest()->first()?$chat->messages()->latest()->first()->created_at->diffForHumans():'Never';
@@ -79,19 +87,21 @@ class ChatControl extends Component
 
             $this->active_room = $chat->id;
 
+            $tmp_messages = [];
+
             $megs = $chat->messages()->orderBy('id','ASC')->paginate($this->perPage);
+
             foreach($megs as $msg)
             {
                 $user = $msg->user;
                 $tmp['user']=['name'=>$user->name,'_id'=>encrypt($user->id),'avatar'=>$user->image()];
-                $tmp['message']=['body'=>$msg->body,'time'=>$msg->created_at];
-                $tmp['files'] = $msg->uploads;
+                $tmp['message']=['body'=>$msg->body,'time'=>date('Y-m-d H:i:s',strtotime($msg->created_at))];
+                $tmp['files'] = $msg->upload;
                 $tmp['is_me']=$msg->user_id==$me->id?1:0;
-
-                $this->chat_messages[]=$tmp;
-
+                $tmp_messages[]=$tmp;
             }
-
+            
+            $this->chat_messages = $tmp_messages;
             $this->chat_participants = $chat->members()->pluck('name','user_id')->toArray();
             $this->dispatchBrowserEvent('chatloaded', ['action' => 'message_loaded']);
         }
@@ -109,18 +119,29 @@ class ChatControl extends Component
         $message->user_id = $user->id;
         $message->save();
 
+        if($this->uploads)
+        {
+            foreach ($this->uploads as $file) {
+                $uploadfile = new Upload;
+                $filedata = $uploadfile->saveFile($file,'Message');
+                $filedata['uploaded_by']=$user->id;
+                $filedata['is_thumbnail']=0;
+                $message->upload()->create($filedata);
+            }
+        }
+        
 
         $data=[
             'chat_id'=>$message->chat_id,
             'message'=>$message->body,
             'user_name'=>$message->user->name,
             'profile_image'=>asset('img/user-placeholder.png'),
-            'time'=>$message->created_at
+            'time'=>date('Y-m-d H:i:s',strtotime($message->created_at))
         ];
 
         $tmp['user']=['name'=>$user->name,'_id'=>encrypt($user->id),'avatar'=>$user->image()];
-        $tmp['message']=['body'=>$message->body,'time'=>$message->created_at];
-        $tmp['files'] = $message->uploads;
+        $tmp['message']=['body'=>$message->body,'time'=>date('Y-m-d H:i:s',strtotime($message->created_at))];
+        $tmp['files'] = $message->upload;
         $tmp['is_me']=$message->user_id==$user->id?1:0;
 
         $this->chat_messages[]=$tmp;
@@ -158,5 +179,16 @@ class ChatControl extends Component
     public function addmember($chat_id)
     {
 
+    }
+
+    public function downloadFile($id){
+        $id = decrypt($id);
+        $file = Upload::find($id);
+
+        if(!$file)
+            abort(404);
+
+        return \Storage::disk('public')->download($file->file_loc);
+        //return response()->download(storage_path('public/'.$file->file_loc),$file->file_name);
     }
 }

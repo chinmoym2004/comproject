@@ -134,7 +134,7 @@
               <li>
                 <form wire:submit.prevent="saveChat">
                     <div class="form-outline">
-                        <textarea class="form-control" wire:model='chat_text' rows="4" placeholder="Type here.."></textarea>
+                        <textarea wire:self.ignore class="form-control" wire:model='chat_text' rows="4" placeholder="Type here.."></textarea>
                         <label class="form-label" for="chat_text">Attachments: <input type="file" name="file[]" /></label>
                         
                     </div>
