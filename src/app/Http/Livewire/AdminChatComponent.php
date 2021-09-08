@@ -17,7 +17,7 @@ class AdminChatComponent extends Component
     public $sortAsc = true; // default sort direction
     public $search = '';
 
-    protected $listeners = ['delete', 'triggerRefresh' => '$refresh','triggerEdit','chatMembersSelected','fetchGroupForChargroup'];
+    protected $listeners = ['destroy', 'triggerRefresh' => '$refresh','triggerEdit','chatMembersSelected','fetchGroupForChargroup'];
 
     public $title;
     public $member_ids=[];
@@ -93,9 +93,12 @@ class AdminChatComponent extends Component
                 'group_id' => $this->group_id,
                 'user_id' => $user->id
             ]);
-
-            $selecetd_members = Group::find($this->group_id)->members()->pluck('user_id')->toArray();
-            $record->members()->sync($selecetd_members);
+            
+            if($this->group_id)
+            {
+                $selecetd_members = Group::find($this->group_id)->members()->pluck('user_id')->toArray();
+                $record->members()->sync($selecetd_members);
+            }
             
             session()->flash('success','Category Created Successfully!!');
 
@@ -172,9 +175,9 @@ class AdminChatComponent extends Component
         //$id = decrypt($id);
         
         if ($id) {
-            $record = Chat::where('id', $id);
+            $record = Chat::find($id);
             $record->delete();
-            $this->dispatchBrowserEvent('chat-grpup-deleted', ['title' => $chat->title]); // add this
+            $this->dispatchBrowserEvent('chat-grpup-deleted', ['title' => $record->title]); // add this
         }
     }
 

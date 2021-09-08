@@ -6,7 +6,7 @@ use Livewire\Component;
 use App\Models\Chat;
 use App\Models\User;
 use App\Models\ChatUser;
-use App\Models\Messages;
+use App\Models\Message;
 use Auth;
 use App\Events\ChatBroadcast;
 use Livewire\WithFileUploads;
@@ -46,7 +46,7 @@ class ChatRoom extends Component
 
         $user = Auth::user();
 
-        $message = new Messages;
+        $message = new Message;
         $message->chat_id = $this->chat->id;
         $message->body = $this->chat_text;
         $message->user_id = $user->id;
