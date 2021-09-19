@@ -1,8 +1,8 @@
-<div wire:ignore class="modal fade" id="createChatGroupModal" tabindex="-1" aria-labelledby="createChatGroupModalLabel" aria-hidden="true" data-backdrop="false">
+<div wire:ignore.self class="modal fade" id="createChatGroupModal" tabindex="-1" aria-labelledby="createChatGroupModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="createChatGroupModalLabel">New Group</h5>
+            <h5 class="modal-title" id="createChatGroupModalLabel">New Chat Group</h5>
             <button type="button" wire:click="cancel" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -17,7 +17,7 @@
 
                 <div class="form-group"> 
                   <label for="group_id">Select Group</label> 
-                  <select class="form-control" id="group_id" wire:model="group_id">
+                  <select wire:ignore.self class="form-control" id="group_id" wire:model="group_id">
                     <option value="">Select a group</option>
                     @if($groups)
                       @foreach ($groups as $group)
@@ -31,7 +31,7 @@
 
                 <div class="form-group"> 
                   <label for="is_public">Is Public?</label> 
-                  <select class="form-control" id="is_public" wire:model="is_public">
+                  <select wire:ignore.self class="form-control" id="is_public" wire:model="is_public">
                       <option value="0">No</option>
                       <option value="1">Yes</option>
                   </select>

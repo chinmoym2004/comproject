@@ -85,15 +85,15 @@
     </div>
     <script>
       $(document).ready(function () {
-          $("#details").summernote({
-              height: 200,
-              callbacks: {
-                  onChange: function(contents, $editable) {
-                      @this.set('details', contents);
-                  }
-              }
-          });
-          $('#details').summernote('code', '<?=addslashes($this->details)?>');
+        //   $("#details").summernote({
+        //       height: 200,
+        //       callbacks: {
+        //           onChange: function(contents, $editable) {
+        //               @this.set('details', contents);
+        //           }
+        //       }
+        //   });
+        //   $('#details').summernote('code', '<?=addslashes($this->details)?>');
           //$('#details').summernote('editor.pasteHTML', '<?=$this->details?>');
 
           // $(document).on("change","#is_public",function(event){

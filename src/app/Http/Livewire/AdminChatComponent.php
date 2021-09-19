@@ -27,8 +27,9 @@ class AdminChatComponent extends Component
     public $perpage = 10;
     public $groups=null;
     public $is_public=false;
-    public $group_id=false;
+    public $group_id=null;
     public $createMode=false;
+   
 
     protected $rules = [
         'title'=>'required',
@@ -84,6 +85,7 @@ class AdminChatComponent extends Component
         //dd($this->validate());
 
         $this->validate();
+        
         $user = Auth::user();
         try
         {

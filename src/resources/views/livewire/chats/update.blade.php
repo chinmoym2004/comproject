@@ -12,13 +12,13 @@
             <div class="modal-body">
                 <div class="form-group"> 
                     <label for="title">Name</label> 
-                    <input type="text" class="form-control" id="title" placeholder="Enter Name" wire:model="title"> 
+                    <input wire:ignore type="text" class="form-control" id="title" placeholder="Enter Name" wire:model="title"> 
                     @error('title') <span class="text-danger error">{{ $message }}</span>@enderror
                 </div> 
 
                 <div class="form-group"> 
                     <label for="group_id">Select Group</label> 
-                    <select class="form-control" id="group_id" wire:model="group_id">
+                    <select wire:ignore class="form-control" id="group_id" wire:model="group_id">
                         <option value="">Select a group</option>
                         @if($groups)
                             @foreach ($groups as $group)
@@ -32,7 +32,7 @@
   
                 <div class="form-group"> 
                     <label for="is_public">Is Public?</label> 
-                    <select class="form-control" id="is_public" wire:model="is_public">
+                    <select wire:ignore class="form-control" id="is_public" wire:model="is_public">
                         <option value="0" {{ $this->is_public==0?'selected':'' }}>No</option>
                         <option value="1" {{ $this->is_public==1?'selected':'' }}>Yes</option>
                     </select>

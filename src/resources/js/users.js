@@ -63,6 +63,12 @@ window.addEventListener("chatSaved", (event) => {
     $('.chat-history').animate({
         scrollTop: $('.chat-history ul')[0].scrollHeight
     }, "slow");
+
+    if ($("#page-content").length) {
+        $('#page-content').animate({
+            scrollTop: $('#page-content .media-chat')[0].scrollHeight
+        }, "slow");
+    }
 });
 
 $(document).on("click", "#selectallmember", function(event) {
@@ -183,7 +189,6 @@ window.addEventListener("openSearch", (event) => {
 });
 
 window.addEventListener("chatloaded", (event) => {
-    // $(".chat-history ul").html("");
     $('.chat-history').animate({
         scrollTop: $('.chat-history ul')[0].scrollHeight
     }, "slow");
@@ -283,6 +288,10 @@ window.addEventListener("category-updated", (event) => {
 //     $(".select2").select2();
 // });
 
+window.addEventListener("chatMemberDataFetched", (event) => {
+    console.log("Ok");
+    $("#chatMemberUpdateModal").modal("show");
+});
 
 /****** LOCAL TIME *****/
 

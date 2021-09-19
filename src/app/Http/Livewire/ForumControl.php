@@ -7,6 +7,7 @@ use App\Models\Forum;
 use Auth;
 use App\Models\Category;
 use App\Models\Group;
+use Illuminate\Validation\Rule;
 
 class ForumControl extends Component
 {
@@ -30,7 +31,13 @@ class ForumControl extends Component
     public $groups=null;
 
     protected $rules = [
+        'campus'=>'required',
+        'school'=>'required',
+        'program'=>'required',
         'name'=>'required',
+        'is_public'=>'required',
+        'group_id'=>'sometimes|required',
+        'category_id'=>'required'
     ];
 
     private function resetInput()
