@@ -26,15 +26,15 @@ class ChatRoom extends Component
     public $chat_messages;
     public $members = null;
     public $selected_id = null;
+    public $uploads=[];
 
     public $memberupdateMode=false;
 
     protected $rules = [
-        'chat_text'=>'required',
         'uploads.*' => 'file|max:2048', // 1MB Max
     ];
 
-    public $uploads=[];
+    
 
     private function resetInput()
     {
@@ -195,5 +195,16 @@ class ChatRoom extends Component
         $this->dispatchBrowserEvent('memberUpdated');
         $this->memberupdateMode = false;
         $this->resetInput();
+    }
+
+    public function downloadFile($id){
+        $id = decrypt($id);
+        $file = Upload::find($id);
+
+        if(!$file)
+            abort(404);
+
+        return \Storage::disk('public')->download($file->file_loc);
+        //return response()->download(storage_path('public/'.$file->file_loc),$file->file_name);
     }
 }

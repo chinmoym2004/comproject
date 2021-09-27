@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Category;
+use App\Models\Forum;
 use Livewire\WithPagination;
 use Auth;
 class CategoryPanel extends Component
@@ -68,11 +69,13 @@ class CategoryPanel extends Component
             $this->dispatchBrowserEvent('category-saved', ['action' => 'created', 'title' => $this->name]);
             $this->emit('triggerRefresh');
 
+            $this->cancel();
+
         }catch(\Exception $e){
             // Set Flash Message
             session()->flash('error','Something goes wrong while creating forum!!');
             // Reset Form Fields After Creating Category
-            $this->resetInput();
+            $this->cancel();
         }
     }
 
@@ -113,7 +116,7 @@ class CategoryPanel extends Component
             // Set Flash Message
             session()->flash('error','Something goes wrong while creating forum!!');
             // Reset Form Fields After Creating Category
-            $this->resetInput();
+            $this->cancel();
         }
     }
 
@@ -122,12 +125,26 @@ class CategoryPanel extends Component
         if ($id) {
             $record = Category::find($id);
             $name = $record->name;
-            $record->delete();
 
-            $this->emit('triggerRefresh');
-            $this->cancel();
 
-            $this->dispatchBrowserEvent('category-deleted', ['title' => $name]); // add this
+            $block_delete = 0;
+
+            $hasinforum = Forum::where('category_id',$id)->count();
+            if($hasinforum)
+                $block_delete = 1;
+            
+            if($block_delete)
+            {
+                session()->flash('error','This is in use. Can not delete');
+                $this->emit('triggerRefresh');
+            }
+            else
+            {
+                $record->delete();
+                $this->cancel();
+                $this->dispatchBrowserEvent('category-deleted', ['title' => $name]); // add this
+            }
+            
         }
     }
     

@@ -60,9 +60,11 @@ window.addEventListener("chatSaved", (event) => {
     //console.log(event.detail);
     chatid = event.detail.data.chat_id;
 
-    $('.chat-history').animate({
-        scrollTop: $('.chat-history ul')[0].scrollHeight
-    }, "slow");
+    if ($(".chat-history").length) {
+        $('.chat-history').animate({
+            scrollTop: $('.chat-history ul')[0].scrollHeight
+        }, "slow");
+    }
 
     if ($("#page-content").length) {
         $('#page-content').animate({

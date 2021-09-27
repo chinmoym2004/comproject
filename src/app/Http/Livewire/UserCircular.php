@@ -49,9 +49,19 @@ class UserCircular extends Component
         $me = Auth::user();
 
         $circular = Circular::find($this->selected_id);
-        $this->accepted = $circular->members()->updateExistingPivot($me->id,['has_confirmed'=>1]);
-        $this->accepted = $this->accepted?true:false;
 
+        // check if user exist 
+        if($circular->members()->where('user_id',$me->id)->count())
+        {
+            $tmp_accepted = $circular->members()->updateExistingPivot($me->id,['has_confirmed'=>1]);
+        }
+        else
+        {
+            $tmp_accepted = $circular->members()->syncWithPivotValues($me->id,['has_confirmed'=>1]);
+        }
+        
+        $this->accepted = $tmp_accepted?true:false;
+        $this->enableview = false;
         $this->emit('triggerRefresh');
     }
 

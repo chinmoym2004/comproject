@@ -3,7 +3,7 @@
       <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="createcircularModalLabel">New Circular</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" wire:click='cancel'>
                 <span aria-hidden="true">&times;</span>
               </button>
         </div>
@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="form-group"> 
-                    <label for="title">Details</label> 
+                    <label for="details">Details</label> 
                     <input id="details" type="hidden" wire:model='details'/>
 
                     {{-- <div input="details" id="details_editor"></div> --}}
@@ -63,17 +63,18 @@
     </div>
 
     <script>
-        
-        $("#details").summernote({
-            height: 200,
-            callbacks: {
-                onChange: function(contents, $editable) {
-                    @this.set('details', contents);
-                }
-            }
-        });
 
         $(document).ready(function () {
+
+            $("#details").summernote({
+                height: 200,
+                callbacks: {
+                    onChange: function(contents, $editable) {
+                        @this.set('details', contents);
+                    }
+                }
+            });
+
             $('#group_ids').select2();
             $('#group_ids').on('change', function (e) {
                 var data = $('#group_ids').select2("val");

@@ -35,7 +35,6 @@ class ChatControl extends Component
     public $chat_text;
 
     protected $rules = [
-        'chat_text'=>'required',
         'uploads.*' => 'file|max:1024', // 1MB Max
     ];
 

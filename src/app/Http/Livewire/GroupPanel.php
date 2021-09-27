@@ -5,6 +5,8 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Group;
+use App\Models\Forum;
+use App\Models\Circular;
 use Auth;
 
 class GroupPanel extends Component
@@ -146,8 +148,29 @@ class GroupPanel extends Component
         if ($id) {
             $record = Group::find($id);
             $title = $record->title;
-            $record->delete();
-            $this->dispatchBrowserEvent('group-deleted', ['title' => $title]); // add this
+
+            // check if used 
+            $block_delete = 0;
+
+            $hasinforum = Forum::where('group_id',$id)->count();
+            if(!$hasinforum)
+            {
+                $hasincircular = Circular::whereRaw("FIND_IN_SET('".$id."',group_ids)")->count();
+                if($hasincircular)
+                    $block_delete = 1;
+            }
+            else
+                $block_delete = 1;
+            
+            if($block_delete)
+            {
+                session()->flash('error','This is in use. Can not delete');
+                $this->emit('triggerRefresh');
+            }
+            else{
+                $record->delete();
+                $this->dispatchBrowserEvent('group-deleted', ['title' => $title]); // add this
+            }
         }
     }
 

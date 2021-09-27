@@ -171,6 +171,15 @@
 
 	@stack('custom-scripts')
 
+	<script type="text/javascript">
+		var i = 0;
+		window.Echo.channel('user-channel')
+		 .listen('.UserEvent', (data) => {
+			i++;
+			console.log(data.title);
+		});
+	</script>
+
 </body>
 
 </html>

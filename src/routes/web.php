@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/test', function () {
+    event(new \App\Events\SendMessage());
+    return view('test');
+});
+
 Auth::routes();
 
 Route::middleware('auth')->group(function(){
@@ -37,7 +42,7 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/forums/{slug}/t/{slug2}','\App\Http\Controllers\ForumController@topics');
 
-    //Route::get('/topics/{id}','\App\Http\Controllers\ForumAdminController@topics');
+    Route::get('/topics/{id}','\App\Http\Controllers\ForumAdminController@topics');
 
     Route::get('/inbox','\App\Http\Controllers\InboxController@index');
 

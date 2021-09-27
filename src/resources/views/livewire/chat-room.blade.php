@@ -17,16 +17,58 @@
                                     @if($eachmessge['is_me']==1)
                                     <div class="media media-chat media-chat-reverse">
                                         <div class="media-body">
-                                            <p> {{ $eachmessge['message']['body'] }}</p>
-                                            <p class="meta"><time datetime="2018">{ $eachmessge['message']['time'] }}</time></p>
+                                            @if($eachmessge['message']['time'])
+                                            <p>{{ $eachmessge['message']['body'] }}</p>
+                                            @endif
+                                            <p class="meta"><time datetime="2018">{{  $eachmessge['message']['time']  }}</time></p>
+
+                                            @foreach($eachmessge['files'] as $file)
+                                            <br/>
+                                            <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
+                                                <li>
+                                                    <div class="mailbox-attachment-info text-center d-flex justify-content-between">
+                                                        <a href="#" class="mailbox-attachment-name">
+                                                            {{ $file->file_name ?? $file['file_name'] }}
+                                                            <br/>
+                                                            <span class="text-sm">{{ formatSizeUnits($file->file_size ?? $file['file_size']) }}</span>
+                                                        </a>
+                                                        <div class="mailbox-attachment-size clearfix mt-1">
+                                                            <a wire:click='downloadFile("{{ encrypt($file->id ?? $file['id']) }}")' class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            @endforeach
                                         </div>
                                     </div>
                                     @else
                                     <div class="media media-chat"> 
                                         <img class="avatar" src="{{ $eachmessge['user']['avatar'] }}" alt="...">
                                         <div class="media-body">
+                                            @if($eachmessge['message']['time'])
                                             <p>{{ $eachmessge['message']['body'] }}</p>
-                                            <p class="meta"><time datetime="2018">{ $eachmessge['message']['time'] }}</time></p>
+                                            @endif
+
+                                            <p class="meta"><time datetime="2018">{{  $eachmessge['message']['time']  }}</time></p>
+                                            
+
+                                            @foreach($eachmessge['files'] as $file)
+                                            <br/>
+                                            <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
+                                                <li>
+                                                    <div class="mailbox-attachment-info text-center d-flex justify-content-between">
+                                                        <a href="#" class="mailbox-attachment-name">
+                                                            {{ $file->file_name ?? $file['file_name'] }}
+                                                            <br/>
+                                                            <span class="text-sm">{{ formatSizeUnits($file->file_size ?? $file['file_size']) }}</span>
+                                                        </a>
+                                                        <div class="mailbox-attachment-size clearfix mt-1">
+                                                            <a wire:click='downloadFile("{{ encrypt($file->id ?? $file['id']) }}")' class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            @endforeach
                                         </div>
                                     </div>  
                                     @endif
@@ -40,7 +82,7 @@
                                 <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div>
                             </div>
                         </div>
-                        <form wire:submit.prevent='saveChat'>
+                        <form wire:submit.prevent='saveChat' enctype="multipart/form-data">
                             <div class="publisher bt-1 border-light"> 
                                 <input class="publisher-input" type="text" wire:model='chat_text' placeholder="Write something..">
                                 <span class="publisher-btn file-group"><i class="fa fa-paperclip file-browser"></i></span> 

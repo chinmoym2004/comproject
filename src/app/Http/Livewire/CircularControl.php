@@ -76,6 +76,8 @@ class CircularControl extends Component
             $this->dispatchBrowserEvent('circular-saved', ['action' => 'created', 'title' => $this->title]);
             $this->emit('triggerRefresh');
 
+            $this->cancel();
+
         }catch(\Exception $e){
             report($e);
             // Set Flash Message
@@ -87,6 +89,7 @@ class CircularControl extends Component
     public function cancel()
     {
         $this->updateMode = false;
+        $this->createMode = false;
         $this->resetInput();
     }
 
@@ -127,6 +130,7 @@ class CircularControl extends Component
             $this->resetInput();
             $this->emit('triggerRefresh');
 
+            $this->cancel();
 
         }catch(\Exception $e){
             report($e);
