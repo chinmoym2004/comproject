@@ -17,7 +17,7 @@
                         @if($circular->need_confirmation && !$has_ack)
                             Need Your Acknowldegement. Click &nbsp;
                             <a href="#" class="btn btn-sm btn-success" wire:click='acknowldge("{{ encrypt($circular->id) }}")'>
-                                <i class="fas fa-check"></i>&nbsp;&nbsp;&nbsp;I Acknowldegement
+                                <i class="fas fa-check"></i>&nbsp;&nbsp;&nbsp;I Acknowledge
                             </a>
                         @elseif($circular->need_confirmation && $has_ack)
                             You have acknowledged 

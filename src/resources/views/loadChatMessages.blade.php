@@ -10,20 +10,16 @@
             </div>
         </div>
         <div class="col-lg-6 hidden-sm text-right">
-            <div class="btn-group">
+            {{-- <div class="btn-group">
                 <button class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></button>
 
-                {{-- <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                  <span class="sr-only">Toggle Dropdown</span>
-                </button> --}}
                 <div class="dropdown-menu" role="menu" style="">
                     <a class="dropdown-item" href="#" wire:click='addmember("{{ encrypt($chat->id) }}")'>Add Member</a>
                     <a class="dropdown-item" href="#" wire:click='uploadFile("{{ encrypt($chat->id) }}")'>Upload File</a>
                     <a class="dropdown-item" href="#" wire:click='viewmembers("{{ encrypt($chat->id) }}")'>View Info</a>
-                    {{-- <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Leave Chat</a> --}}
+                   
                 </div>
-            </div>
+            </div> --}}
             
             
         </div>

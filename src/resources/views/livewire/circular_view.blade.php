@@ -24,7 +24,7 @@
                     @if($this->need_confirmation && !$this->accepted)
                         Need Your Acknowldegement. Click &nbsp;
                         <a href="#" class="btn btn-sm btn-success" wire:click='acknowldge()'>
-                            <i class="fas fa-check"></i>&nbsp;&nbsp;&nbsp;I Acknowldegement
+                            <i class="fas fa-check"></i>&nbsp;&nbsp;&nbsp;I Acknowledge
                         </a>
                     @elseif($this->need_confirmation && $this->accepted)
                         You have acknowledged 
