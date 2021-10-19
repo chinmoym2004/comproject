@@ -2,15 +2,13 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ChatBroadcast implements ShouldBroadcast
+class ChatBroadcast implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -18,10 +16,10 @@ class ChatBroadcast implements ShouldBroadcast
     
     public function broadcastAs()
     {
-        return 'newchat.newmessage';
+        return 'newmessage';
     }
 
-    public $broadcastQueue = 'user-chat-messages';
+    //public $broadcastQueue = 'user-chat-messages';
 
     /**
      * Create a new event instance.
@@ -36,7 +34,6 @@ class ChatBroadcast implements ShouldBroadcast
     public function broadcastWith()
     {
         info($this->data);
-
         return ['data' => $this->data];
     }
 

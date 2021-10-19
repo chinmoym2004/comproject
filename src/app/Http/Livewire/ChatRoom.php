@@ -22,13 +22,17 @@ class ChatRoom extends Component
     public $cmessages;
     public $allow_search = 0;
     public $total_message_count=0;
-    protected $listeners = ['triggerRefresh' => '$refresh','addMember','selectedFromSearch','removeMember'];
+    protected $listeners = ['triggerRefresh' => '$refresh','addMember','selectedFromSearch','removeMember','echo-private:chat-7-messages,ChatBroadcast' => 'notifyNewMesage','tagableUserList','closeTagableUserList'];
+
     public $chat_messages;
     public $members = null;
     public $selected_id = null;
     public $uploads=[];
 
     public $memberupdateMode=false;
+    public $enabletag = false;
+    public $taggableusers = null;
+    public $taggedusers = [];
 
     protected $rules = [
         'uploads.*' => 'file|max:2048', // 1MB Max
@@ -41,7 +45,9 @@ class ChatRoom extends Component
         $this->selected_id = null;
         $this->member_ids = [];
         $this->members = null;
-        $this->memberupdateMode = false;        
+        $this->memberupdateMode = false;  
+        $this->enabletag = false;  
+        $this->taggedusers = [];    
     }
 
     public function mount($chat)
@@ -79,7 +85,17 @@ class ChatRoom extends Component
 
     public function saveChat()
     {
-        //dd($this->chat);
+        //dd($this->chat_text);
+
+        $pattern = "/member:\d/i";
+        $tobetagged = [];
+        if(preg_match_all($pattern, $this->chat_text, $matches)) {
+            foreach($matches[0] as $member)
+            {
+                $tobetagged[] = explode(":",$member)[1];
+            }
+        }
+
         $this->validate();
 
         $user = Auth::user();
@@ -100,7 +116,20 @@ class ChatRoom extends Component
                 $message->upload()->create($filedata);
             }
         }
-        
+
+        // Inbox user of they are tagged 
+        if(count($tobetagged))
+        {
+            foreach($tobetagged as $usr)
+            {
+                $this->chat->notifiable()->create([
+                    'show_text'=>'Mentioned you in a chat <b>'.$this->chat->title.'</b>',
+                    'action_by'=>$user->id,
+                    'user_id'=>$usr,
+                    'redirect_url'=>url('chat-room?uid='.encrypt($this->chat->id).'&mid='.encrypt($message->id))
+                ]);
+            }
+        }
 
         $data=[
             'chat_id'=>$message->chat_id,
@@ -206,5 +235,34 @@ class ChatRoom extends Component
 
         return \Storage::disk('public')->download($file->file_loc);
         //return response()->download(storage_path('public/'.$file->file_loc),$file->file_name);
+    }
+
+    public function notifyNewMesage()
+    {
+        info("Notification channel");
+    }
+
+    public function tagableUserList($id)
+    {
+        $record = Chat::find($id);
+        $this->taggableusers = $record->members??null;
+        $this->enabletag = true;
+    }
+
+    public function closeTagableUserList($id)
+    {
+        $this->enabletag = false;
+        $this->taggableusers = [];
+    }
+
+    public function selectedTagUser($id)
+    {
+        $user = User::find($id)->name;
+        $this->taggedusers[$id]=$user;
+
+        $this->enabletag = false;
+        $this->taggableusers = [];
+
+        $this->dispatchBrowserEvent('userselectedtotag', ['name' => $user,'id'=> $id]);
     }
 }

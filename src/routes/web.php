@@ -13,11 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test', function () {
-    event(new \App\Events\SendMessage());
-    return view('test');
-});
-
 Auth::routes();
 
 Route::middleware('auth')->group(function(){

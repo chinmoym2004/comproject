@@ -60,12 +60,5 @@
 
 @push('custom-scripts')
 <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
-<script>
-    window.Echo.private(`chat-${chatid}-messages`)
-      .listen('.newchat.newmessage', (e) => {
-          //console.log(e.data.is_on_going)
-          cosole.log(e.data);
-          //console.log(e);
-      });
-</script>
+
 @endpush

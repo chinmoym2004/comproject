@@ -33,6 +33,7 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 	@livewireStyles
+
 	@livewireScripts
 
 </head>
@@ -154,6 +155,12 @@
 	<script src="{{ asset('/theme/dist/js/adminlte.js') }}"></script>
 	<!-- AdminLTE for demo purposes -->
 	<script src="{{ asset('/theme/dist/js/demo.js') }}"></script>
+
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/3.4.1/select2.min.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/rangy/1.2.3/rangy-core.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.4.1/select2.min.js"></script>
+	<link rel="stylesheet" href="{{ asset('/mention/mentions-kinder.css') }}">
+	<script src="{{ asset('/mention/mentions-kinder.min.js') }}"></script>
 	<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 	{{-- <script src="{{ asset('/theme/dist/js/pages/dashboard.js') }}"></script> --}}
 
@@ -173,11 +180,11 @@
 
 	<script type="text/javascript">
 		var i = 0;
-		window.Echo.channel('user-channel')
-		 .listen('.UserEvent', (data) => {
-			i++;
-			console.log(data.title);
-		});
+		// window.Echo.channel('user-channel')
+		//  .listen('.UserEvent', (data) => {
+		// 	i++;
+		// 	console.log(data.title);
+		// });
 	</script>
 
 </body>

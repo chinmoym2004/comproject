@@ -28,7 +28,7 @@ class ChatControl extends Component
     public $search = '';
 
     public $perPage = 100;
-    protected $listeners = ['load-more' => 'loadMore'];
+    protected $listeners = ['load-more' => 'loadMore']; //'echo-private:chat-7-messages,ChatBroadcast' => 'notifyNewMesage'
     public $last_message = 'Never';
 
     public $uploads=[];
@@ -110,6 +110,16 @@ class ChatControl extends Component
     {
         $this->validate();
 
+
+        $pattern = "/member:\d/i";
+        $tobetagged = [];
+        if(preg_match_all($pattern, $this->chat_text, $matches)) {
+            foreach($matches[0] as $member)
+            {
+                $tobetagged[] = explode(":",$member)[1];
+            }
+        }
+        
         $user = Auth::user();
 
         $message = new Message;
@@ -117,6 +127,20 @@ class ChatControl extends Component
         $message->body = $this->chat_text;
         $message->user_id = $user->id;
         $message->save();
+
+        // Inbox user of they are tagged 
+        if(count($tobetagged))
+        {
+            foreach($tobetagged as $usr)
+            {
+                $this->chat->notifiable()->create([
+                    'show_text'=>'Mentioned you in a chat <b>'.$this->chat->title.'</b>',
+                    'action_by'=>$user->id,
+                    'user_id'=>$usr,
+                    'redirect_url'=>url('chat-room?uid='.encrypt($this->chat->id).'&mid='.encrypt($message->id))
+                ]);
+            }
+        }
 
         if($this->uploads)
         {
@@ -189,5 +213,10 @@ class ChatControl extends Component
 
         return \Storage::disk('public')->download($file->file_loc);
         //return response()->download(storage_path('public/'.$file->file_loc),$file->file_name);
+    }
+
+    public function notifyNewMesage()
+    {
+        info("Notification channel");
     }
 }

@@ -71,6 +71,7 @@ window.addEventListener("chatSaved", (event) => {
             scrollTop: $('#page-content .media-chat')[0].scrollHeight
         }, "slow");
     }
+    $(".divChatBox").html("");
 });
 
 $(document).on("click", "#selectallmember", function(event) {
@@ -116,10 +117,13 @@ window.addEventListener("usercommented", (event) => {
 window.addEventListener("subcommented", (event) => {
     $(".comment .newreply").addClass("d-none");
 });
+
 window.addEventListener("topic-saved", (event) => {
     $("#createTopicsModal").modal("hide");
     //alert(`Topic ${event.detail.title} was ${event.detail.action}!`);
 });
+
+
 
 window.addEventListener("circularDataFetched", (event) => {
     $("#viewCircularModal").modal("show");
@@ -284,6 +288,12 @@ Livewire.on("catDataFetched", (forum) => {
 window.addEventListener("category-updated", (event) => {
     $("#updatecategoryModel").modal("hide");
 });
+
+
+// window.addEventListener("userselectedtotag", (event) => {
+//     console.log(event);
+//     $("#divChatBox").append('<span class="tag label label-primary">' + event.detail.name + '<span data-role="remove" class="clearuser" dataid="' + event.detail.id + '"></span></span>');
+// });
 
 
 // Livewire.on("setSeelct2", () => {

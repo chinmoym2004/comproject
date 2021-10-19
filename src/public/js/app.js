@@ -1889,7 +1889,6 @@ window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.i
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__.default({
   broadcaster: 'socket.io',
   host: window.location.hostname,
-  namespace: '',
   reconnectionAttempts: 5,
   csrfToken: token.content
 });

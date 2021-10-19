@@ -48,4 +48,9 @@ class Chat extends Model
     {
         return $this->morphMany('App\Models\Upload', 'uploadable');
     }
+
+    public function notifiable()
+    {
+        return $this->morphMany('App\Models\Inbox', 'notifiable');
+    }
 }

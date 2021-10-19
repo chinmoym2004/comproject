@@ -10,13 +10,16 @@ services:
     build:
       context: .
       dockerfile: nginx.dockerfile
+    links:
+        - laravelecho
+        - php
     container_name: nginx
     depends_on:
       - php
       - mysql
       - redis
+      - laravelecho
     ports:
-      - 80:80
       - 443:443
     volumes:
       - ./src:/var/www/html
@@ -99,6 +102,8 @@ services:
       REDIS_PREFIX: NULL
     networks:
       - laravel
+    links:
+      - redis
 
   redis:
     image: redis:latest

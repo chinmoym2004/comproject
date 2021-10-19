@@ -646,3 +646,66 @@ body {
     background-size: cover;
     border-radius: 0.42rem;
 }
+
+time {
+    color: black;
+}
+
+.autofillusers {
+    width: 300px;
+    position: absolute;
+    bottom: 40px;
+    background: #888080;
+    color: #fff;
+    left: 10px;
+    max-height: 200px;
+    overflow: scroll;
+    border-radius: 5px;
+    padding: 10px;
+    list-style: none;
+}
+
+.autofillusers li {
+    padding-bottom: 5px;
+}
+
+.divChatBox {
+    -moz-appearance: textfield-multiline;
+    -webkit-appearance: textarea;
+    border: 1px solid gray;
+    font: medium -moz-fixed;
+    font: -webkit-small-control;
+    height: 28px;
+    overflow: auto;
+    padding: 2px;
+    //resize: both;
+    width: 100%;
+}
+
+.mentions-kinder-wrap {
+    width: 100%;
+    border: 1px solid;
+}
+
+.mention {
+    font-size: 90%;
+    font-weight: normal;
+    padding: .125em .35em;
+    background-color: #5b5d58;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.member-delete {
+    display: none;
+}
+
+.userchatbox .mentions-kinder-wrap {
+    width: 89%;
+    border: 1px solid;
+}
+
+.select2-drop.select2-drop-above {
+    top: 334.016px !important;
+    width: 20% !important;
+}

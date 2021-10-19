@@ -17355,6 +17355,8 @@ window.addEventListener("chatSaved", function (event) {
       scrollTop: $('#page-content .media-chat')[0].scrollHeight
     }, "slow");
   }
+
+  $(".divChatBox").html("");
 });
 $(document).on("click", "#selectallmember", function (event) {
   event.preventDefault();
@@ -17520,7 +17522,11 @@ Livewire.on("catDataFetched", function (forum) {
 });
 window.addEventListener("category-updated", function (event) {
   $("#updatecategoryModel").modal("hide");
-}); // Livewire.on("setSeelct2", () => {
+}); // window.addEventListener("userselectedtotag", (event) => {
+//     console.log(event);
+//     $("#divChatBox").append('<span class="tag label label-primary">' + event.detail.name + '<span data-role="remove" class="clearuser" dataid="' + event.detail.id + '"></span></span>');
+// });
+// Livewire.on("setSeelct2", () => {
 //     $(".select2").select2();
 // });
 

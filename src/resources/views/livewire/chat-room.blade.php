@@ -18,7 +18,7 @@
                                     <div class="media media-chat media-chat-reverse">
                                         <div class="media-body">
                                             @if($eachmessge['message']['time'])
-                                            <p>{{ $eachmessge['message']['body'] }}</p>
+                                            <p><?=$eachmessge['message']['body'];?></p>
                                             @endif
                                             <p class="meta"><time datetime="2018">{{  $eachmessge['message']['time']  }}</time></p>
 
@@ -46,7 +46,7 @@
                                         <img class="avatar" src="{{ $eachmessge['user']['avatar'] }}" alt="...">
                                         <div class="media-body">
                                             @if($eachmessge['message']['time'])
-                                            <p>{{ $eachmessge['message']['body'] }}</p>
+                                            <p><?=$eachmessge['message']['body'];?></p>
                                             @endif
 
                                             <p class="meta"><time datetime="2018">{{  $eachmessge['message']['time']  }}</time></p>
@@ -83,12 +83,16 @@
                             </div>
                         </div>
                         <form wire:submit.prevent='saveChat' enctype="multipart/form-data">
-                            <div class="publisher bt-1 border-light"> 
-                                <input class="publisher-input" type="text" wire:model='chat_text' placeholder="Write something..">
+                            <div class="publisher bt-1 border-light" wire:ignore> 
+                                {{-- <div id="divChatBox" wire:ignore class="publisher-input" contenteditable></div> --}}
+
+                                <input wire:ignore type="text" wire:model='chat_text' class="publisher-input divChatBox">
+                                
                                 <span class="publisher-btn file-group"><i class="fa fa-paperclip file-browser"></i></span> 
                                 <input type="file" id="uploads" wire:model='uploads' style="display: none" multiple/>
                                 <button class="publisher-btn text-info" type="submit"><i class="fa fa-paper-plane"></i></button> 
                             </div>
+                            
                         </form>
                     </div>
                 </div>
@@ -139,18 +143,17 @@
 @push('custom-scripts')
 <link rel="stylesheet" href="{{ asset('css/adminchat.css') }}" />
 <script>
-  var chatid = "{{$chat->id ?? ''}}";
-  window.Echo.private(`chat-${chatid}-messages`)
-    .listen('.newchat', (e) => {
-        //console.log(e.data.is_on_going)
-        cosole.log(e.data);
-        //console.log(e);
-    });
-
+    var chatid = "{{$chat->id ?? ''}}";
     $(document).on("click",".file-browser",function (event) {
         console.log("OK");
         $('#uploads').trigger('click');
     });
+
+
+    window.Echo.private(`chat-${chatid}-messages`)
+      .listen('.App\\Events\\ChatBroadcast', (e) => {
+          console.log(e);
+      });
 
     $(function(){
         if ($("#page-content").length) {
@@ -158,6 +161,42 @@
                 scrollTop: $('#page-content .media-chat')[0].scrollHeight
             }, "slow");
         }
+    });
+
+    //var members = <?=json_encode($chat->members()->selectRaw('user_id as id,name as text')->get()->makeHidden('pivot'));?>;
+
+    var simpsonAutocompleter = $.MentionsKinder.Autocompleter.Select2Autocompleter.extend({
+        select2Options: {
+            // data: [
+            //     {id:'homer',text:'Homer Jay Simpson'},
+            //     {id:'marge',text:'Marjorie Simpson'},
+            //     {id:'bart',text:'Bartholomew JoJo Simpson'},
+            //     {id:'lisa',text:'Lisa Marie Simpson'},
+            //     {id:'maggie',text:'Margaret Simpson'}
+            // ]
+            data : <?=json_encode($chat->members()->selectRaw('user_id as id,name as text')->get()->makeHidden('pivot'));?>
+        }
+    });
+
+    $.MentionsKinder.defaultOptions.trigger['@'].autocompleter = simpsonAutocompleter;
+
+    $('.divChatBox').mentionsKinder();
+
+    $(document).on("keydown",".select2-input",function (event) {
+        console.log(event.which);
+        if(event.which==27)
+        {
+            $(".select2-container").remove();
+            $(".select2-offscreen").remove();
+        }
+    });
+
+
+    $(document).on("change",".divChatBox",function(event){
+       // console.log($(".mentions-kinder").html())
+        // if(event.which=="13")
+        //     return false;
+        @this.set('chat_text', $(".mentions-kinder").html());
     });
 </script>
 @endpush

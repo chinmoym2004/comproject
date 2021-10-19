@@ -41,10 +41,12 @@
                         <img src="{{ $eachmessge['user']['avatar'] }}" alt="avatar">
                     </div>
                     <div class="message other-message float-right">
-                        {{ $eachmessge['message']['body'] }}
+                        @if($eachmessge['message']['body']!='<p></p>')
+                            <?=$eachmessge['message']['body'];?>
+                        @endif
+
                         @foreach($eachmessge['files'] as $file)
-                        <br/>
-                        <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
+                        <ul class="mailbox-attachments d-flex align-items-stretch clearfix mt-5">
                             <li>
                                 <div class="mailbox-attachment-info text-center d-flex justify-content-between">
                                     <a href="#" class="mailbox-attachment-name">
@@ -73,10 +75,12 @@
                     </div>
 
                     <div class="message my-message">
-                        {{ $eachmessge['message']['body'] }}
+                        @if($eachmessge['message']['body']!='<p></p>')
+                        <?=$eachmessge['message']['body'];?>
+                        @endif 
+
                         @foreach($eachmessge['files'] as $file)
-                        <br/>
-                        <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
+                        <ul class="mailbox-attachments d-flex align-items-stretch clearfix mt-5">
                             <li>
                                 <div class="mailbox-attachment-info text-center d-flex justify-content-between">
                                     <a href="#" class="mailbox-attachment-name">
@@ -100,13 +104,21 @@
     </ul>
 </div>
 <div class="chat-message clearfix">
-    <form wire:submit.prevent="saveChat" enctype="multipart/form-data">
-        <div class="input-group mb-0">
+    <form wire:submit.prevent="saveChat" enctype="multipart/form-data" wire:ignore>
+        {{-- <div class="publisher bt-1 border-light" wire:ignore> 
+            <input wire:ignore type="text" wire:model='chat_text' class="publisher-input divChatBox">
+            
+            <span class="publisher-btn file-group"><i class="fa fa-paperclip file-browser"></i></span> 
+            <input type="file" id="uploads" wire:model='uploads' style="display: none" multiple/>
+            <button class="publisher-btn text-info" type="submit"><i class="fa fa-paper-plane"></i></button> 
+        </div> --}}
+
+        <div class="input-group mb-0 userchatbox" wire:ignore>
             <div class="input-group-append mr-1">
                 <input type="file" id="files" wire:model='uploads' multiple style="display: none"/>
                 <button type="button" class="input-group-text" id="openFileupload"><i class="fa fa-file-upload"></i></button>
             </div>
-            <input wire:ignore type="text" class="form-control" wire:model='chat_text' placeholder="Enter text here..."> 
+            <input wire:ignore type="text" class="form-control divChatBox" wire:model='chat_text' placeholder="Enter text here..."> 
             <div class="input-group-prepend">
                 <button type="submit" class="input-group-text"><i class="fa fa-paper-plane"></i></button>
             </div>                                   
@@ -115,22 +127,50 @@
 </div>
 
 
-<script>
-  chatid = "{{$chat->id ?? ''}}";
-</script>
-
 <script type="text/javascript">
+    chatid = "{{$chat->id ?? ''}}";
+
     window.onscroll = function(ev) {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
             window.livewire.emit('load-more');
         }
     };
 
-    // $(document).on("scroll",".chat-history",function(ev) {
-    //     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-    //         window.livewire.emit('load-more');
-    //     }
-    // };
+    var simpsonAutocompleter = $.MentionsKinder.Autocompleter.Select2Autocompleter.extend({
+        select2Options: {
+            data : <?=json_encode($chat->members()->selectRaw('user_id as id,name as text')->get()->makeHidden('pivot'));?>
+        }
+    });
 
+    $.MentionsKinder.defaultOptions.trigger['@'].autocompleter = simpsonAutocompleter;
+
+    $('.divChatBox').mentionsKinder();
+
+    $(document).on("keydown",".divChatBox",function(event){
+        if(event.which=="13")
+            return false;
+    });
+
+    $(document).on("change",".divChatBox",function(event){
+        if(event.which=="13")
+            return false;
+        //console.log($(".mentions-kinder").html())
+        @this.set('chat_text', $(".mentions-kinder").html());
+        // if(event.which=="13")
+        //     return false;
+    });
+
+    $(document).on("keydown",".select2-input",function (event) {
+        console.log(event.which);
+        if(event.which==27)
+        {
+            $(".select2-container").remove();
+            $(".select2-offscreen").remove();
+        }
+    });
     
+    window.Echo.private(`private-chat-${chatid}-messages`)
+      .listen('.newmessage', (e) => {
+          console.log(e);
+      });
 </script>

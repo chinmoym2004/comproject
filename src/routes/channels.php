@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Broadcast;
 */
 
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+    return true;
     return (int) $user->id === (int) $id;
 });
 
@@ -23,9 +24,8 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 // });
 
 Broadcast::channel('chat-{chatid}-messages', function ($user, $chatid) {
-    echo $chatid;
-    echo $user->id;
-    // return (int) $user->id === (int) $cuid;
-    
+    info("in chat-{chatid}-messages");
+    info($chatid);
+    info($user->id);
     return true;
 });
