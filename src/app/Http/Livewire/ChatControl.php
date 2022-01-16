@@ -27,12 +27,13 @@ class ChatControl extends Component
 
     public $search = '';
 
-    public $perPage = 100;
+    public $perPage = 20;
     protected $listeners = ['load-more' => 'loadMore']; //'echo-private:chat-7-messages,ChatBroadcast' => 'notifyNewMesage'
     public $last_message = 'Never';
 
     public $uploads=[];
     public $chat_text;
+    public $tag_members='';
 
     protected $rules = [
         'uploads.*' => 'file|max:1024', // 1MB Max
@@ -102,6 +103,7 @@ class ChatControl extends Component
             
             $this->chat_messages = $tmp_messages;
             $this->chat_participants = $chat->members()->pluck('name','user_id')->toArray();
+            $this->tag_members =  json_encode($this->chat->members()->selectRaw('user_id as id,name as text')->get()->makeHidden('pivot'));
             $this->dispatchBrowserEvent('chatloaded', ['action' => 'message_loaded']);
         }
     }

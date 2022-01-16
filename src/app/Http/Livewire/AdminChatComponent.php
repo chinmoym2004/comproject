@@ -24,7 +24,7 @@ class AdminChatComponent extends Component
     public $selected_id;
     public $members;
     public $updateMode = false;
-    public $perpage = 10;
+    public $perpage = 20;
     public $groups=null;
     public $is_public=false;
     public $group_id=null;

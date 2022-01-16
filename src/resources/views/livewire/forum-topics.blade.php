@@ -72,7 +72,7 @@
                                     Edit
                                     </button>
                                 
-                                    <a class="btn btn-sm btn-success"  href="{{ url('topics/'.encrypt($topic->id)) }}">
+                                    <a class="btn btn-sm btn-success"  href="{{ url('topic-admins/'.encrypt($topic->id)) }}">
                                     View
                                     </a>
                                 </td>

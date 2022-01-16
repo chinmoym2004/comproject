@@ -61,4 +61,11 @@
 @push('custom-scripts')
 <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
 
+<script>
+    $(document).on("click",".clearfix",function () {
+        $('.divChatBox').html("");
+        $(".select2-container").remove();
+        $(".select2-offscreen").remove();  
+    });
+</script>
 @endpush

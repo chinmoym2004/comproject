@@ -13,7 +13,7 @@ class ForumControl extends Component
 {
     use WithPagination;
 
-    public $sortField = 'name'; // default sorting field
+    public $sortField = 'created_at'; // default sorting field
     public $sortAsc = true; // default sort direction
     public $search = '';
 
@@ -30,15 +30,26 @@ class ForumControl extends Component
     public $categories=null;
     public $groups=null;
 
+    public $perpage = 20;
+
     protected $rules = [
-        'campus'=>'required',
-        'school'=>'required',
-        'program'=>'required',
-        'name'=>'required',
+        'campus'=>'required|alpha_spaces',
+        'school'=>'required|alpha_spaces',
+        'program'=>'required|alpha_spaces',
+        'name'=>'required|alpha_spaces',
         'is_public'=>'required',
         'group_id'=>'sometimes|required',
         'category_id'=>'required'
     ];
+
+    protected $messages = [
+        'campus.required' => 'Campus name is required',
+    ];
+
+    // public function updated($propertyName)
+    // {
+    //     $this->validateOnly($propertyName);
+    // }
 
     private function resetInput()
     {
@@ -53,6 +64,8 @@ class ForumControl extends Component
         $this->category_id=null;
         $this->group_id=null;
         $this->is_public=0;
+
+        $this->updateMode = false;
     }
 
     public function fetchCategory()
@@ -83,7 +96,7 @@ class ForumControl extends Component
     {
         $forums = Forum::search($this->search)
         ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-        ->paginate(20);
+        ->paginate($this->perpage);
 
         return view('livewire.forum-control',['forums'=>$forums]);
     }
@@ -152,8 +165,9 @@ class ForumControl extends Component
 
             //session()->flash('success','Category Updated Successfully!!');
             $this->dispatchBrowserEvent('forum-updated', ['action' => 'updated', 'title' => $this->name]);
-            $this->resetInput();
             $this->emit('triggerRefresh');
+
+            $this->resetInput();
 
             //dd($record);
 
@@ -178,7 +192,7 @@ class ForumControl extends Component
         $this->details=$record->details;
 
         $this->group_id=$record->group_id;
-        $this->is_public=$record->is_public;
+        $this->is_public=$record->is_public ?? 0;
         $this->category_id=$record->category_id;
 
         $this->updateMode = true;

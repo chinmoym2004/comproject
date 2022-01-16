@@ -91,4 +91,10 @@ class ForumAdminController extends Controller
         $topic = Topic::find($id);
         return view('admin.forums.topic_details',['topic'=>$topic]);
     }
+
+    public function showTopicDetails($id){
+        $id = decrypt($id);
+        $topic = Topic::find($id);
+        return view('admin.forums.admin_topic_details',['topic'=>$topic]);
+    }
 }

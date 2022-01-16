@@ -18,6 +18,7 @@ class CategoryPanel extends Component
     protected $listeners = ['triggerRefresh' => '$refresh','triggerCategoryEdit','destroyCategory'];
     public $updateMode = false;
     public $name,$details,$selected_id;
+    public $perPage = 20;
 
     protected $rules = [
         'name'=>'required',
@@ -47,7 +48,7 @@ class CategoryPanel extends Component
     {
         $categories = Category::search(trim($this->search))
         ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-        ->paginate(20);
+        ->paginate($this->perPage);
 
         return view('livewire.category-panel',compact('categories'));
     }

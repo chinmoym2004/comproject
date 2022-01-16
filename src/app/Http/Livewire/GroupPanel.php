@@ -25,7 +25,7 @@ class GroupPanel extends Component
     public $members;
     public $updateMode = false;
     public $memberupdateMode = false;
-    public $perpage = 10;
+    public $perpage = 20;
 
     protected $listeners = ['destroygroup','triggerRefresh' => '$refresh','triggergroupEdit','fetchGroupmembers','selectedFromSearch'];
 
@@ -40,7 +40,9 @@ class GroupPanel extends Component
         $this->description = null;
         $this->member_ids = [];
         $this->members = null;
+
         $this->updateMode = false;
+
         $this->memberupdateMode = false;        
     }
 
@@ -59,7 +61,7 @@ class GroupPanel extends Component
     {
         $groups = Group::search(trim($this->search))
         ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-        ->paginate(20);
+        ->paginate($this->perpage);
 
         return view('livewire.group-panel',['groups'=>$groups]);
     }
@@ -106,9 +108,9 @@ class GroupPanel extends Component
                 'description'=>$this->description,
             ]);
             
-            $this->dispatchBrowserEvent('group-updated', ['action' => 'updated', 'title' => $this->title]);
             $this->resetInput();
-            $this->emit('triggerRefresh');
+
+            $this->dispatchBrowserEvent('group-updated', ['action' => 'updated', 'title' => $this->title]);
 
             //dd($record);
 
@@ -118,6 +120,7 @@ class GroupPanel extends Component
             $this->cancel();
         }
 
+        $this->emit('triggerRefresh');
     }
 
     public function triggergroupEdit($id)

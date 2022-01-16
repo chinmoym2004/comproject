@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
             $me = \Auth::user();
             $view->with('me',$me);
         });
+
     }
 
     /**
@@ -32,5 +34,10 @@ class AppServiceProvider extends ServiceProvider
         //
         //Paginator::useBootstrap();
         Paginator::defaultView('vendor.pagination.bootstrap-4');
+
+        Validator::extend('alpha_spaces', function($attribute, $value)
+        {
+            return preg_match('/^[\pL\s]+$/u', $value);
+        });
     }
 }

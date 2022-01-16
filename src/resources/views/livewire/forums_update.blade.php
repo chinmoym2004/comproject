@@ -3,7 +3,7 @@
       <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="editForumModalLabel">Update Forum</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" wire:click='cancel' class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
         </div>
@@ -48,11 +48,11 @@
                 @error('is_public') <span class="text-danger error">{{ $message }}</span>@enderror
             </div>
 
-            @if($this->is_public==1)
+            @if($this->is_public==0)
             <div class="form-group"> 
                 <label for="group_id">Selct Groups</label> 
                 <select wire:ignore class="form-control" id="group_id" wire:model="group_id">
-                    <option value="">Select a category</option>
+                    <option value="">Select a Groups</option>
                     @if($this->groups)
                         @foreach ($this->groups as $group)
                         <option value="{{ $group->id }}" {{ $this->group_id==$group->id?'selcted':'' }}>{{ $group->title }}</option>
@@ -85,20 +85,20 @@
     </div>
     <script>
       $(document).ready(function () {
-        //   $("#details").summernote({
-        //       height: 200,
-        //       callbacks: {
-        //           onChange: function(contents, $editable) {
-        //               @this.set('details', contents);
-        //           }
-        //       }
-        //   });
-        //   $('#details').summernote('code', '<?=addslashes($this->details)?>');
-          //$('#details').summernote('editor.pasteHTML', '<?=$this->details?>');
+          $("#details").summernote({
+              height: 200,
+              callbacks: {
+                  onChange: function(contents, $editable) {
+                      @this.set('details', contents);
+                  }
+              }
+          });
+          $('#details').summernote('code', '<?=addslashes($this->details)?>');
+          $('#details').summernote('editor.pasteHTML', '<?=$this->details?>');
 
-          // $(document).on("change","#is_public",function(event){
+          $(document).on("change","#is_public",function(event){
 
-          // });
+          });
       });
     </script>
 </div>

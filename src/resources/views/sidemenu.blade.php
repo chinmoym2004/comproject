@@ -31,7 +31,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="{{ url('forum-admins') }}" class="nav-link {{ request()->is('forum-admins') || request()->is('forum-admins/*')?'active':'' }}">
+            <a href="{{ url('forum-admins') }}" class="nav-link {{ request()->is('forum-admins') || request()->is('forum-admins/*') || request()->is('topic-admins/*')?'active':'' }}">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Forum Admin

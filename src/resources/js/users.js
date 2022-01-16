@@ -52,6 +52,7 @@ window.addEventListener("forum-saved", (event) => {
 
 window.addEventListener("forum-updated", (event) => {
     $("#editForumModal").modal("hide");
+    $('.modal-backdrop').remove();
     //alert(`Forum ${event.detail.title} was ${event.detail.action}!`);
 });
 
@@ -146,6 +147,7 @@ Livewire.on("topicDataFetched", (forum) => {
 
 window.addEventListener("topic-updated", (event) => {
     $("#editTopicModal").modal("hide");
+    $('.modal-backdrop').remove();
     //alert(`Topic ${event.detail.title} was ${event.detail.action}!`);
 });
 
@@ -180,6 +182,7 @@ Livewire.on("circularDataFetched", (forum) => {
 
 window.addEventListener("circular-updated", (event) => {
     $("#editcircularModal").modal("hide");
+    $('.modal-backdrop').remove();
     //$('.modal-backdrop').remove();
     //alert(`circular ${event.detail.title} was ${event.detail.action}!`);
 });
@@ -245,6 +248,7 @@ Livewire.on("groupMemberDataFetched", (forum) => {
 
 window.addEventListener("group-updated", (event) => {
     $("#editgroupModal").modal("hide");
+    $('.modal-backdrop').remove();
     //alert(`group ${event.detail.title} was ${event.detail.action}!`);
 });
 
@@ -287,6 +291,7 @@ Livewire.on("catDataFetched", (forum) => {
 
 window.addEventListener("category-updated", (event) => {
     $("#updatecategoryModel").modal("hide");
+    $('.modal-backdrop').remove();
 });
 
 

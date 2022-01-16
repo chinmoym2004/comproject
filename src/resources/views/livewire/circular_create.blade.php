@@ -62,6 +62,12 @@
       </div>
     </div>
 
+    <style type="text/css">
+        .select2-container{
+            padding: 0px;
+        }
+    </style>
+
     <script>
 
         $(document).ready(function () {

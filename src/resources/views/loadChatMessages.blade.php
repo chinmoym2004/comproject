@@ -103,6 +103,7 @@
         @endif
     </ul>
 </div>
+
 <div class="chat-message clearfix">
     <form wire:submit.prevent="saveChat" enctype="multipart/form-data" wire:ignore>
         {{-- <div class="publisher bt-1 border-light" wire:ignore> 
@@ -126,19 +127,21 @@
     </form>
 </div>
 
-
 <script type="text/javascript">
-    chatid = "{{$chat->id ?? ''}}";
-
+    var chatid = "{{$chat->id ?? ''}}";
+    console.log(chatid);
+    var simpsonAutocompleter='';
+    var members = <?=$tag_members;?>;
+console.log(members);
     window.onscroll = function(ev) {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
             window.livewire.emit('load-more');
         }
     };
 
-    var simpsonAutocompleter = $.MentionsKinder.Autocompleter.Select2Autocompleter.extend({
+    simpsonAutocompleter = $.MentionsKinder.Autocompleter.Select2Autocompleter.extend({
         select2Options: {
-            data : <?=json_encode($chat->members()->selectRaw('user_id as id,name as text')->get()->makeHidden('pivot'));?>
+            data : members
         }
     });
 

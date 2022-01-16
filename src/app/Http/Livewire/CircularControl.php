@@ -25,6 +25,7 @@ class CircularControl extends Component
     public $groups;
     public $to_all=0;
     public $group_ids=[];
+    public $perPage = 20;
 
     protected $rules = [
         'title'=>'required',
@@ -46,7 +47,7 @@ class CircularControl extends Component
     {
         $circulars = Circular::search($this->search)
         ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-        ->simplePaginate(20);
+        ->paginate($this->perPage);
 
         return view('livewire.circular-control',['circulars'=>$circulars]);
     }

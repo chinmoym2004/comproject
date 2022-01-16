@@ -23,6 +23,8 @@ class ForumTopics extends Component
     public $members;
     public $updateMode = false;
 
+     public $perpage = 20;
+
     protected $rules = [
         'title'=>'required'
     ];
@@ -54,7 +56,7 @@ class ForumTopics extends Component
         $topics = Topic::search($this->search)
         ->where('forum_id',$this->forum->id)
         ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-        ->simplePaginate(20);
+        ->paginate($this->perpage);
 
         return view('livewire.forum-topics',['topics'=>$topics]);
     }

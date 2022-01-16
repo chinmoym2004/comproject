@@ -17338,7 +17338,8 @@ window.addEventListener("forum-saved", function (event) {
   $('.modal-backdrop').remove(); //alert(`Forum ${event.detail.title} was ${event.detail.action}!`);
 });
 window.addEventListener("forum-updated", function (event) {
-  $("#editForumModal").modal("hide"); //alert(`Forum ${event.detail.title} was ${event.detail.action}!`);
+  $("#editForumModal").modal("hide");
+  $('.modal-backdrop').remove(); //alert(`Forum ${event.detail.title} was ${event.detail.action}!`);
 });
 window.addEventListener("chatSaved", function (event) {
   //console.log(event.detail);
@@ -17415,7 +17416,8 @@ Livewire.on("topicDataFetched", function (forum) {
   $("#editTopicModal").modal("show");
 });
 window.addEventListener("topic-updated", function (event) {
-  $("#editTopicModal").modal("hide"); //alert(`Topic ${event.detail.title} was ${event.detail.action}!`);
+  $("#editTopicModal").modal("hide");
+  $('.modal-backdrop').remove(); //alert(`Topic ${event.detail.title} was ${event.detail.action}!`);
 }); //chat-box-open
 
 /***  Circular ****/
@@ -17440,7 +17442,8 @@ Livewire.on("circularDataFetched", function (forum) {
   $("#editcircularModal").modal("show");
 });
 window.addEventListener("circular-updated", function (event) {
-  $("#editcircularModal").modal("hide"); //$('.modal-backdrop').remove();
+  $("#editcircularModal").modal("hide");
+  $('.modal-backdrop').remove(); //$('.modal-backdrop').remove();
   //alert(`circular ${event.detail.title} was ${event.detail.action}!`);
 });
 /****1-1 chat** */
@@ -17490,7 +17493,8 @@ Livewire.on("groupMemberDataFetched", function (forum) {
   $("#groupMemberUpdateModal").modal("show");
 });
 window.addEventListener("group-updated", function (event) {
-  $("#editgroupModal").modal("hide"); //alert(`group ${event.detail.title} was ${event.detail.action}!`);
+  $("#editgroupModal").modal("hide");
+  $('.modal-backdrop').remove(); //alert(`group ${event.detail.title} was ${event.detail.action}!`);
 });
 window.addEventListener('memberUpdated', function (event) {
   $("#groupMemberUpdateModal").modal("hide");
@@ -17522,6 +17526,7 @@ Livewire.on("catDataFetched", function (forum) {
 });
 window.addEventListener("category-updated", function (event) {
   $("#updatecategoryModel").modal("hide");
+  $('.modal-backdrop').remove();
 }); // window.addEventListener("userselectedtotag", (event) => {
 //     console.log(event);
 //     $("#divChatBox").append('<span class="tag label label-primary">' + event.detail.name + '<span data-role="remove" class="clearuser" dataid="' + event.detail.id + '"></span></span>');
