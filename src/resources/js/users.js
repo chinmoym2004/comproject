@@ -52,8 +52,8 @@ window.addEventListener("forum-saved", (event) => {
 
 window.addEventListener("forum-updated", (event) => {
     $("#editForumModal").modal("hide");
+    console.log("editForumModal");
     $('.modal-backdrop').remove();
-    //alert(`Forum ${event.detail.title} was ${event.detail.action}!`);
 });
 
 

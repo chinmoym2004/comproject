@@ -13,7 +13,7 @@ class AdminChatComponent extends Component
 {
     use WithPagination;
 
-    public $sortField = 'title'; // default sorting field
+    public $sortField = 'created_at'; // default sorting field
     public $sortAsc = true; // default sort direction
     public $search = '';
 

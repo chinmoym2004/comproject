@@ -27,7 +27,7 @@
 
               <div class="form-group"> 
                   <label for="name">Forum Name</label> 
-                  <input wire:ignore type="text" class="form-control" id="name" placeholder="Enter Name" wire:model="name"> 
+                  <input wire:ignore type="text" class="form-control" placeholder="Enter Name" wire:model="name"> 
                   @error('name') <span class="text-danger error">{{ $message }}</span>@enderror
               </div>
 

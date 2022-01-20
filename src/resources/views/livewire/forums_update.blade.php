@@ -1,4 +1,4 @@
-<div wire:ignore class="modal fade" id="editForumModal" tabindex="-1" aria-labelledby="editForumModalLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="editForumModal" tabindex="-1" aria-labelledby="editForumModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -34,7 +34,7 @@
 
               <div class="form-group"> 
                   <label for="details">Details</label> 
-                  <input id="details" type="hidden" wire:model='details'/>
+                  <textarea id="details" wire:model="details" class="form-control"></textarea>
                   @error('details') <span class="text-danger error">{{ $message }}</span>@enderror
               </div>
 
@@ -83,22 +83,21 @@
         </form> 
       </div>
     </div>
+
     <script>
-      $(document).ready(function () {
-          $("#details").summernote({
-              height: 200,
-              callbacks: {
-                  onChange: function(contents, $editable) {
-                      @this.set('details', contents);
-                  }
-              }
-          });
-          $('#details').summernote('code', '<?=addslashes($this->details)?>');
-          $('#details').summernote('editor.pasteHTML', '<?=$this->details?>');
-
-          $(document).on("change","#is_public",function(event){
-
-          });
-      });
+      // $(document).ready(function () {
+      //   //console.log("<?=$this->details?>");
+      //   $("#details").summernote({
+      //     height: 200,
+      //     callbacks: {
+      //         onChange: function(contents, $editable) {
+      //             @this.set('details', contents);
+      //         }
+      //     }
+      //   });
+      //   $('#details').summernote('code', '<?=addslashes($this->details)?>');
+      //   //$('#details').summernote('editor.pasteHTML', '<?=$this->details?>');
+        
+      // });
     </script>
 </div>

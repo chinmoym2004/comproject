@@ -19,10 +19,10 @@ class UserInbox extends Component
     protected $listeners = ['triggerRefresh' => '$refresh'];
 
 
-    public function loadMore()
-    {
-        $this->perPage = $this->perPage + 10;
-    }
+    // public function loadMore()
+    // {
+    //     $this->perPage = $this->perPage + 10;
+    // }
 
     public function sortBy($field)
     {

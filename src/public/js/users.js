@@ -17339,7 +17339,8 @@ window.addEventListener("forum-saved", function (event) {
 });
 window.addEventListener("forum-updated", function (event) {
   $("#editForumModal").modal("hide");
-  $('.modal-backdrop').remove(); //alert(`Forum ${event.detail.title} was ${event.detail.action}!`);
+  console.log("editForumModal");
+  $('.modal-backdrop').remove();
 });
 window.addEventListener("chatSaved", function (event) {
   //console.log(event.detail);

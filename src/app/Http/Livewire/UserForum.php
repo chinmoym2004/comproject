@@ -12,10 +12,10 @@ class UserForum extends Component
     use WithPagination;
     public $perPage = 20;
 
-    public function loadMore()
-    {
-        $this->perPage = $this->perPage + 10;
-    }
+    // public function loadMore()
+    // {
+    //     $this->perPage = $this->perPage + 10;
+    // }
 
     public function render()
     {

@@ -46,10 +46,10 @@ class ForumControl extends Component
         'campus.required' => 'Campus name is required',
     ];
 
-    // public function updated($propertyName)
-    // {
-    //     $this->validateOnly($propertyName);
-    // }
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
 
     private function resetInput()
     {
@@ -66,6 +66,7 @@ class ForumControl extends Component
         $this->is_public=0;
 
         $this->updateMode = false;
+        $this->createMode = false;
     }
 
     public function fetchCategory()
@@ -144,41 +145,6 @@ class ForumControl extends Component
         $this->resetInput();
     }
 
-    public function update()
-    {
-        $this->validate();
-
-        try
-        {
-            $record = Forum::find($this->selected_id);
-
-            $record->update([
-                'name' => $this->name,
-                'campus'=>$this->campus,
-                'school'=>$this->school,
-                'program'=>$this->program,
-                'details'=>$this->details,
-                'group_id'=>$this->group_id,
-                'is_public'=>$this->is_public,
-                'category_id'=>$this->category_id
-            ]);
-
-            //session()->flash('success','Category Updated Successfully!!');
-            $this->dispatchBrowserEvent('forum-updated', ['action' => 'updated', 'title' => $this->name]);
-            $this->emit('triggerRefresh');
-
-            $this->resetInput();
-
-            //dd($record);
-
-        }catch(\Exception $e){
-            report($e);
-            session()->flash('error','Something goes wrong while updating category!!');
-            $this->cancel();
-        }
-
-    }
-
     public function triggerForumEdit($id)
     {
         $record = Forum::find($id);
@@ -200,6 +166,38 @@ class ForumControl extends Component
         $this->groups = Group::all();
         
         $this->emit('forumDataFetched', $record);
+    }
+
+    public function update()
+    {
+        $this->validate();
+
+        try
+        {
+            $record = Forum::find($this->selected_id);
+
+            $record->update([
+                'name' => $this->name,
+                'campus'=>$this->campus,
+                'school'=>$this->school,
+                'program'=>$this->program,
+                'details'=>$this->details,
+                'group_id'=>$this->group_id,
+                'is_public'=>$this->is_public,
+                'category_id'=>$this->category_id
+            ]);
+
+            $this->dispatchBrowserEvent('forum-updated', ['action' => 'updated', 'title' => $this->name]);
+            $this->emit('triggerRefresh');
+
+            $this->resetInput();
+
+        }catch(\Exception $e){
+            report($e);
+            // session()->flash('error','Something goes wrong while updating category!!');
+            $this->cancel();
+        }
+
     }
 
     public function destroyForum($id)

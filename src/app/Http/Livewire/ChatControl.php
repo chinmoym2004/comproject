@@ -18,7 +18,7 @@ class ChatControl extends Component
     public $active_room;
 
     public $see_members=0;
-    public $upload_file=0;
+    public $upload_file=0,$messages_count=0;
 
     public $chat_participants;
     public $chat_messages;
@@ -27,8 +27,8 @@ class ChatControl extends Component
 
     public $search = '';
 
-    public $perPage = 20;
-    protected $listeners = ['load-more' => 'loadMore']; //'echo-private:chat-7-messages,ChatBroadcast' => 'notifyNewMesage'
+    public $perPage = 10;
+    protected $listeners = ['loadMore','triggerRefresh' => '$refresh'];
     public $last_message = 'Never';
 
     public $uploads=[];
@@ -42,6 +42,10 @@ class ChatControl extends Component
     public function loadMore()
     {
         $this->perPage = $this->perPage + 10;
+        if(isset($this->active_room))
+            $this->loadChatRoom(encrypt($this->active_room));
+
+        $this->emit('load');
     }
 
     public function render()
@@ -58,6 +62,8 @@ class ChatControl extends Component
     public function clearChat()
     {
         $this->chat=null;
+        $this->messages_count=0;
+        $this->perPage=10;
         $this->chat_participants  = []; 
         $this->chat_messages = [];
         $this->last_chat_message = []; 
@@ -67,8 +73,7 @@ class ChatControl extends Component
     }
 
     public function loadChatRoom($chat_id)
-    {
-        $this->chat_messages=null;
+    {                
         $me = Auth::user();
 
         $chat = Chat::find(decrypt($chat_id));
@@ -89,7 +94,13 @@ class ChatControl extends Component
 
             $tmp_messages = [];
 
-            $megs = $chat->messages()->orderBy('id','ASC')->paginate($this->perPage);
+            $this->messages_count = $chat->messages()->count();
+
+            $megs = $chat->messages()
+            ->orderBy('id','ASC')
+            ->skip($this->messages_count - $this->perPage)
+            ->take($this->perPage)
+            ->get();
 
             foreach($megs as $msg)
             {
@@ -104,7 +115,9 @@ class ChatControl extends Component
             $this->chat_messages = $tmp_messages;
             $this->chat_participants = $chat->members()->pluck('name','user_id')->toArray();
             $this->tag_members =  json_encode($this->chat->members()->selectRaw('user_id as id,name as text')->get()->makeHidden('pivot'));
-            $this->dispatchBrowserEvent('chatloaded', ['action' => 'message_loaded']);
+
+            if($this->perPage==10)
+                $this->dispatchBrowserEvent('chatloaded', ['action' => 'message_loaded']);
         }
     }
 

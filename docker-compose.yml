@@ -17,6 +17,7 @@ services:
     depends_on:
       - php
       - mysql
+      - redis
       - laravelecho
     ports:
       - 443:443
@@ -90,9 +91,25 @@ services:
       - ./src:/var/www/html
     working_dir: /var/www/html
     depends_on:
+      - redis
       - npm
     ports:
       - 6001:6001
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: NULL
+      REDIS_PREFIX: NULL
+    networks:
+      - laravel
+    links:
+      - redis
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - 6379:6379
     networks:
       - laravel
 

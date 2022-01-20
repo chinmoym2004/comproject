@@ -10,7 +10,7 @@ class UserPanel extends Component
 {
     use WithPagination;
 
-    public $sortField = 'name'; // default sorting field
+    public $sortField = 'created_at'; // default sorting field
     public $sortAsc = true; // default sort direction
     public $search = '';
     public $selected_members=[];

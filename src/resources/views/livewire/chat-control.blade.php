@@ -13,7 +13,7 @@
                         <ul class="list-unstyled chat-list mt-2 mb-0">
                             @if($rooms->count())
                                 @foreach ($rooms as $room)
-                                <li class="clearfix {{ $active_room==$room->id?'active':''}}" wire:click='loadChatRoom("{{ encrypt($room->id) }}")'>
+                                <li class="clearfix loadchataction {{ isset($active_room) && $active_room==$room->id?'active':''}}" wire:click="loadChatRoom('{{encrypt($room->id)}}')">
                                     
                                     <img src="{{ asset('img/user-placeholder.png') }}" alt="avatar">
                                     {{-- <div class="flex-shrink-0 mr-4 symbol symbol-65 symbol-circle">
@@ -34,7 +34,7 @@
                             @endif
                         </ul>
                     </div>
-                    <div class="chat" id="messagearea">
+                    
                         @if($active_room)
                             @include('loadChatMessages')
                         @else
@@ -42,7 +42,6 @@
                             Select a chat to start
                         </p>
                         @endif
-                    </div>
                 </div>
             </div>
         </div>
@@ -62,7 +61,7 @@
 <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
 
 <script>
-    $(document).on("click",".clearfix",function () {
+    $(document).on("click",".loadchataction",function () {
         $('.divChatBox').html("");
         $(".select2-container").remove();
         $(".select2-offscreen").remove();  
