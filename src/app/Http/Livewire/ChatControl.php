@@ -198,6 +198,7 @@ class ChatControl extends Component
 
         //$this->allow_search = 0;
         $this->chat_text='';
+        $this->uploads=[];
     }
 
     public function viewmembers($chat_id)

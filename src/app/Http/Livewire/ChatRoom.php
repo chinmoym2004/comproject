@@ -21,8 +21,10 @@ class ChatRoom extends Component
     public $chat_text='';
     public $cmessages;
     public $allow_search = 0;
-    public $total_message_count=0;
-    protected $listeners = ['triggerRefresh' => '$refresh','addMember','selectedFromSearch','removeMember','echo-private:chat-7-messages,ChatBroadcast' => 'notifyNewMesage','tagableUserList','closeTagableUserList'];
+    public $total_message_count=0,$messages_count=0;
+    public $tag_members='';
+
+    protected $listeners = ['triggerRefresh' => '$refresh','addMember','selectedFromSearch','removeMember','tagableUserList','closeTagableUserList','loadMore'];
 
     public $chat_messages;
     public $members = null;
@@ -34,10 +36,21 @@ class ChatRoom extends Component
     public $taggableusers = null;
     public $taggedusers = [];
 
+    public $last_message = 'Never';
+
+    public $perPage = 10;
+
     protected $rules = [
         'uploads.*' => 'file|max:2048', // 1MB Max
     ];
 
+    public function loadMore()
+    {
+        $this->perPage = $this->perPage + 10;
+        $this->loadChatRoom(encrypt($this->active_room));
+
+        $this->emit('load');
+    }
     
 
     private function resetInput()
@@ -65,9 +78,28 @@ class ChatRoom extends Component
     {
         $me = Auth::user();
 
+        $chat = $this->chat;
+        
+        
+        $this->last_message = $chat->messages()->latest()->first()?$chat->messages()->latest()->first()->created_at->diffForHumans():'Never';
+
+
+        if(isset($this->active_room) && $this->active_room!=$chat->id)
+        {
+            // clear previous chat
+            $this->clearChat();
+        }
+        $this->chat = $chat;
+
         $tmp_messages = [];
 
-        $megs = $this->chat->messages()->orderBy('id','ASC')->get();
+        $this->messages_count = $chat->messages()->count();
+
+        $megs = $chat->messages()
+        ->orderBy('id','ASC')
+        ->skip($this->messages_count - $this->perPage)
+        ->take($this->perPage)
+        ->get();
 
         foreach($megs as $msg)
         {
@@ -80,6 +112,29 @@ class ChatRoom extends Component
         }
         
         $this->chat_messages = $tmp_messages;
+        $this->chat_participants = $chat->members()->pluck('name','user_id')->toArray();
+        $this->tag_members =  json_encode($this->chat->members()->selectRaw('user_id as id,name as text')->get()->makeHidden('pivot'));
+
+        if($this->perPage==10)
+            $this->dispatchBrowserEvent('chatloaded', ['action' => 'message_loaded']);
+        
+        // $me = Auth::user();
+
+        // $tmp_messages = [];
+
+        // $megs = $this->chat->messages()->orderBy('id','ASC')->get();
+
+        // foreach($megs as $msg)
+        // {
+        //     $user = $msg->user;
+        //     $tmp['user']=['name'=>$user->name,'_id'=>encrypt($user->id),'avatar'=>$user->image()];
+        //     $tmp['message']=['body'=>$msg->body,'time'=>date('Y-m-d H:i:s',strtotime($msg->created_at))];
+        //     $tmp['files'] = $msg->upload;
+        //     $tmp['is_me']=$msg->user_id==$me->id?1:0;
+        //     $tmp_messages[]=$tmp;
+        // }
+        
+        // $this->chat_messages = $tmp_messages;
         return view('livewire.chat-room');
     }
 
@@ -143,13 +198,18 @@ class ChatRoom extends Component
         $tmp['message']=['body'=>$message->body,'time'=>date('Y-m-d H:i:s',strtotime($message->created_at))];
         $tmp['files'] = $message->upload;
         $tmp['is_me']=$message->user_id==$user->id?1:0;
+        $tmp['chat_id']=$message->chat_id;
+
 
         $this->chat_messages[]=$tmp;
 
+        broadcast(new ChatBroadcast($tmp))->toOthers();
+
         $this->dispatchBrowserEvent('chatSaved', ['action' => 'created','data'=>$data]);
-        event(new ChatBroadcast($data));
+
         $this->allow_search = 0;
         $this->chat_text='';
+        $this->uploads=[];
         $this->emit('triggerRefresh');
     }
 
@@ -264,5 +324,17 @@ class ChatRoom extends Component
         $this->taggableusers = [];
 
         $this->dispatchBrowserEvent('userselectedtotag', ['name' => $user,'id'=> $id]);
+    }
+
+    /**
+     * @param $message
+     */
+    public function incomingMessage($data)
+    {
+        //dd($data);
+        // get the hydrated model from incoming json/array.
+        //$message = Message::with('user')->find($message['id']);
+        $data['is_me']=0;
+        array_push($this->chat_messages, $data);
     }
 }

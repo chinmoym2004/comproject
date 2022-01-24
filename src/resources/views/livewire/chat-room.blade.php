@@ -4,7 +4,7 @@
     @endif
     <div class="container py-1">
         <div class="row">
-            <div class="col-md-6 col-lg-7 col-xl-8 chat" id="messagearea">
+            <!-- <div class="col-md-6 col-lg-7 col-xl-8 chat" id="messagearea">
                 <div class="page-content page-container" id="page-content">
                     <div class="card card-bordered">
                         <div class="card-header">
@@ -96,6 +96,11 @@
                         </form>
                     </div>
                 </div>
+            </div> -->
+            <div class="col-md-6 col-lg-7 col-xl-8">
+                <div class="card chat-app">
+                    @include('loadChatMessagesAdmin')
+                </div>
             </div>
             <div class="col-md-6 col-lg-5 col-xl-4">
                 <div class="card card-bordered">
@@ -142,6 +147,14 @@
 
 @push('custom-scripts')
 <link rel="stylesheet" href="{{ asset('css/adminchat.css') }}" />
+<link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
+
+<style type="text/css">
+    .chat-app .chat{
+        margin-left: 0px;
+    }
+</style>
+
 <script>
     var chatid = "{{$chat->id ?? ''}}";
     $(document).on("click",".file-browser",function (event) {
@@ -150,10 +163,10 @@
     });
 
 
-    window.Echo.private(`chat-${chatid}-messages`)
-      .listen('.App\\Events\\ChatBroadcast', (e) => {
-          console.log(e);
-      });
+    window.Echo.private('room-'+chatid)
+      .listen('ChatBroadcast', (e) => {
+          @this.call('incomingMessage', e.data);
+    });
 
     $(function(){
         if ($("#page-content").length) {

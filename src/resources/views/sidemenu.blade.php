@@ -21,7 +21,7 @@
 
             
           <li class="nav-item">
-            <a href="{{ url('chat-admins') }}" class="nav-link {{ request()->is('chat-admins') || request()->is('chat-admins/*')?'active':'' }}">
+            <a href="{{ url('chat-admins') }}" class="nav-link {{ request()->is('chat-admins') || request()->is('chat-admins/*') || request()->is('chat-rooms/*')?'active':'' }}">
               <i class="nav-icon fas fa-comment"></i>
               <p>
                 Chat Admin
