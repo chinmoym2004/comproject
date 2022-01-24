@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\Broadcast;
 */
 
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return true;
     return (int) $user->id === (int) $id;
+});
+
+Broadcast::channel('me', function ($user) {
+    return \Illuminate\Support\Facades\Auth::check();
 });
 
 
@@ -28,4 +31,12 @@ Broadcast::channel('chat-{chatid}-messages', function ($user, $chatid) {
     info($chatid);
     info($user->id);
     return true;
+});
+
+Broadcast::channel('room-{chatid}', function ($user, $chatid) {
+    return \Illuminate\Support\Facades\Auth::check();
+    // if ($user->canJoinRoom($roomId)) {
+    //     return ['id' => $user->id, 'name' => $user->name];
+    // }
+    //return true;
 });

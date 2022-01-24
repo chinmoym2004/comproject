@@ -14,3 +14,4 @@ RUN apk --no-cache add pcre-dev ${PHPIZE_DEPS} \
     && apk del pcre-dev ${PHPIZE_DEPS}
 
 RUN chown laravel:laravel /var/www/html
+RUN npm install --save-dev

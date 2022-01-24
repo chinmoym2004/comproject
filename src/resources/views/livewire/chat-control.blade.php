@@ -29,6 +29,7 @@
                                         <div class="status"> <i class="fa fa-circle offline"></i>Never</div>  
                                         @endif                                          
                                     </div>
+
                                 </li>
                                 @endforeach
                             @endif
@@ -59,7 +60,6 @@
 
 @push('custom-scripts')
 <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
-
 <script>
     $(document).on("click",".loadchataction",function () {
         $('.divChatBox').html("");
@@ -67,4 +67,16 @@
         $(".select2-offscreen").remove();  
     });
 </script>
+
+    @if($rooms->count())
+        @foreach ($rooms as $room)
+        <script type="text/javascript">
+        window.Echo.private('room-'+'{{$room->id}}')
+          .listen('ChatBroadcast', (e) => {
+              @this.call('incomingMessage', e.data);
+        });
+        </script>
+        @endforeach
+    @endif
+
 @endpush

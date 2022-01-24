@@ -133,8 +133,6 @@
     </div>
 
     <script type="text/javascript">
-        var chatid = "{{$chat->id ?? ''}}";
-        console.log(chatid);
         var simpsonAutocompleter='';
         var members = <?=$tag_members;?>;
         // window.onscroll = function(ev) {
@@ -176,10 +174,7 @@
             }
         });
         
-        // window.Echo.private(`private-chat-${chatid}-messages`)
-        //   .listen('.newmessage', (e) => {
-        //       console.log(e);
-        // });
+        
 
 
         $(document).ready(function(){

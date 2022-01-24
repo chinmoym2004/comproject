@@ -11,14 +11,12 @@ services:
       context: .
       dockerfile: nginx.dockerfile
     links:
-        - laravelecho
         - php
     container_name: nginx
     depends_on:
       - php
       - mysql
       - redis
-      - laravelecho
     ports:
       - 443:443
     volumes:
@@ -31,6 +29,8 @@ services:
       context: .
       dockerfile: php.dockerfile
     container_name: php
+    depends_on:
+      - npm
     volumes:
       - ./src:/var/www/html
     networks:
@@ -81,29 +81,6 @@ services:
     entrypoint: ["npm"]
     networks:
       - laravel
-  
-  laravelecho:
-    build:
-      context: .
-      dockerfile: echo.dockerfile
-    container_name: laravelecho
-    volumes: 
-      - ./src:/var/www/html
-    working_dir: /var/www/html
-    depends_on:
-      - redis
-      - npm
-    ports:
-      - 6001:6001
-    environment:
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      REDIS_PASSWORD: NULL
-      REDIS_PREFIX: NULL
-    networks:
-      - laravel
-    links:
-      - redis
 
   redis:
     image: redis:latest

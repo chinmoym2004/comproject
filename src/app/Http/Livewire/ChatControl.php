@@ -24,6 +24,7 @@ class ChatControl extends Component
     public $chat_messages;
     public $last_chat_message;
     public $chat;
+    public $chat_id=0;
 
     public $search = '';
 
@@ -38,6 +39,7 @@ class ChatControl extends Component
     protected $rules = [
         'uploads.*' => 'file|max:1024', // 1MB Max
     ];
+
 
     public function loadMore()
     {
@@ -143,6 +145,8 @@ class ChatControl extends Component
         $message->user_id = $user->id;
         $message->save();
 
+        $this->chat_id = $this->chat->id;
+
         // Inbox user of they are tagged 
         if(count($tobetagged))
         {
@@ -181,12 +185,16 @@ class ChatControl extends Component
         $tmp['message']=['body'=>$message->body,'time'=>date('Y-m-d H:i:s',strtotime($message->created_at))];
         $tmp['files'] = $message->upload;
         $tmp['is_me']=$message->user_id==$user->id?1:0;
+        $tmp['chat_id']=$message->chat_id;
 
-        $this->chat_messages[]=$tmp;
+        //$this->chat_messages[]=$tmp;
+        array_push($this->chat_messages, $tmp);
+
+        broadcast(new ChatBroadcast($tmp))->toOthers();
 
         $this->dispatchBrowserEvent('chatSaved', ['action' => 'created','data'=>$data]);
 
-        event(new ChatBroadcast($data));
+        //event(new ChatBroadcast($data));
 
         //$this->allow_search = 0;
         $this->chat_text='';
@@ -230,8 +238,15 @@ class ChatControl extends Component
         //return response()->download(storage_path('public/'.$file->file_loc),$file->file_name);
     }
 
-    public function notifyNewMesage()
+    /**
+     * @param $message
+     */
+    public function incomingMessage($data)
     {
-        info("Notification channel");
+        //dd($data);
+        // get the hydrated model from incoming json/array.
+        //$message = Message::with('user')->find($message['id']);
+        $data['is_me']=0;
+        array_push($this->chat_messages, $data);
     }
 }

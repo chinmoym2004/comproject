@@ -169,24 +169,18 @@
 
 	<link rel="stylesheet" href="{{ asset('theme/plugins/summernote/summernote-bs4.min.css') }}">
 	<script src="{{ asset('theme/plugins/summernote/summernote-bs4.min.js') }}"></script>
+
 	
-	<script src="{{ asset('js/app.js') }}"></script>
+	<script src="{{ asset('js/app.js?v='.time()) }}"></script>
 	<script src="{{ asset('js/users.js?v='.time()) }}"></script>
-	<script>
-		var chatid = "";
-	</script>
-
-	@stack('custom-scripts')
-
 	<script type="text/javascript">
-		var i = 0;
-		// window.Echo.channel('user-channel')
-		//  .listen('.UserEvent', (data) => {
-		// 	i++;
-		// 	console.log(data.title);
-		// });
+		Echo.private(`me`)
+          .listen('.User', (e) => {
+            console.log("ok");
+              console.log(e);
+        });
 	</script>
-
+	@stack('custom-scripts')
 </body>
 
 </html>

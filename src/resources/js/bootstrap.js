@@ -27,21 +27,29 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: true
 // });
 
-let token = document.head.querySelector('meta[name="csrf-token"]');
+let token = $('meta[name="csrf-token"]').attr("content");
+//document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token;
+    //token.content;
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
 import Echo from "laravel-echo"
-
-window.io = require('socket.io-client');
+import Larasocket from 'larasocket-js';
 
 window.Echo = new Echo({
-    broadcaster: 'socket.io',
-    host: window.location.hostname,
-    reconnectionAttempts: 5,
-    csrfToken: token.content
+    broadcaster: Larasocket,
+    token: process.env.MIX_LARASOCKET_TOKEN,
 });
+
+// window.io = require('socket.io-client');
+
+// window.Echo = new Echo({
+//     broadcaster: 'socket.io',
+//     host: window.location.hostname+':6001',
+//     reconnectionAttempts: 5,
+//     csrfToken: token
+// });

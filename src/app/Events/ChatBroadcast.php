@@ -2,23 +2,19 @@
 
 namespace App\Events;
 
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ChatBroadcast implements ShouldBroadcastNow
+class ChatBroadcast implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     protected $data;
     
-    public function broadcastAs()
-    {
-        return 'newmessage';
-    }
-
     //public $broadcastQueue = 'user-chat-messages';
 
     /**
@@ -44,6 +40,12 @@ class ChatBroadcast implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chat-'.$this->data['chat_id'].'-messages');
+        $room = 'room-'.$this->data['chat_id'];
+        return new PrivateChannel($room);
     }
+
+    // public function broadcastAs()
+    // {
+    //     return 'ChatBroadcast';
+    // }
 }
