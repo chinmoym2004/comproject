@@ -1,4 +1,4 @@
-FROM php:7.4.12-fpm-alpine
+FROM php:8.0.2-fpm-alpine
 
 ADD ./php/www.conf /usr/local/etc/php-fpm.d/www.conf
 
