@@ -73,6 +73,7 @@
         <script type="text/javascript">
         window.Echo.private('room-'+'{{$room->id}}')
           .listen('ChatBroadcast', (e) => {
+            console.log(e);
               @this.call('incomingMessage', e.data);
         });
         </script>

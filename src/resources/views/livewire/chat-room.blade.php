@@ -165,6 +165,7 @@
 
     window.Echo.private('room-'+chatid)
       .listen('ChatBroadcast', (e) => {
+            console.log(e);
           @this.call('incomingMessage', e.data);
     });
 
@@ -175,25 +176,6 @@
             }, "slow");
         }
     });
-
-    //var members = <?=json_encode($chat->members()->selectRaw('user_id as id,name as text')->get()->makeHidden('pivot'));?>;
-
-    var simpsonAutocompleter = $.MentionsKinder.Autocompleter.Select2Autocompleter.extend({
-        select2Options: {
-            // data: [
-            //     {id:'homer',text:'Homer Jay Simpson'},
-            //     {id:'marge',text:'Marjorie Simpson'},
-            //     {id:'bart',text:'Bartholomew JoJo Simpson'},
-            //     {id:'lisa',text:'Lisa Marie Simpson'},
-            //     {id:'maggie',text:'Margaret Simpson'}
-            // ]
-            data : <?=json_encode($chat->members()->selectRaw('user_id as id,name as text')->get()->makeHidden('pivot'));?>
-        }
-    });
-
-    $.MentionsKinder.defaultOptions.trigger['@'].autocompleter = simpsonAutocompleter;
-
-    $('.divChatBox').mentionsKinder();
 
     $(document).on("keydown",".select2-input",function (event) {
         console.log(event.which);
