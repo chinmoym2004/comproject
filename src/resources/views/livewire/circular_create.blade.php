@@ -15,9 +15,9 @@
                     @error('title') <span class="text-danger error">{{ $message }}</span>@enderror
                 </div>
 
-                <div class="form-group"> 
+                <div class="form-group" wire:ignore> 
                     <label for="details">Details</label> 
-                    <input id="details" type="hidden" wire:model='details'/>
+                    <textarea id="details" class="form-control"></textarea>
 
                     {{-- <div input="details" id="details_editor"></div> --}}
                     @error('details') <span class="text-danger error">{{ $message }}</span>@enderror

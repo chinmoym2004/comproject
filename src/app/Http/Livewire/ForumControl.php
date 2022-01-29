@@ -129,6 +129,7 @@ class ForumControl extends Component
             $this->dispatchBrowserEvent('forum-saved', ['action' => 'created', 'title' => $this->name]);
             $this->emit('triggerRefresh');
             $this->createMode=false;
+            $this->resetInput();
 
         }catch(\Exception $e){
             report($e);
@@ -207,6 +208,7 @@ class ForumControl extends Component
             $name = $record->name;
 
             $record->delete();
+            $this->resetInput();
             $this->dispatchBrowserEvent('forum-deleted', ['title' => $name]); // add this
         }
     }

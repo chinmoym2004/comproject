@@ -16,9 +16,9 @@
                     @error('title') <span class="text-danger error">{{ $message }}</span>@enderror
                 </div>
 
-                <div class="form-group"> 
+                <div class="form-group" wire:ignore> 
                     <label for="title">Details</label> 
-                    <input id="details" type="hidden" wire:model='details'/>
+                    <textarea id="details" class="form-control">{{$details}}</textarea>
                     @error('details') <span class="text-danger error">{{ $message }}</span>@enderror
                 </div>
 
@@ -58,6 +58,13 @@
         }
     </style>
 
+    <!-- <script>
+        $('#details').on('summernote.blur', function() {
+            console.log('Editable area loses focus', this.value);
+            @this.details = this.value;
+        });
+    </script> -->
+
     <script>
 
         $(document).ready(function () {
@@ -71,7 +78,7 @@
                 }
             });
 
-            $('#details').summernote('code', "<?=$this->details?>");
+            // $('#details').summernote('code', "<?=$this->details?>");
 
 
             $('#group_ids').select2();
