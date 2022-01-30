@@ -248,6 +248,6 @@ class ChatControl extends Component
         // get the hydrated model from incoming json/array.
         //$message = Message::with('user')->find($message['id']);
         $data['is_me']=0;
-        array_push($this->chat_messages, $data);
+        array_push($this->chat_messages ?? [], $data);
     }
 }
