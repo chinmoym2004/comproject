@@ -143,8 +143,10 @@ class ForumControl extends Component
     public function cancel()
     {
         $this->updateMode = false;
-        $this->errors = null;
         $this->resetInput();
+
+        $this->resetErrorBag();
+        $this->resetValidation();
     }
 
     public function triggerForumEdit($id)
