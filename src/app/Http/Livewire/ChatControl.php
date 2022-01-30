@@ -249,6 +249,6 @@ class ChatControl extends Component
         //$message = Message::with('user')->find($message['id']);
         $data['is_me']=0;
         if(is_array($data))
-            array_push($this->chat_messages ?? [], $data);
+            array_push($this->chat_messages, $data);
     }
 }
