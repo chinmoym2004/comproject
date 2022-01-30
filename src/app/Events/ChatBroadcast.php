@@ -29,7 +29,7 @@ class ChatBroadcast implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        info($this->data);
+        //info($this->data);
         return ['data' => $this->data];
     }
 
