@@ -21,8 +21,9 @@ class UserCircular extends Component
         $user = Auth::user();
 
         $circulars1 = Circular::where('to_all',1)->where('published',1);
-        $circulars2 = Circular::with('members')->where('user_id',$user->id)->where('published',1);
-        
+        $circulars2 = Circular::whereHas('members',function($q) use ($user){
+            $q->where('user_id',$user->id);
+        })->where('published',1);
         $circulars = $circulars1->union($circulars2)->orderBy('created_at','DESC')->get();
         
         return view('livewire.user-circular',['circulars'=>$circulars]);

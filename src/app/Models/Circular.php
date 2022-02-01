@@ -25,7 +25,7 @@ class Circular extends Model
 
     public function members()
     {
-        return $this->belongsToMany(User::class,'circular_user')->withPivot('has_confirmed')->withTimestamps();
+        return $this->belongsToMany(User::class,'circular_user','circular_id','user_id')->withPivot('has_confirmed')->withTimestamps();
     }
 
     public static function search($query)

@@ -1,5 +1,4 @@
 <div>
-
     @if($comments->count())   
     <div class="card">
         <div class="card-body">
@@ -18,7 +17,7 @@
         @endif
     </div>
     @else
-    <p class="text-muted text-center pt-3">No Comment yet, be the first one</p>
+    <p class="text-muted text-center pt-3">No activity from user</p>
     @endif
 
     <script>

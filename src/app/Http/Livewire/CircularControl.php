@@ -12,7 +12,7 @@ class CircularControl extends Component
     use WithPagination;
 
     public $sortField = 'created_at'; // default sorting field
-    public $sortAsc = true; // default sort direction
+    public $sortAsc = false; // default sort direction
     public $search = '';
 
     protected $listeners = ['circular-delete', 'triggerRefresh' => '$refresh','triggercircularEdit','destroycircular','fetchGroupForCircular'];
@@ -122,7 +122,7 @@ class CircularControl extends Component
                     $result = $grp->members()->pluck('user_id')->toArray();
                     $circularmember = array_merge($circularmember,$result);
                 }
-                //print_r($circularmember);
+                //dd($circularmember);exit;
                 if(count($circularmember))
                     $record->members()->sync($circularmember);
             }

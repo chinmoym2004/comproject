@@ -1,4 +1,4 @@
-<div wire:ignore.self class="modal fade" id="createForumModal" tabindex="-1" aria-labelledby="createForumModalLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="createForumModal" tabindex="-1" aria-labelledby="createForumModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">

@@ -14,7 +14,7 @@ class AdminChatComponent extends Component
     use WithPagination;
 
     public $sortField = 'created_at'; // default sorting field
-    public $sortAsc = true; // default sort direction
+    public $sortAsc = false; // default sort direction
     public $search = '';
 
     protected $listeners = ['destroy', 'triggerRefresh' => '$refresh','triggerEdit','chatMembersSelected','fetchGroupForChargroup'];

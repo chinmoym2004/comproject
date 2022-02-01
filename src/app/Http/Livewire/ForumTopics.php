@@ -10,7 +10,7 @@ class ForumTopics extends Component
     use WithPagination;
 
     public $sortField = 'created_at'; // default sorting field
-    public $sortAsc = true; // default sort direction
+    public $sortAsc = false; // default sort direction
     public $search = '';
 
     protected $listeners = ['destroyTopic', 'triggerRefresh' => '$refresh','triggerTopicEdit','chatMembersSelected'];
@@ -142,7 +142,7 @@ class ForumTopics extends Component
             ]);
             
             $this->dispatchBrowserEvent('topic-updated', ['action' => 'updated', 'title' => $this->title]);
-            $this->resetInput();
+            $this->cancel();
             $this->emit('triggerRefresh');
 
             //dd($record);
