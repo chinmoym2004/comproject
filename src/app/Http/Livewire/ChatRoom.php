@@ -72,6 +72,9 @@ class ChatRoom extends Component
     {
         $this->memberupdateMode = false;
         $this->resetInput();
+
+        $this->resetErrorBag();
+        $this->resetValidation();
     }
 
     public function render()
