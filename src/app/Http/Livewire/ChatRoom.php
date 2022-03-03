@@ -156,76 +156,78 @@ class ChatRoom extends Component
     public function saveChat()
     {
         //dd($this->chat_text);
-
-        $pattern = "/member:\d/i";
-        $tobetagged = [];
-        if(preg_match_all($pattern, $this->chat_text, $matches)) {
-            foreach($matches[0] as $member)
-            {
-                $tobetagged[] = explode(":",$member)[1];
-            }
-        }
-
-        $this->validate();
-
-        $user = Auth::user();
-
-        $message = new Message;
-        $message->chat_id = $this->chat->id;
-        $message->body = $this->chat_text;
-        $message->user_id = $user->id;
-        $message->save();
-
-        if($this->uploads)
+        if($this->chat_text || $this->uploads)
         {
-            foreach ($this->uploads as $file) {
-                $uploadfile = new Upload;
-                $filedata = $uploadfile->saveFile($file,'Message');
-                $filedata['uploaded_by']=$user->id;
-                $filedata['is_thumbnail']=0;
-                $message->upload()->create($filedata);
+            $pattern = "/member:\d/i";
+            $tobetagged = [];
+            if(preg_match_all($pattern, $this->chat_text, $matches)) {
+                foreach($matches[0] as $member)
+                {
+                    $tobetagged[] = explode(":",$member)[1];
+                }
             }
-        }
 
-        // Inbox user of they are tagged 
-        if(count($tobetagged))
-        {
-            foreach($tobetagged as $usr)
+            $this->validate();
+
+            $user = Auth::user();
+
+            $message = new Message;
+            $message->chat_id = $this->chat->id;
+            $message->body = $this->chat_text;
+            $message->user_id = $user->id;
+            $message->save();
+
+            if($this->uploads)
             {
-                $this->chat->notifiable()->create([
-                    'show_text'=>'Mentioned you in a chat <b>'.$this->chat->title.'</b>',
-                    'action_by'=>$user->id,
-                    'user_id'=>$usr,
-                    'redirect_url'=>url('chat-room?uid='.encrypt($this->chat->id).'&mid='.encrypt($message->id))
-                ]);
+                foreach ($this->uploads as $file) {
+                    $uploadfile = new Upload;
+                    $filedata = $uploadfile->saveFile($file,'Message');
+                    $filedata['uploaded_by']=$user->id;
+                    $filedata['is_thumbnail']=0;
+                    $message->upload()->create($filedata);
+                }
             }
+
+            // Inbox user of they are tagged 
+            if(count($tobetagged))
+            {
+                foreach($tobetagged as $usr)
+                {
+                    $this->chat->notifiable()->create([
+                        'show_text'=>'Mentioned you in a chat <b>'.$this->chat->title.'</b>',
+                        'action_by'=>$user->id,
+                        'user_id'=>$usr,
+                        'redirect_url'=>url('chat-room?uid='.encrypt($this->chat->id).'&mid='.encrypt($message->id))
+                    ]);
+                }
+            }
+
+            $data=[
+                'chat_id'=>$message->chat_id,
+                'message'=>$message->body,
+                'user_name'=>$message->user->name,
+                'profile_image'=>asset('img/user-placeholder.png'),
+                'time'=>date('Y-m-d H:i:s',strtotime($message->created_at))
+            ];
+
+            $tmp['user']=['name'=>$user->name,'_id'=>encrypt($user->id),'avatar'=>$user->image()];
+            $tmp['message']=['body'=>$message->body,'time'=>date('Y-m-d H:i:s',strtotime($message->created_at))];
+            $tmp['files'] = $message->upload;
+            $tmp['is_me']=$message->user_id==$user->id?1:0;
+            $tmp['chat_id']=$message->chat_id;
+
+
+            $this->chat_messages[]=$tmp;
+
+            broadcast(new ChatBroadcast($tmp))->toOthers();
+
+            $this->dispatchBrowserEvent('chatSaved', ['action' => 'created','data'=>$data]);
+
+            $this->allow_search = 0;
+            $this->chat_text='';
+            $this->uploads=[];
+            $this->emit('triggerRefresh');
         }
-
-        $data=[
-            'chat_id'=>$message->chat_id,
-            'message'=>$message->body,
-            'user_name'=>$message->user->name,
-            'profile_image'=>asset('img/user-placeholder.png'),
-            'time'=>date('Y-m-d H:i:s',strtotime($message->created_at))
-        ];
-
-        $tmp['user']=['name'=>$user->name,'_id'=>encrypt($user->id),'avatar'=>$user->image()];
-        $tmp['message']=['body'=>$message->body,'time'=>date('Y-m-d H:i:s',strtotime($message->created_at))];
-        $tmp['files'] = $message->upload;
-        $tmp['is_me']=$message->user_id==$user->id?1:0;
-        $tmp['chat_id']=$message->chat_id;
-
-
-        $this->chat_messages[]=$tmp;
-
-        broadcast(new ChatBroadcast($tmp))->toOthers();
-
-        $this->dispatchBrowserEvent('chatSaved', ['action' => 'created','data'=>$data]);
-
-        $this->allow_search = 0;
-        $this->chat_text='';
-        $this->uploads=[];
-        $this->emit('triggerRefresh');
     }
 
     protected function addonetonechatmember($chatwith_name,$chatwith_id,$me)

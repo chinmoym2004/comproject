@@ -710,3 +710,9 @@ time {
 .select2-drop.select2-drop-above {
     width: 20% !important;
 }
+.view_circular{
+    cursor: pointer;
+}
+#viewCircularModal{
+    word-break: break-all;
+}

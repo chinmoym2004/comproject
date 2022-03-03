@@ -66,13 +66,26 @@ class CircularControl extends Component
         $user = Auth::user();
         try
         {
-            Circular::create([
+            $record = Circular::create([
                 'title' => $this->title,
                 'details' => $this->details,
                 'need_confirmation' => $this->need_confirmation,
                 'user_id' => $user->id,
                 'group_ids'=>$this->group_ids?implode(',',$this->group_ids):null,
             ]);
+
+            $circularmember = [];
+            if($this->group_ids)
+            {
+                $grps = Group::whereIn('id',$this->group_ids)->get();
+                foreach($grps as $grp)
+                {
+                    $result = $grp->members()->pluck('user_id')->toArray();
+                    $circularmember = array_merge($circularmember,$result);
+                }
+                if(count($circularmember))
+                    $record->members()->sync($circularmember);
+            }
             
             $this->dispatchBrowserEvent('circular-saved', ['action' => 'created', 'title' => $this->title]);
             $this->emit('triggerRefresh');

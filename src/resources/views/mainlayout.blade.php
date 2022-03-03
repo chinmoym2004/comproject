@@ -33,27 +33,24 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 		
 	<script type="text/javascript">
-		function playnotifictionsound()
-		{
-		    // var audio = new Audio("audio_notification.mp3");
-		    // audio.currentTime = 0;
-		    // audio.play();
-		    // Show loading animation.
-		   	var el = document.getElementById('notificationaudio');
-			  var playPromise = el.play();
+		// function playnotifictionsound()
+		// {
+		   
+		//    	var el = document.getElementById('notificationaudio');
+		// 	  var playPromise = el.play();
 
-			  if (playPromise !== undefined) {
-			    playPromise.then(_ => {
-			      // Automatic playback started!
-			      // Show playing UI.
-			    })
-			    .catch(error => {
-			      // Auto-play was prevented
-			      // Show paused UI.
-			      playnotifictionsound();
-			    });
-			  }
-		}
+		// 	  if (playPromise !== undefined) {
+		// 	    playPromise.then(_ => {
+		// 	      // Automatic playback started!
+		// 	      // Show playing UI.
+		// 	    })
+		// 	    .catch(error => {
+		// 	      // Auto-play was prevented
+		// 	      // Show paused UI.
+		// 	      playnotifictionsound();
+		// 	    });
+		// 	  }
+		// }
 	</script>
 	@livewireStyles
 
@@ -146,7 +143,7 @@
 		</section>
 	</div> --}}
 
-	<audio id="notificationaudio" preload="none" src="audio_notification.mp3"></video>
+	<!-- <audio id="notificationaudio" preload="none" src="audio_notification.mp3"></video> -->
 
 
 	<!-- jQuery -->
