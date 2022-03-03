@@ -77,6 +77,7 @@ class ChatRoom extends Component
     public function mount($chat)
     {
         $this->chat = $chat;
+        $this->active_room = $chat->id;
     }
 
     public function cancel()
@@ -227,6 +228,30 @@ class ChatRoom extends Component
         $this->emit('triggerRefresh');
     }
 
+    protected function addonetonechatmember($chatwith_name,$chatwith_id,$me)
+    {
+        if ($chatwith_name && $chatwith_id && $me) 
+        {
+            $record = Chat::where(['user_id'=>$me->id,'one_to_one_user_id'=>$chatwith_id])->first();
+            if(!$record)
+            {
+                $record = Chat::where(['user_id'=>$chatwith_id,'one_to_one_user_id'=>$me->id])->first();
+                if(!$record)
+                {
+                    $record = Chat::create([
+                        'title' => $chatwith_name.','.$me->name,
+                        'user_id' => $me->id,
+                        'one_to_one_user_id'=>$chatwith_id
+                    ]);
+                }
+            }
+            $selecetd_members = [$chatwith_id,$me->id];
+            $record->members()->sync($selecetd_members);
+
+            return $record;
+        }
+    }
+
     public function start1to1chat($user_id)
     {
         if ($user_id) 
@@ -236,18 +261,19 @@ class ChatRoom extends Component
             $me = Auth::user();
 
             // check if already exist then start that only
-            $record = Chat::whereRaw("(title='".$chatwith->name."' AND user_id='".$me->id."') OR (title='".$me->name."' AND user_id='".$chatwith->id."')")->first();
-            if(!$record)
-            {
-                $record = Chat::create([
-                    'title' => $chatwith->name, //.",".$me->name
-                    'user_id' => $me->id
-                ]);
+            $record = $this->addonetonechatmember($chatwith->name,$chatwith->id,$me);
+            // $record = Chat::whereRaw("(title='".$chatwith->name."' AND user_id='".$me->id."') OR (title='".$me->name."' AND user_id='".$chatwith->id."')")->first();
+            // if(!$record)
+            // {
+            //     $record = Chat::create([
+            //         'title' => $chatwith->name, //.",".$me->name
+            //         'user_id' => $me->id
+            //     ]);
     
-                $selecetd_members = [$chatwith->id,$me->id];
+            //     $selecetd_members = [$chatwith->id,$me->id];
     
-                $record->members()->sync($selecetd_members);
-            }
+            //     $record->members()->sync($selecetd_members);
+            // }
             
             $this->dispatchBrowserEvent('chat-box-open', ['title' => $record->title,'redirect_to'=>url('/chat-rooms/'.encrypt($record->id))]); // add this
         }
@@ -355,5 +381,35 @@ class ChatRoom extends Component
         }
         
         $this->dispatchBrowserEvent('justNotify');
+    }
+
+    /**
+     * @param $data
+     */
+    public function here($data)
+    {
+        $this->here = $data;
+    }
+
+    /**
+     * @param $data
+     */
+    public function leaving($data)
+    {
+        // $here = collect($this->here);
+
+        // $firstIndex = $here->search(function ($authData) use ($data) {
+        //     return $authData['id'] == $data['id'];
+        // });
+        // $here->splice($firstIndex, 1);
+        // $this->here = $here->toArray();
+    }
+
+    /**
+     * @param $data
+     */
+    public function joining($data)
+    {
+        $this->here[] = $data;
     }
 }

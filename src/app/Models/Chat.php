@@ -11,7 +11,7 @@ class Chat extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title','user_id','is_public','group_id'];
+    protected $fillable = ['title','user_id','is_public','group_id','one_to_one_user_id'];
 
     public function user()
     {

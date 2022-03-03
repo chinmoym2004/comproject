@@ -14,9 +14,25 @@
                             @if($rooms->count())
                                 @foreach ($rooms as $room)
                                 <li class="clearfix loadchataction {{ isset($active_room) && $active_room==$room->id?'active':''}}" wire:click="loadChatRoom('{{encrypt($room->id)}}')">
+                                    @if($room->group_id)
+                                    <img src="{{ asset('img/people.png') }}" alt="avatar">
+                                    @else 
                                     <img src="{{ asset('img/user-placeholder.png') }}" alt="avatar">
+                                    @endif
+
+                                    @php 
+                                    $title  = $room->title;
+                                    if($room->one_to_one_user_id)
+                                    {
+                                        if($room->one_to_one_user_id==$me->id)
+                                            $title = explode(",",$title)[1];
+                                        else
+                                            $title = explode(",",$title)[0];
+                                    }
+                                    @endphp
+
                                     <div class="about">
-                                        <div class="name">{{ strlen($room->title)>20?substr($room->title,0,20).'..':$room->title }}</div>
+                                        <div class="name">{{ strlen($title)>20?substr($title,0,20).'..':$title }}</div>
                                         @if($room->messages()->latest()->take(1)->first())
                                         <div class="status"> <i class="fa fa-circle offline"></i>{{$room->messages()->latest()->take(1)->first()->created_at->diffForHumans()}}</div>  
                                         @else

@@ -9,12 +9,13 @@ use Auth;
 use App\Events\ChatBroadcast;
 use Livewire\WithFileUploads;
 use App\Models\Upload;
+use App\Models\Onetoonechatuser;
 
 class ChatControl extends Component
 {
     use WithFileUploads;
 
-    public $rooms;
+    public $rooms,$onetoonechats;
     public $active_room;
 
     public $see_members=0;
@@ -62,14 +63,43 @@ class ChatControl extends Component
         $this->emit('load');
     }
 
+    protected function addonetonechatmember($chatwith_name,$chatwith_id,$me)
+    {
+        if ($chatwith_name && $chatwith_id && $me) 
+        {
+            $record = Chat::where(['user_id'=>$me->id,'one_to_one_user_id'=>$chatwith_id])->first();
+            if(!$record)
+            {
+                $record = Chat::where(['user_id'=>$chatwith_id,'one_to_one_user_id'=>$me->id])->first();
+                if(!$record)
+                {
+                    $record = Chat::create([
+                        'title' => $chatwith_name.','.$me->name,
+                        'user_id' => $me->id,
+                        'one_to_one_user_id'=>$chatwith_id
+                    ]);
+                }
+            }
+            $selecetd_members = [$chatwith_id,$me->id];
+            $record->members()->sync($selecetd_members);
+        }
+    }
+
     public function render()
     {
         $me = Auth::user();
 
+        // add 1 to 1 chat user for this user
+        $addonetonechatmembers = Onetoonechatuser::select('name','user_id')->leftJoin('users','users.id','=','onetoonechatusers.user_id')->pluck('name','user_id');
+        foreach($addonetonechatmembers as $key=>$each)
+        {
+            $this->addonetonechatmember($each,$key,$me);
+        }
+
         // check all where user created it or part of it 
         $chat_ids = ChatUser::where('user_id',$me->id)->pluck('chat_id')->toArray();
         $this->rooms = Chat::search($this->search)->whereIn('id',$chat_ids)->orderBy('created_at','ASC')->get();
-
+        //$this->onetoonechats = Onetoonechatuser::
         return view('livewire.chat-control');
     }
 

@@ -182,25 +182,4 @@ class AdminChatComponent extends Component
             $this->dispatchBrowserEvent('chat-grpup-deleted', ['title' => $record->title]); // add this
         }
     }
-
-    public function start1to1chat($user_id)
-    {
-        if ($user_id) 
-        {
-            $user_id = decrypt($user_id);
-            $chatwith = User::find($user_id);
-            $me = Auth::user();
-
-            $record = Chat::create([
-                'title' => $chatwith->name.",".$me->name,
-                'user_id' => $me->id
-            ]);
-
-            $selecetd_members = [$chatwith->id,$me->id];
-
-            $record->members()->sync($selecetd_members);
-            
-            $this->dispatchBrowserEvent('chat-box-open', ['title' => $record->title,'redirect_to'=>url('/chat-rooms/'.encrypt($record->id))]); // add this
-        }
-    }
 }
