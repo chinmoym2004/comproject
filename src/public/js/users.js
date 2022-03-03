@@ -17485,6 +17485,13 @@ Livewire.on("deletegroupTriggered", function (id, name) {
     Livewire.emit("destroygroup", id);
   }
 });
+Livewire.on("Remove1to1Triggered", function (id, name) {
+  var proceed = confirm("Are you sure you want to remove ".concat(name));
+
+  if (proceed) {
+    Livewire.emit("remove1to1Member", id);
+  }
+});
 window.addEventListener("group-deleted", function (event) {//alert(`${event.detail.title} was deleted!`);
 });
 Livewire.on("groupDataFetched", function (forum) {
@@ -17600,6 +17607,13 @@ window.livewire.hook('element.updating', function (fromEl, toEl, component) {
   for (var i = 0, atts = toEl.attributes, n = atts.length, arr = []; i < n; i++) {
     fromEl.setAttribute(atts[i].nodeName, atts[i].nodeValue);
   }
+});
+window.addEventListener("justNotify", function (event) {
+  playnotifictionsound();
+  if (event.detail.count == 0) $("#" + event.detail.resetid).find("span").remove();else $("#" + event.detail.resetid).html('<span class="badge badge-success count">' + event.detail.count + '</span>');
+});
+window.addEventListener("hasRead", function (event) {
+  $("#" + event.detail.resetid).find("span").remove();
 });
 })();
 

@@ -20,7 +20,7 @@ class Chat extends Model
 
     public function members()
     {
-        return $this->belongsToMany(User::class,'chat_user');
+        return $this->belongsToMany(User::class,'chat_user')->withPivot('last_active')->withTimestamps();
     }
 
     public static function search($query)

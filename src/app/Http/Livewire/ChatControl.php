@@ -21,25 +21,37 @@ class ChatControl extends Component
     public $upload_file=0,$messages_count=0;
 
     public $chat_participants;
-    public $chat_messages;
+    public $chat_messages=[];
     public $last_chat_message;
     public $chat;
     public $chat_id=0;
+    public $here = [];
 
     public $search = '';
 
     public $perPage = 10;
-    protected $listeners = ['loadMore','triggerRefresh' => '$refresh'];
+    protected $listeners = [
+        'loadMore',
+        'triggerRefresh' => '$refresh',
+        'echo-presence:txchat,here' => 'here',
+        'echo-presence:txchat,joining' => 'joining',
+        'echo-presence:txchat,leaving' => 'leaving',
+    ];
     public $last_message = 'Never';
 
     public $uploads=[];
     public $chat_text;
     public $tag_members='';
+    public $unreadedMessages=0;
 
     protected $rules = [
         'uploads.*' => 'file|max:1024', // 1MB Max
     ];
 
+    public function mount()
+    {
+        $this->unreadedMessages = Auth::user()->unreadedMessages()->count();
+    }
 
     public function loadMore()
     {
@@ -79,6 +91,12 @@ class ChatControl extends Component
         $me = Auth::user();
 
         $chat = Chat::find(decrypt($chat_id));
+
+        // Set all as unread
+        $this->dispatchBrowserEvent('hasRead', ['resetid' => 'unread'.$chat->id]);
+
+        // set user's last active status 
+        $this->setLastActive($me->id,$chat->id);
         
         if($chat)
         {
@@ -123,11 +141,15 @@ class ChatControl extends Component
         }
     }
 
+    public function setLastActive($user_id,$chat_id)
+    {
+        \DB::table('chat_user')->where(['chat_id'=>$chat_id,'user_id'=>$user_id])->update(['last_active'=>date('Y-m-d H:i:s')]);
+    }
+
     public function saveChat()
     {
+        $this->dispatchBrowserEvent('hasRead', ['resetid' => 'unread'.$this->chat->id]);
         $this->validate();
-
-
         $pattern = "/member:\d/i";
         $tobetagged = [];
         if(preg_match_all($pattern, $this->chat_text, $matches)) {
@@ -196,6 +218,9 @@ class ChatControl extends Component
 
         //event(new ChatBroadcast($data));
 
+        // Set last active time
+        $this->setLastActive($user->id,$message->chat_id);
+
         //$this->allow_search = 0;
         $this->chat_text='';
         $this->uploads=[];
@@ -248,7 +273,49 @@ class ChatControl extends Component
         // get the hydrated model from incoming json/array.
         //$message = Message::with('user')->find($message['id']);
         $data['is_me']=0;
-        if(is_array($data))
+        if(is_array($data) && $data['chat_id']==$this->active_room)
+        {
             array_push($this->chat_messages, $data);
+        }
+
+        $unread = Auth::user()->unreadedMessages($data['chat_id'])->count();
+        $this->dispatchBrowserEvent('justNotify',['resetid' => 'unread'.$data['chat_id'],'count'=>$unread]);
+    }
+
+    /**
+     * @param $data
+     */
+    public function here($data)
+    {
+        $this->here = $data;
+    }
+
+    /**
+     * @param $data
+     */
+    public function leaving($data)
+    {
+        // $here = collect($this->here);
+
+        // $firstIndex = $here->search(function ($authData) use ($data) {
+        //     return $authData['id'] == $data['id'];
+        // });
+        // $here->splice($firstIndex, 1);
+        // $this->here = $here->toArray();
+    }
+
+    /**
+     * @param $data
+     */
+    public function joining($data)
+    {
+        $this->here[] = $data;
+    }
+
+    public function markasread($chat_id){
+        $me = Auth::user();
+        $this->dispatchBrowserEvent('hasRead', ['resetid' => 'unread'.$chat_id]);
+        // set user's last active status 
+        $this->setLastActive($me->id,$chat_id);
     }
 }

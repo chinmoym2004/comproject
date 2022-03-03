@@ -53,6 +53,8 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/users','\App\Http\Controllers\UsersController@index');
     Route::get('/groups','\App\Http\Controllers\UsersController@groups');
+    Route::get('/one-and-one-chat-admin','\App\Http\Controllers\UsersController@Onetooneadmin');
+    
 
     Route::get('/categories','\App\Http\Controllers\UsersController@categoryPanel');
     

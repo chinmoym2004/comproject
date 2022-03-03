@@ -55,4 +55,24 @@ class User extends Authenticatable
            // $q->orWhere('title', 'LIKE', '%'. $query . '%');
         });
     }
+
+    public function messages()
+    {
+        return $this->hasMany(\App\Models\Message::class);
+    }
+
+    public function unreadedMessages($chat_id=false)
+    {
+        $user_id = \Auth::user()->id;
+        $lastactive = \DB::table('chat_user')->where(['chat_id'=>$chat_id,'user_id'=>$user_id])->first()->last_active ?? null;
+
+        $tmp = \DB::table('messages')->where(['chat_id'=>$chat_id]);
+
+        if($lastactive)
+        {
+            $tmp = $tmp->where("created_at",">",$lastactive);
+        }
+
+        return $tmp;
+    }
 }

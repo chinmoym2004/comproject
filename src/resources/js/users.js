@@ -234,6 +234,13 @@ Livewire.on("deletegroupTriggered", (id, name) => {
     }
 });
 
+Livewire.on("Remove1to1Triggered", (id, name) => {
+    const proceed = confirm(`Are you sure you want to remove ${name}`);
+    if (proceed) {
+        Livewire.emit("remove1to1Member", id);
+    }
+});
+
 window.addEventListener("group-deleted", (event) => {
     //alert(`${event.detail.title} was deleted!`);
 });
@@ -348,4 +355,16 @@ window.livewire.hook('element.updating', (fromEl, toEl, component) => {
     for (var i = 0, atts = toEl.attributes, n = atts.length, arr = []; i < n; i++) {
         fromEl.setAttribute(atts[i].nodeName, atts[i].nodeValue);
     }
+});
+
+window.addEventListener("justNotify", (event) => {
+    playnotifictionsound();
+    if(event.detail.count==0)
+        $("#"+event.detail.resetid).find("span").remove();
+    else
+        $("#"+event.detail.resetid).html('<span class="badge badge-success count">'+event.detail.count+'</span>');
+});
+
+window.addEventListener("hasRead", (event) => {
+    $("#"+event.detail.resetid).find("span").remove();
 });

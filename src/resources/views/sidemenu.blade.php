@@ -74,6 +74,15 @@
             </a>
           </li>
 
+          <li class="nav-item">
+            <a href="{{ url('one-and-one-chat-admin') }}" class="nav-link {{ request()->is('one-and-one-chat-admin') || request()->is('one-and-one-chat-admin/*')?'active':'' }}">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                1-1 Chat Admin
+              </p>
+            </a>
+          </li>
+
           <li class="nav-header">User Menus</li>
 
           <li class="nav-item">

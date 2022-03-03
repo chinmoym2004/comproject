@@ -40,3 +40,10 @@ Broadcast::channel('room-{chatid}', function ($user, $chatid) {
     // }
     //return true;
 });
+
+Broadcast::channel('txchat', function ($user) {
+    return [
+        'id' => $user->id,
+        'name' => $user->name,
+    ];
+});

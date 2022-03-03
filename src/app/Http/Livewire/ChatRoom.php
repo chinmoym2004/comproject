@@ -24,7 +24,18 @@ class ChatRoom extends Component
     public $total_message_count=0,$messages_count=0;
     public $tag_members='';
 
-    protected $listeners = ['triggerRefresh' => '$refresh','addMember','selectedFromSearch','removeMember','tagableUserList','closeTagableUserList','loadMore'];
+    protected $listeners = [
+        'triggerRefresh' => '$refresh',
+        'addMember',
+        'selectedFromSearch',
+        'removeMember',
+        'tagableUserList',
+        'closeTagableUserList',
+        'loadMore',
+        'echo-presence:txchat,here' => 'here',
+        'echo-presence:txchat,joining' => 'joining',
+        'echo-presence:txchat,leaving' => 'leaving',
+    ];
 
     public $chat_messages;
     public $members = null;
@@ -73,8 +84,8 @@ class ChatRoom extends Component
         $this->memberupdateMode = false;
         $this->resetInput();
 
-        $this->resetErrorBag();
-        $this->resetValidation();
+        // $this->resetErrorBag();
+        // $this->resetValidation();
     }
 
     public function render()
@@ -338,6 +349,11 @@ class ChatRoom extends Component
         // get the hydrated model from incoming json/array.
         //$message = Message::with('user')->find($message['id']);
         $data['is_me']=0;
-        array_push($this->chat_messages, $data);
+        if(is_array($data) && $data['chat_id']==$this->active_room)
+        {
+            array_push($this->chat_messages, $data);
+        }
+        
+        $this->dispatchBrowserEvent('justNotify');
     }
 }

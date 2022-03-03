@@ -78,7 +78,8 @@ body {
 
 .people-list .about {
     float: left;
-    padding-left: 8px
+    padding-left: 8px;
+    width: 80%;
 }
 
 .people-list .status {
@@ -688,7 +689,7 @@ time {
 }
 
 .userchatbox .mentions-kinder-wrap {
-    width: 80%;
+    width: 89%;
     border: 1px solid;
 }
 

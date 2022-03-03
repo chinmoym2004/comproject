@@ -25,4 +25,9 @@ class UsersController extends Controller
     {
         return view('category');
     }
+
+    public function Onetooneadmin()
+    {
+        return view('onetooneadmin');
+    }
 }
